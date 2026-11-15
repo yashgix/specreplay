@@ -1,0 +1,7026 @@
+[
+ {
+  "commit": "d3d3209",
+  "findings": [
+   {
+    "detail": "agents.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "account_overview",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "POST /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "DELETE /v1/agents/{agent_id}/numbers/{number_id}",
+    "outcome": "output_invalid",
+    "tool": "detach_number",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "GET /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "get_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "data.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "data.0.phoneNumberId",
+    "documented": true,
+    "mutation": "null:$.data[0].phoneNumberId",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "output_invalid",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "caece3a",
+  "findings": [
+   {
+    "detail": "agents.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "account_overview",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "POST /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "GET /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "get_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "data.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "data.0.phoneNumberId",
+    "documented": true,
+    "mutation": "null:$.data[0].phoneNumberId",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "output_invalid",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "6dc7e97",
+  "findings": [
+   {
+    "detail": "agents.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "account_overview",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "POST /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "GET /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "get_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "data.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "data.0.phoneNumberId",
+    "documented": true,
+    "mutation": "null:$.data[0].phoneNumberId",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "output_invalid",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "397ae03",
+  "findings": [
+   {
+    "detail": "agents.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "account_overview",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "POST /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "GET /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "get_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "data.0.numbers",
+    "documented": true,
+    "mutation": "null:$.data[0].numbers",
+    "operation": "GET /v1/agents",
+    "outcome": "output_invalid",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "data.0.phoneNumberId",
+    "documented": true,
+    "mutation": "null:$.data[0].phoneNumberId",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "output_invalid",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "numbers",
+    "documented": true,
+    "mutation": "null:$.numbers",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "output_invalid",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "5841776",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "error_result",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "50639a3",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "hours",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "undocumented_param",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [],
+  "requests": 710,
+  "runs": 525,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "d11dfd4",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 700,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "92f68fb",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "text_defect",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 700,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "56c36b3",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "error;responseMs;statusCode;success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "text_defect",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 700,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "af4501f",
+  "findings": [
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "message_limit:maximum",
+    "documented": true,
+    "mutation": "input:message_limit=maximum",
+    "operation": "GET /v1/conversations/{conversation_id}",
+    "outcome": "input_not_enforced",
+    "tool": "get_conversation",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:minimum",
+    "documented": true,
+    "mutation": "input:limit=minimum",
+    "operation": "GET /v1/numbers/{number_id}/messages",
+    "outcome": "input_not_enforced",
+    "tool": "get_messages",
+    "variant": "default"
+   },
+   {
+    "detail": "days:maximum",
+    "documented": true,
+    "mutation": "input:days=maximum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "days:minimum",
+    "documented": true,
+    "mutation": "input:days=minimum",
+    "operation": "GET /v1/usage/daily",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "daily"
+   },
+   {
+    "detail": "months:maximum",
+    "documented": true,
+    "mutation": "input:months=maximum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "months:minimum",
+    "documented": true,
+    "mutation": "input:months=minimum",
+    "operation": "GET /v1/usage/monthly",
+    "outcome": "input_not_enforced",
+    "tool": "get_usage",
+    "variant": "monthly"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:minimum",
+    "documented": true,
+    "mutation": "input:offset=minimum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/agents/{agent_id}/webhook/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "hours:minimum",
+    "documented": true,
+    "mutation": "input:hours=minimum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "limit:maximum",
+    "documented": true,
+    "mutation": "input:limit=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "interruptionSensitivity:maximum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "interruptionSensitivity:minimum",
+    "documented": true,
+    "mutation": "input:interruption_sensitivity=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:maximum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "maxSilenceMs:minimum",
+    "documented": true,
+    "mutation": "input:max_silence_ms=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:maximum",
+    "documented": true,
+    "mutation": "input:voice_speed=maximum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "voiceSpeed:minimum",
+    "documented": true,
+    "mutation": "input:voice_speed=minimum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 700,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "183bafd",
+  "findings": [
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "timeout",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "undocumented_param",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.maxWaitSeconds",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$.waitForCompletion",
+    "documented": true,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "undocumented_field",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 666,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "1921eba",
+  "findings": [
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 666,
+  "runs": 516,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ },
+ {
+  "commit": "46c8fe8",
+  "findings": [
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "POST /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "create_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "id",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "output_invalid",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls/{call_id}",
+    "outcome": "text_defect",
+    "tool": "get_call",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents",
+    "outcome": "input_not_enforced",
+    "tool": "list_agents",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/calls",
+    "outcome": "input_not_enforced",
+    "tool": "list_calls",
+    "variant": "agent"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/calls",
+    "outcome": "error_result",
+    "tool": "list_calls",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/contacts",
+    "outcome": "input_not_enforced",
+    "tool": "list_contacts",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/agents/{agent_id}/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "agent"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/conversations",
+    "outcome": "input_not_enforced",
+    "tool": "list_conversations",
+    "variant": "default"
+   },
+   {
+    "detail": "offset:maximum",
+    "documented": true,
+    "mutation": "input:offset=maximum",
+    "operation": "GET /v1/numbers",
+    "outcome": "input_not_enforced",
+    "tool": "list_numbers",
+    "variant": "default"
+   },
+   {
+    "detail": "Cannot read properties of undefined (reading 'length')",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "GET /v1/agents/voices",
+    "outcome": "error_result",
+    "tool": "list_voices",
+    "variant": "default"
+   },
+   {
+    "detail": "hours:maximum",
+    "documented": true,
+    "mutation": "input:hours=maximum",
+    "operation": "GET /v1/webhooks/deliveries",
+    "outcome": "input_not_enforced",
+    "tool": "list_webhook_deliveries",
+    "variant": "project"
+   },
+   {
+    "detail": "$",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_call",
+    "variant": "default"
+   },
+   {
+    "detail": "$",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "output_invalid",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/calls",
+    "outcome": "text_defect",
+    "tool": "make_conversation_call",
+    "variant": "default"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/agents/{agent_id}/webhook/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "agent"
+   },
+   {
+    "detail": "success",
+    "documented": false,
+    "mutation": "baseline",
+    "operation": "POST /v1/webhooks/test",
+    "outcome": "output_invalid",
+    "tool": "test_webhook",
+    "variant": "project"
+   },
+   {
+    "detail": "language:enum",
+    "documented": true,
+    "mutation": "input:language=enum",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "systemPrompt:maxLength",
+    "documented": true,
+    "mutation": "input:system_prompt=maxLength",
+    "operation": "PATCH /v1/agents/{agent_id}",
+    "outcome": "input_not_enforced",
+    "tool": "update_agent",
+    "variant": "default"
+   },
+   {
+    "detail": "undefined",
+    "documented": true,
+    "mutation": "omit:$.metadata",
+    "operation": "PATCH /v1/conversations/{conversation_id}",
+    "outcome": "text_defect",
+    "tool": "update_conversation",
+    "variant": "default"
+   }
+  ],
+  "rejected": [
+   {
+    "detail": "refused: hours is supported only for project-level webhook history. Omit agent_id to use hours, or omit hours to list recent deli",
+    "tool": "list_webhook_deliveries",
+    "variant": "agent_hours"
+   }
+  ],
+  "requests": 932,
+  "runs": 633,
+  "tools": [
+   "account_overview",
+   "attach_number",
+   "buy_number",
+   "check_capabilities",
+   "check_readiness",
+   "create_agent",
+   "delete_agent",
+   "delete_webhook",
+   "detach_number",
+   "end_call",
+   "get_agent",
+   "get_call",
+   "get_conversation",
+   "get_conversation_messages",
+   "get_messages",
+   "get_usage",
+   "get_webhook",
+   "list_agents",
+   "list_calls",
+   "list_contacts",
+   "list_conversations",
+   "list_numbers",
+   "list_voices",
+   "list_webhook_deliveries",
+   "make_call",
+   "make_conversation_call",
+   "manage_contact",
+   "send_message",
+   "set_webhook",
+   "test_webhook",
+   "update_agent",
+   "update_conversation"
+  ],
+  "untested_tools": []
+ }
+]

@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 from pathlib import Path
 
 import specdrift.scan as scanner
 
 ROOT = Path(__file__).resolve().parent
 METRICS = ROOT / 'results' / 'metrics.json'
+TRIAGE = ROOT / 'study' / 'triage.json'
 START = '<!-- specdrift:results -->'
 END = '<!-- /specdrift:results -->'
 ROWS = (
@@ -20,9 +22,7 @@ ROWS = (
     ('caught', 'known_caught'),
     ('caught documented', 'known_caught_documented'),
     ('unconstrained operations', 'spec_operations_unconstrained'),
-    ('new findings', 'latest_new_findings'),
-    ('confirmed', 'latest_new_confirmed'),
-    ('false positives', 'latest_new_false_positive'),
+    ('findings not in the ledger', 'latest_new_findings'),
 )
 
 
@@ -47,11 +47,21 @@ def _recall_line(metrics):
     recall_documented = float(_number(metrics, 'recall_documented'))
     return (
         f'Recall: {caught}/{cases} ({recall:.2f}) overall; '
-        f'{caught_documented}/{documented_cases} ({recall_documented:.2f}) on documented contracts.'
+        f'{caught_documented}/{documented_cases} ({recall_documented:.2f}) on documented contracts. '
+        'In-sample: the rules were written knowing these cases.'
     )
 
 
-def render(readme_text, metrics):
+def _causes_table(root_causes):
+    lines = ['', '| root cause | kind | findings | code sites (src/tools.ts at v0.10.0) |', '| --- | --- | --- | --- |']
+    for cause in root_causes:
+        status = 'known, open upstream' if cause['known'] else cause['kind'].replace('_', ' ')
+        sites = '; '.join(cause['sites'])
+        lines.append(f'| {cause["title"]} | {status} | {cause["findings"]} | {sites} |')
+    return lines
+
+
+def render(readme_text, metrics, root_causes=()):
     if readme_text.count(START) != 1 or readme_text.count(END) != 1:
         raise ValueError('README needs exactly one SpecDrift results block')
     start = readme_text.index(START)
@@ -61,7 +71,13 @@ def render(readme_text, metrics):
     lines = ['| name | value |', '| --- | --- |']
     for label, key in ROWS:
         lines.append(f'| {label} | {_plain(metrics, key)} |')
-    body = '\n'.join(lines + ['', _recall_line(metrics)])
+    unknown = [cause for cause in root_causes if not cause['known']]
+    if root_causes:
+        lines.append(f'| root causes behind them | {len(unknown)} |')
+    lines += ['', _recall_line(metrics)]
+    if root_causes:
+        lines += _causes_table(root_causes)
+    body = '\n'.join(lines)
     return readme_text[:start] + f'{START}\n{body}\n{END}' + readme_text[end + len(END) :]
 
 
@@ -75,6 +91,12 @@ def show(report):
     print(f'{commit}: {tools} tools, {runs} calls, {requests} requests, {len(documented)} documented findings')
     for item in documented:
         print(item['tool'], item['outcome'], item['mutation'], item['detail'])
+
+
+def root_causes():
+    triage = json.loads(TRIAGE.read_text(encoding='utf-8'))
+    counts = Counter(row['root_cause'] for row in triage['findings'])
+    return [{**cause, 'findings': counts[cause['id']]} for cause in triage['root_causes']]
 
 
 def latest_report():
@@ -93,7 +115,7 @@ def main(argv=None):
         metrics = json.loads(METRICS.read_text(encoding='utf-8'))
         text = args.readme.read_text(encoding='utf-8')
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(render(text, metrics), encoding='utf-8')
+        args.out.write_text(render(text, metrics, root_causes()), encoding='utf-8')
         return 0
     try:
         report = latest_report()

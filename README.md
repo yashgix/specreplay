@@ -2,7 +2,7 @@
 
 SpecDrift replays the real tool handlers of `agentphone-mcp` (MIT, TypeScript) at 13 pinned commits against an in-process fake of the AgentPhone API whose responses are built from the published OpenAPI document. It changes one thing at a time (a nullable field set to `null`, an optional field left out, another enum value, an empty array, a 204 with no body) and records every crash, error result, output-schema failure and `undefined` in the text. It also checks each request a tool sends against the spec, and probes each tool argument that reaches a constrained request field with a value just outside the documented limit.
 
-The question it answers: **from the published spec alone, how many of the project's reported contract-drift bugs would an automatic check have caught, and what does it find today?**
+The question it answers: **from the published spec alone, how many of the project's reported contract-drift bugs would an automatic check have caught, and what does it flag today?**
 
 ## Why
 
@@ -65,42 +65,45 @@ with `SPECDRIFT_ZOD` pointing at that commit's zod entry. `specdrift/scan.py` is
 | caught | 20 |
 | caught documented | 19 |
 | unconstrained operations | 36 |
-| new findings | 10 |
-| confirmed | 9 |
-| false positives | 0 |
+| findings not in the ledger | 10 |
+| root causes behind them | 4 |
 
-Recall: 20/25 (0.80) overall; 19/20 (0.95) on documented contracts.
+Recall: 20/25 (0.80) overall; 19/20 (0.95) on documented contracts. In-sample: the rules were written knowing these cases.
+
+| root cause | kind | findings | code sites (src/tools.ts at v0.10.0) |
+| --- | --- | --- | --- |
+| offset has no documented maximum (10000) on six list tools | missing bound | 6 | list_numbers src/tools.ts:561; list_calls src/tools.ts:1237; list_agents src/tools.ts:1601; list_conversations src/tools.ts:2064; list_contacts src/tools.ts:2220 |
+| hours has no documented maximum (168) on list_webhook_deliveries | missing bound | 1 | list_webhook_deliveries src/tools.ts:2563 |
+| system_prompt has no documented maxLength (20000) on create and update | missing bound | 2 | create_agent src/tools.ts:1643; update_agent src/tools.ts:1778 |
+| update_conversation prints Metadata: undefined if the response omits metadata | spec ambiguity | 1 | update_conversation src/tools.ts:2200 |
+| language accepts any string | known, open upstream | 2 | create_agent src/tools.ts:1710; update_agent src/tools.ts:1845 |
 <!-- /specdrift:results -->
 
 The block is written by `python demo.py --readme README.md --out README.md` from `results/metrics.json`; that command emits the full ten-row table, including `runs` (every tool call the experiment made), plus the recall line. Run it after `experiment.py` so the numbers match the metrics file that ships with the results.
 
 ## What "documented" means
 
-A finding is documented when the operation it is about has a success response a tool can be judged against: no content (a 2xx without `application/json`), or a JSON schema with at least one key that is not `title`, `description`, `examples`, `example` or `default`. A schema whose keys are all annotations constrains nothing, and a response without a body has nothing to validate. Of the spec's 98 operations, 36 document an unconstrained success response and 62 are documented. Findings on unconstrained operations are kept in the reports with `documented: false`: they may be real, but the spec cannot say so, and they are left out of the new-finding list and of the documented recall.
+A finding is documented when the operation it is about has a success response a tool can be judged against: no content (a 2xx without `application/json`), or a JSON schema with at least one key that is not `title`, `description`, `examples`, `example` or `default`. A schema whose keys are all annotations constrains nothing, and a response without a body has nothing to validate. Of the spec's 98 operations, 36 document an unconstrained success response and 62 are documented. Findings on unconstrained operations are kept in the reports with `documented: false`: they may be real, but the spec cannot say so, and they are left out of the findings count and of the documented recall.
 
-## What it finds at v0.10.0
+## What it flags at v0.10.0
 
-Twelve documented findings were hand-checked by this build at `46c8fe8` (`study/triage.json`). Ten are new, meaning they match no ledger case: 9 confirmed, 1 unconfirmed, 0 false positives. The other two, `create_agent` and `update_agent` accepting any `language`, match the #120 case marked open in the supplied ledger, so they are reported as known rather than new.
+Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five root causes. The table above lists each with its code sites. None is shown to break a user: the AgentPhone server also validates, so a missing client-side bound means a late 422, and nothing here was run against the live API.
 
-Confirmed and new:
+- Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on six list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the remainder of the bounds restored in #107. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
+- One is a spec ambiguity: `update_conversation` prints `Metadata: undefined` if the response omits `metadata`. The spec allows the omission and documents no default. Whether the live API ever omits it is unknown.
+- One is already known: `create_agent` and `update_agent` accept any `language`. It is open upstream as issue #120 with fix PR #121. It is counted as known, not as a finding of this work.
 
-- `system_prompt` has no maximum length on `create_agent` and `update_agent`; the spec documents `systemPrompt` with `maxLength` 20000.
-- `offset` has no maximum on `list_agents`, `list_calls` (agent variant), `list_contacts`, `list_conversations` (both variants) and `list_numbers`; the spec documents `maximum` 10000.
-- `hours` has no maximum on `list_webhook_deliveries`; the spec documents `maximum` 168.
-
-Unconfirmed: `update_conversation` prints `Metadata: undefined` when the optional `metadata` is absent. The spec allows the omission and documents no default, so whether the live API ever omits it is unknown.
-
-Every label comes from reading the pinned `src/tools.ts` against the spec, and each row of `study/triage.json` carries the evidence in its own words.
+The remaining check of the `system_prompt` bound, in hosted mode where the tool adds text around the prompt, is not done.
 
 ## Scoring on the bug history
 
-The supplied ledger has 25 cases, 20 of them about contracts the spec documents. A case is caught when a finding matching it exists at its buggy commit and none exists at its fix commit. Recall is 20/25 (0.80) overall and 19/20 (0.95) on documented contracts. `study/known-bugs.json` also lists the items that were considered and excluded, each with a reason.
+The supplied ledger has 25 cases, 20 of them about contracts the spec documents. A case is caught when a finding matching it exists at its buggy commit and none exists at its fix commit. Recall is 20/25 (0.80) overall and 19/20 (0.95) on documented contracts. This is in-sample: the rules were written knowing these cases, so it measures that the rules reproduce the history, not how they would do on unseen drift. `study/known-bugs.json` also lists the items that were considered and excluded, each with a reason.
 
 ## Limits
 
 - 36 of the 98 operations document an unconstrained success response; nothing can be judged there, and the study says so rather than guessing.
 - The handlers run against a stubbed `fetch` and an emulation of the SDK's three checks (argument parsing, output-schema validation of `structuredContent`, error-result handling), not the SDK itself.
-- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. The out-of-sample part is the v0.10.0 finding list and its hand triage.
+- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. There is no held-out set yet. The v0.10.0 list is a first look, not a measure of recall.
 - Omitted-field findings depend on whether the live API ever omits the field. An omission the spec allows is only a finding when the tool mishandles it.
 - One example per response shape and single-fault mutations: combinations of faults and unusual payloads are out of scope.
 - The spec is treated as correct. A spec error surfaces as a tool bug.

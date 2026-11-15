@@ -36,7 +36,18 @@ class RenderTest(unittest.TestCase):
         self.assertIn('| commits | 13 |', rendered)
         self.assertIn('| caught documented | 19 |', rendered)
         self.assertIn('Recall: 20/25 (0.80) overall; 19/20 (0.95) on documented contracts.', rendered)
+        self.assertIn('In-sample', rendered)
+        self.assertNotIn('false positives', rendered)
         self.assertTrue(rendered.endswith(chr(10) + demo.END + chr(10) + 'outro' + chr(10)))
+
+    def test_root_causes_cover_every_triaged_finding(self):
+        causes = demo.root_causes()
+        triage = json.loads(demo.TRIAGE.read_text(encoding='utf-8'))['findings']
+        self.assertEqual(sum(cause['findings'] for cause in causes), len(triage))
+        self.assertEqual(len([cause for cause in causes if not cause['known']]), 4)
+        rendered = demo.render(demo.START + chr(10) + demo.END, METRICS, causes)
+        self.assertIn('| root causes behind them | 4 |', rendered)
+        self.assertIn('known, open upstream', rendered)
 
     def test_render_rejects_missing_marker(self):
         with self.assertRaises(ValueError):
@@ -65,7 +76,7 @@ class MainTest(unittest.TestCase):
             out_path = root / 'out' / 'README.md'
             with mock.patch.object(demo, 'METRICS', metrics_path):
                 self.assertEqual(demo.main(['--readme', str(readme_path), '--out', str(out_path)]), 0)
-            self.assertEqual(out_path.read_text(encoding='utf-8'), demo.render(readme, METRICS))
+            self.assertEqual(out_path.read_text(encoding='utf-8'), demo.render(readme, METRICS, demo.root_causes()))
 
 
 if __name__ == '__main__':

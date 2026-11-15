@@ -1,5 +1,5 @@
 {
- "about": "Hand check of the documented findings at v0.10.0 (46c8fe8), done by reading the pinned source and spec on 14 Nov 2026. confirmed: the mismatch is visible in the code and the spec; unconfirmed: possible but depends on live API behaviour; false_positive: not a real mismatch.",
+ "about": "Hand check of the documented findings at v0.10.0 (46c8fe8), done by reading the pinned source and spec on 14 Nov 2026. confirmed: the code and the spec visibly differ; unconfirmed: depends on live API behaviour. These labels say the mismatch is visible, not that it is a bug: the server also validates, so a missing client bound means a late 422. Findings sharing one cause are grouped under root_causes.",
  "commit": "46c8fe8",
  "findings": [
   {
@@ -10,7 +10,8 @@
    "outcome": "input_not_enforced",
    "detail": "language:enum",
    "label": "confirmed",
-   "evidence": "open issue #120"
+   "evidence": "open issue #120",
+   "root_cause": "language-enum"
   },
   {
    "tool": "create_agent",
@@ -20,7 +21,8 @@
    "outcome": "input_not_enforced",
    "detail": "systemPrompt:maxLength",
    "label": "confirmed",
-   "evidence": "the tool input is z.string().optional() with no max (src/tools.ts); the spec documents systemPrompt maxLength 20000"
+   "evidence": "the tool input is z.string().optional() with no max (src/tools.ts); the spec documents systemPrompt maxLength 20000",
+   "root_cause": "system-prompt-max"
   },
   {
    "tool": "list_agents",
@@ -30,7 +32,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_calls",
@@ -40,7 +43,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_contacts",
@@ -50,7 +54,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_conversations",
@@ -60,7 +65,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_conversations",
@@ -70,7 +76,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_numbers",
@@ -80,7 +87,8 @@
    "outcome": "input_not_enforced",
    "detail": "offset:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000"
+   "evidence": "the tool input is z.number().int().min(0) with no maximum (src/tools.ts); the spec documents offset maximum 10000",
+   "root_cause": "offset-max"
   },
   {
    "tool": "list_webhook_deliveries",
@@ -90,7 +98,8 @@
    "outcome": "input_not_enforced",
    "detail": "hours:maximum",
    "label": "confirmed",
-   "evidence": "the tool input is z.number().int().min(1) with no maximum (src/tools.ts:2563); the spec documents hours maximum 168"
+   "evidence": "the tool input is z.number().int().min(1) with no maximum (src/tools.ts:2563); the spec documents hours maximum 168",
+   "root_cause": "hours-max"
   },
   {
    "tool": "update_agent",
@@ -100,7 +109,8 @@
    "outcome": "input_not_enforced",
    "detail": "language:enum",
    "label": "confirmed",
-   "evidence": "open issue #120"
+   "evidence": "open issue #120",
+   "root_cause": "language-enum"
   },
   {
    "tool": "update_agent",
@@ -110,7 +120,8 @@
    "outcome": "input_not_enforced",
    "detail": "systemPrompt:maxLength",
    "label": "confirmed",
-   "evidence": "the tool input is z.string().optional() with no max (src/tools.ts); the spec documents systemPrompt maxLength 20000"
+   "evidence": "the tool input is z.string().optional() with no max (src/tools.ts); the spec documents systemPrompt maxLength 20000",
+   "root_cause": "system-prompt-max"
   },
   {
    "tool": "update_conversation",
@@ -120,7 +131,66 @@
    "outcome": "text_defect",
    "detail": "undefined",
    "label": "unconfirmed",
-   "evidence": "the text prints 'Metadata: undefined' when metadata is absent, which the spec allows (ConversationDetail does not require metadata and gives no default); whether the live API ever omits it is not known"
+   "evidence": "the text prints 'Metadata: undefined' when metadata is absent, which the spec allows (ConversationDetail does not require metadata and gives no default); whether the live API ever omits it is not known",
+   "root_cause": "metadata-undefined"
+  }
+ ],
+ "root_causes": [
+  {
+   "id": "offset-max",
+   "kind": "missing_bound",
+   "title": "offset has no documented maximum (10000) on six list tools",
+   "known": false,
+   "sites": [
+    "list_numbers src/tools.ts:561",
+    "list_calls src/tools.ts:1237",
+    "list_agents src/tools.ts:1601",
+    "list_conversations src/tools.ts:2064",
+    "list_contacts src/tools.ts:2220"
+   ],
+   "note": "Remainder of the bounds PR #107 restored. The server answers 422, so the cost is one late round trip."
+  },
+  {
+   "id": "hours-max",
+   "kind": "missing_bound",
+   "title": "hours has no documented maximum (168) on list_webhook_deliveries",
+   "known": false,
+   "sites": [
+    "list_webhook_deliveries src/tools.ts:2563"
+   ],
+   "note": "Same class as offset-max."
+  },
+  {
+   "id": "system-prompt-max",
+   "kind": "missing_bound",
+   "title": "system_prompt has no documented maxLength (20000) on create and update",
+   "known": false,
+   "sites": [
+    "create_agent src/tools.ts:1643",
+    "update_agent src/tools.ts:1778"
+   ],
+   "note": "Hosted mode also wraps the prompt in extra text before sending, so the wire length is larger than the input. Not yet checked by this harness."
+  },
+  {
+   "id": "metadata-undefined",
+   "kind": "spec_ambiguity",
+   "title": "update_conversation prints Metadata: undefined if the response omits metadata",
+   "known": false,
+   "sites": [
+    "update_conversation src/tools.ts:2200"
+   ],
+   "note": "The spec allows the omission. A live API that always sends null would never show it."
+  },
+  {
+   "id": "language-enum",
+   "kind": "known_open",
+   "title": "language accepts any string",
+   "known": true,
+   "sites": [
+    "create_agent src/tools.ts:1710",
+    "update_agent src/tools.ts:1845"
+   ],
+   "note": "Already reported upstream as issue #120 with fix PR #121, both open. Not a new finding."
   }
  ]
 }
