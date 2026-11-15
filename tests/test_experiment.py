@@ -1,4 +1,4 @@
-'''Tests for experiment metrics and deterministic result files.'''
+"""Tests for experiment metrics and deterministic result files."""
 
 from __future__ import annotations
 
@@ -57,8 +57,12 @@ class MetricsTest(unittest.TestCase):
                 },
             },
         }
-        alpha = finding('alpha', 'input:offset=maximum', 'input_not_enforced', 'offset:maximum', operation='GET /v1/agents')
-        gamma = finding('gamma', 'input:offset=maximum', 'input_not_enforced', 'offset:maximum', operation='GET /v1/numbers')
+        alpha = finding(
+            'alpha', 'input:offset=maximum', 'input_not_enforced', 'offset:maximum', operation='GET /v1/agents'
+        )
+        gamma = finding(
+            'gamma', 'input:offset=maximum', 'input_not_enforced', 'offset:maximum', operation='GET /v1/numbers'
+        )
         delta = finding('delta', 'baseline', 'text_defect', 'undefined', operation='POST /v1/numbers', documented=False)
         self.c1 = {
             'commit': 'c1',
@@ -82,9 +86,27 @@ class MetricsTest(unittest.TestCase):
         self.by_commit = {'c1': self.c1, 'c2': self.c2}
         self.order = ['c1', 'c2']
         self.ledger = [
-            case('caught', 'alpha', mutations=['input:*'], outcomes=['input_not_enforced'], buggy='c1', fixed='c2', spec_documents=True),
-            case('missed', 'beta', mutations=['input:*'], outcomes=['crash'], buggy='c1', fixed='c2', spec_documents=True),
-            case('open', 'alpha', mutations=['input:*'], outcomes=['input_not_enforced'], buggy='c1', fixed=None, spec_documents=False),
+            case(
+                'caught',
+                'alpha',
+                mutations=['input:*'],
+                outcomes=['input_not_enforced'],
+                buggy='c1',
+                fixed='c2',
+                spec_documents=True,
+            ),
+            case(
+                'missed', 'beta', mutations=['input:*'], outcomes=['crash'], buggy='c1', fixed='c2', spec_documents=True
+            ),
+            case(
+                'open',
+                'alpha',
+                mutations=['input:*'],
+                outcomes=['input_not_enforced'],
+                buggy='c1',
+                fixed=None,
+                spec_documents=False,
+            ),
         ]
         self.triage = [
             {
@@ -99,7 +121,9 @@ class MetricsTest(unittest.TestCase):
         ]
 
     def test_metrics_are_complete_and_scored(self):
-        values = experiment.metrics_for(self.reports, self.order, spec=self.spec, ledger=self.ledger, triage=self.triage)
+        values = experiment.metrics_for(
+            self.reports, self.order, spec=self.spec, ledger=self.ledger, triage=self.triage
+        )
         self.assertEqual(len(values), 46)
         self.assertEqual(list(values), sorted(values))
         self.assertEqual(values['commits'], 2)
@@ -123,9 +147,10 @@ class CollectTest(unittest.TestCase):
             'c2': {'commit': 'c2', 'findings': []},
         }
         rows = [{'commit': 'c1'}, {'commit': 'c2'}]
-        with mock.patch.object(experiment.scanner, 'commits', return_value=rows), mock.patch.object(
-            experiment.scanner, 'scan', side_effect=lambda commit: reports[commit]
-        ) as scan:
+        with (
+            mock.patch.object(experiment.scanner, 'commits', return_value=rows),
+            mock.patch.object(experiment.scanner, 'scan', side_effect=lambda commit: reports[commit]) as scan,
+        ):
             order, collected = experiment.collect()
         self.assertEqual(order, ['c1', 'c2'])
         self.assertEqual(collected, [reports['c1'], reports['c2']])
@@ -152,8 +177,9 @@ class MainTest(unittest.TestCase):
     def test_main_writes_results(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / 'results' / 'metrics.json'
-            with mock.patch.object(experiment, 'collect', return_value=(['c1'], [{'commit': 'c1'}])), mock.patch.object(
-                experiment, 'metrics_for', return_value={'commits': 1}
+            with (
+                mock.patch.object(experiment, 'collect', return_value=(['c1'], [{'commit': 'c1'}])),
+                mock.patch.object(experiment, 'metrics_for', return_value={'commits': 1}),
             ):
                 self.assertEqual(experiment.main(['--out', str(out)]), 0)
             self.assertTrue((out.parent / 'reports.json').is_file())

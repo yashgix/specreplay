@@ -1,4 +1,4 @@
-'''Tests that run the TypeScript spec helpers under Node.'''
+"""Tests that run the TypeScript spec helpers under Node."""
 
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ class OpenAPINodeTest(unittest.TestCase):
             capture_output=True,
             text=True,
             timeout=TIMEOUT,
+            check=False,
         )
         output = (result.stdout + result.stderr).strip()
         self.assertEqual(result.returncode, 0, output)

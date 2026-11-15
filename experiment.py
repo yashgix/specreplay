@@ -1,4 +1,4 @@
-'''Run the pinned-commit replay experiment and write its reports and metrics.'''
+"""Run the pinned-commit replay experiment and write its reports and metrics."""
 
 from __future__ import annotations
 

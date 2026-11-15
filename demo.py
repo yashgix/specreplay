@@ -1,4 +1,4 @@
-'''Show the latest SpecDrift findings and regenerate the README results block.'''
+"""Show the latest SpecDrift findings and regenerate the README results block."""
 
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ def render(readme_text, metrics):
     for label, key in ROWS:
         lines.append(f'| {label} | {_plain(metrics, key)} |')
     body = '\n'.join(lines + ['', _recall_line(metrics)])
-    return readme_text[:start] + f'{START}\n{body}\n{END}' + readme_text[end + len(END):]
+    return readme_text[:start] + f'{START}\n{body}\n{END}' + readme_text[end + len(END) :]
 
 
 def show(report):

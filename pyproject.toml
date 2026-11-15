@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 120
+extend-exclude = ["tests/acceptance", "upstream"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.per-file-ignores]
+"demo.py" = ["TRY004"]
+"experiment.py" = ["TRY004"]

@@ -1,4 +1,4 @@
-'''Tests for the demo renderer and its command line.'''
+"""Tests for the demo renderer and its command line."""
 
 from __future__ import annotations
 
