@@ -59,6 +59,7 @@ with `SPECDRIFT_ZOD` pointing at that commit's zod entry. `specdrift/scan.py` is
 | name | value |
 | --- | --- |
 | commits | 13 |
+| runs | 6879 |
 | known cases | 25 |
 | documented cases | 20 |
 | caught | 20 |
