@@ -139,7 +139,7 @@
   {
    "id": "offset-max",
    "kind": "missing_bound",
-   "title": "offset has no documented maximum (10000) on six list tools",
+   "title": "offset has no documented maximum (10000) on five list tools",
    "known": false,
    "sites": [
     "list_numbers src/tools.ts:561",

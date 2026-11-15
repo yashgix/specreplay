@@ -72,14 +72,14 @@ Recall: 20/25 (0.80) overall; 19/20 (0.95) on documented contracts. In-sample: t
 
 | root cause | kind | findings | code sites (src/tools.ts at v0.10.0) |
 | --- | --- | --- | --- |
-| offset has no documented maximum (10000) on six list tools | missing bound | 6 | list_numbers src/tools.ts:561; list_calls src/tools.ts:1237; list_agents src/tools.ts:1601; list_conversations src/tools.ts:2064; list_contacts src/tools.ts:2220 |
+| offset has no documented maximum (10000) on five list tools | missing bound | 6 | list_numbers src/tools.ts:561; list_calls src/tools.ts:1237; list_agents src/tools.ts:1601; list_conversations src/tools.ts:2064; list_contacts src/tools.ts:2220 |
 | hours has no documented maximum (168) on list_webhook_deliveries | missing bound | 1 | list_webhook_deliveries src/tools.ts:2563 |
 | system_prompt has no documented maxLength (20000) on create and update | missing bound | 2 | create_agent src/tools.ts:1643; update_agent src/tools.ts:1778 |
 | update_conversation prints Metadata: undefined if the response omits metadata | spec ambiguity | 1 | update_conversation src/tools.ts:2200 |
 | language accepts any string | known, open upstream | 2 | create_agent src/tools.ts:1710; update_agent src/tools.ts:1845 |
 <!-- /specdrift:results -->
 
-The block is written by `python demo.py --readme README.md --out README.md` from `results/metrics.json`; that command emits the full ten-row table, including `runs` (every tool call the experiment made), plus the recall line. Run it after `experiment.py` so the numbers match the metrics file that ships with the results.
+The block is written by `python demo.py --readme README.md --out README.md` from `results/metrics.json`; that command emits the full table, including `runs` (every tool call the experiment made), plus the recall line. Run it after `experiment.py` so the numbers match the metrics file that ships with the results.
 
 ## What "documented" means
 
@@ -89,7 +89,7 @@ A finding is documented when the operation it is about has a success response a 
 
 Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five root causes. The table above lists each with its code sites. None is shown to break a user: the AgentPhone server also validates, so a missing client-side bound means a late 422, and nothing here was run against the live API.
 
-- Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on six list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the remainder of the bounds restored in #107. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
+- Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on five list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the remainder of the bounds restored in #107. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
 - One is a spec ambiguity: `update_conversation` prints `Metadata: undefined` if the response omits `metadata`. The spec allows the omission and documents no default. Whether the live API ever omits it is unknown.
 - One is already known: `create_agent` and `update_agent` accept any `language`. It is open upstream as issue #120 with fix PR #121. It is counted as known, not as a finding of this work.
 
