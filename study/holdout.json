@@ -1,0 +1,45 @@
+{
+ "about": "Hold-out cases. Written after the scanner rules were frozen (git tag rules-frozen) and before any of them was scanned. The cases come from AgentPhone repository history that is not in the 25-case ledger. 'predicted' was written down before the run. The sources are not stored here: tools/holdout_sources.sh fetches them from the public repository into a scratch folder.",
+ "frozen_tag": "rules-frozen",
+ "cases": [
+  {
+   "id": "holdout-usage-plan",
+   "source": "https://github.com/AgentPhone-AI/agentphone-mcp/pull/29",
+   "quote": "The MCP formatters still dereferenced the removed fields (usage.plan.name ... voiceMinutes)",
+   "tool": "account_overview",
+   "buggy": "f86348c^",
+   "fixed": "f86348c",
+   "expect": "a crash, error result or undefined in the text on the spec-built /v1/usage response",
+   "predicted": "caught",
+   "why": "the contract is a documented response shape, the class the rules were built for"
+  },
+  {
+   "id": "holdout-media-only-send",
+   "source": "https://github.com/AgentPhone-AI/agentphone-mcp/pull/27",
+   "quote": "body was z.string() (required) despite its own description saying it may be empty when sending media only",
+   "tool": "send_message",
+   "buggy": "f5eb834^",
+   "fixed": "f5eb834",
+   "expect": "none: the rules have no check for an input the tool refuses but the API accepts",
+   "predicted": "missed",
+   "why": "over-strict input, a different class"
+  },
+  {
+   "id": "holdout-scoped-call-filters",
+   "source": "https://github.com/AgentPhone-AI/agentphone-mcp/pull/108",
+   "quote": "list_calls rejects status/direction/search combined with a number_id or agent_id scope (those scoped endpoints don't support them)",
+   "tool": "list_calls",
+   "buggy": "1921eba",
+   "fixed": "abfac0b",
+   "expect": "none: the tool drops the filters silently, nothing wrong is sent or returned",
+   "predicted": "missed",
+   "why": "silent semantic drop"
+  }
+ ],
+ "excluded": [
+  {
+   "source": "https://github.com/AgentPhone-AI/agentphone-mcp/pull/13",
+   "why": "send_message recipient validation and typed voice fields: the commit uses zod 3 and an older layout, so the scanner cannot load it"
+  }
+ ]
+}
