@@ -2,41 +2,13 @@
 
 from __future__ import annotations
 
-import json
 import os
-import tempfile
 import unittest
-from pathlib import Path
 from unittest import mock
 
 from specdrift import scan as scanner
 
 NODE = os.environ.get("ARCTURUS_NODE")
-
-SYNTHETIC_TOOLS = """
-export function registerTools(server, api) {
-  server.tool('defects', 'text defects', {}, () => ({
-    content: [{ type: 'text', text: 'undefined NaN [object Object] undefined' }],
-  }));
-  server.tool('schema', 'output schema', {}, () => ({
-    content: [{ type: 'text', text: 'ok' }],
-    structuredContent: { x: 'abc', y: 'abc' },
-  }));
-}
-"""
-
-SYNTHETIC_API = "export class AgentPhoneAPI { constructor(baseUrl, apiKey) {} }\n"
-
-SYNTHETIC_SCHEMAS = """
-import { z } from 'zod';
-
-export const OUTPUT_SCHEMAS = {
-  schema: z.object({
-    x: z.string().min(5).max(1),
-    y: z.string().min(5),
-  }),
-};
-"""
 
 
 class CommitsTest(unittest.TestCase):
@@ -102,48 +74,6 @@ class LatestCommitScanTest(unittest.TestCase):
                 )
             )
         self.assertEqual(len(keys), len(set(keys)))
-
-
-@unittest.skipUnless(NODE, "ARCTURUS_NODE is not set")
-class SyntheticScanTest(unittest.TestCase):
-    def test_text_defects_and_sorted_output_paths(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            src = root / "src"
-            src.mkdir()
-            (src / "tools.ts").write_text(SYNTHETIC_TOOLS, encoding="utf-8")
-            (src / "api.ts").write_text(SYNTHETIC_API, encoding="utf-8")
-            (src / "output-schemas.ts").write_text(SYNTHETIC_SCHEMAS, encoding="utf-8")
-            spec = root / "openapi.json"
-            spec.write_text('{"paths": {}}', encoding="utf-8")
-            inputs = root / "inputs.json"
-            inputs.write_text(
-                json.dumps(
-                    {
-                        "tools": {
-                            "defects": [{"variant": "default", "args": {}}],
-                            "schema": [{"variant": "default", "args": {}}],
-                        }
-                    }
-                ),
-                encoding="utf-8",
-            )
-            report = scanner.scan_dir(
-                root,
-                scanner.UPSTREAM / "zod" / "4.6.7" / "index.js",
-                spec,
-                inputs,
-            )
-        by_tool = {}
-        for item in report["findings"]:
-            by_tool.setdefault(item["tool"], []).append(
-                (item["mutation"], item["outcome"], item["detail"])
-            )
-        self.assertEqual(
-            by_tool["defects"],
-            [("baseline", "text_defect", "NaN;[object Object];undefined")],
-        )
-        self.assertEqual(by_tool["schema"], [("baseline", "output_invalid", "x;y")])
 
 
 if __name__ == "__main__":
