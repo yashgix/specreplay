@@ -78,7 +78,7 @@ At `46c8fe8`, each documented finding was read against the pinned `src/tools.ts`
 - **unconfirmed**: the mismatch is real only if the live API behaves in a way the spec allows but does not require (the `Metadata: undefined` text when `metadata` is absent);
 - **false positive**: the two are not actually in conflict.
 
-Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the #120 ledger case and are therefore known, not new, leaving 9 confirmed and 1 unconfirmed new findings.
+Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the #120 ledger case and are therefore known, not new, leaving 10 findings that are not in the ledger. They sit in 4 root causes (see `study/triage.json`). A label says the code and spec visibly differ, not that a user is hurt: the server validates too, so a missing limit costs a late 422.
 
 ## Determinism
 
@@ -90,7 +90,7 @@ No clock, no randomness, no network, no environment-dependent ordering: schema p
 - Combinations of faults, and payloads the spec permits but the example never produces.
 - Anything the spec gets wrong: a spec error looks like a tool bug, and the ledger's citations are the only defence.
 - Whether the live API omits an optional field: the findings that depend on it are labelled unconfirmed.
-- The checking rules were written knowing this bug class, so the recall figure is in-sample. The out-of-sample evidence is the ten v0.10.0 findings and their hand triage, and the README says so plainly.
+- The checking rules were written knowing this bug class, so the recall figure is in-sample. There is no large unseen set: the ten v0.10.0 findings are an exploratory first look and the hold-out has three cases, and the README says so plainly.
 
 ## Alternatives considered
 

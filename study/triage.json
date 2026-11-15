@@ -169,7 +169,7 @@
     "create_agent src/tools.ts:1643",
     "update_agent src/tools.ts:1778"
    ],
-   "note": "Hosted mode wraps the prompt in 528 extra characters before sending (measured by wide mode), so any hosted prompt over 19472 characters goes out over 20000. A maximum of 20000 on the tool input would not close that gap."
+   "note": "Hosted mode wraps the prompt in 528 extra characters before sending (measured by wide mode), so a plain ASCII hosted prompt over 19472 characters goes out over 20000. Trimmed or already-wrapped input differs. A maximum of 20000 on the tool input would not close that gap."
   },
   {
    "id": "metadata-undefined",

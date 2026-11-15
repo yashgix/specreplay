@@ -1,5 +1,5 @@
 {
- "about": "Hold-out cases. Written after the scanner rules were frozen (git tag rules-frozen) and before any of them was scanned. The cases come from AgentPhone repository history that is not in the 25-case ledger. 'predicted' was written down before the run. The sources are not stored here: tools/holdout_sources.sh fetches them from the public repository into a scratch folder.",
+ "about": "Hold-out cases from repository history that are not in the 25-case ledger. The cases, their sources and the first-run predictions were written after the scanner rules were frozen (git tag rules-frozen) and before the first run. After a review of that first run, each case also got a frozen fixture, a detection predicate and a trigger check, so that a case is only counted when its bug is shown to be exercised. detect: findings the rules must produce on the case's tool, matched on tool, variant, outcome and operation and never on wording. trigger: the observable behaviour that shows the bug is exercised, taken from the pull request text. Result: caught = triggered, detected at the buggy commit, absent at the fix. missed = triggered but not caught. not_exercised = the trigger was not seen, so the case counts neither way. The sources are not stored here: tools/holdout_sources.sh fetches them from the public repository into a scratch folder.",
  "frozen_tag": "rules-frozen",
  "cases": [
   {
@@ -10,8 +10,22 @@
    "buggy": "f86348c^",
    "fixed": "f86348c",
    "expect": "a crash, error result or undefined in the text on the spec-built /v1/usage response",
-   "predicted": "caught",
-   "why": "the contract is a documented response shape, the class the rules were built for"
+   "why": "the contract is a documented response shape, the class the rules were built for",
+   "detect": {
+    "tool": "account_overview",
+    "variant": "default",
+    "outcomes": [
+     "error_result",
+     "crash",
+     "text_defect",
+     "output_invalid"
+    ],
+    "operation_contains": "GET /v1/usage"
+   },
+   "trigger": {
+    "kind": "detected"
+   },
+   "first_run_prediction": "caught"
   },
   {
    "id": "holdout-media-only-send",
@@ -21,8 +35,36 @@
    "buggy": "f5eb834^",
    "fixed": "f5eb834",
    "expect": "none: the rules have no check for an input the tool refuses but the API accepts",
-   "predicted": "missed",
-   "why": "over-strict input, a different class"
+   "why": "over-strict input, a different class",
+   "fixture": {
+    "variant": "media_only",
+    "args": {
+     "number_id": "num_1",
+     "to_number": "+15555550101",
+     "media_url": "https://example.com/photo.png",
+     "confirm": true
+    }
+   },
+   "detect": {
+    "tool": "send_message",
+    "variant": "media_only",
+    "outcomes": [
+     "error_result",
+     "crash",
+     "text_defect",
+     "output_invalid",
+     "input_not_enforced",
+     "undocumented_param",
+     "undocumented_field",
+     "request_invalid"
+    ]
+   },
+   "trigger": {
+    "kind": "refused",
+    "at": "buggy",
+    "note": "the tool refuses a send that has media and no body"
+   },
+   "first_run_prediction": "missed"
   },
   {
    "id": "holdout-scoped-call-filters",
@@ -32,8 +74,34 @@
    "buggy": "1921eba",
    "fixed": "abfac0b",
    "expect": "none: the tool drops the filters silently, nothing wrong is sent or returned",
-   "predicted": "missed",
-   "why": "silent semantic drop"
+   "why": "silent semantic drop",
+   "fixture": {
+    "variant": "scoped_filter",
+    "args": {
+     "agent_id": "agt_1",
+     "status": "completed"
+    }
+   },
+   "detect": {
+    "tool": "list_calls",
+    "variant": "scoped_filter",
+    "outcomes": [
+     "error_result",
+     "crash",
+     "text_defect",
+     "output_invalid",
+     "input_not_enforced",
+     "undocumented_param",
+     "undocumented_field",
+     "request_invalid"
+    ]
+   },
+   "trigger": {
+    "kind": "refused",
+    "at": "fixed",
+    "note": "the fix refuses a scoped call that also carries a filter, where the buggy tool dropped the filter silently"
+   },
+   "first_run_prediction": "missed"
   }
  ],
  "excluded": [

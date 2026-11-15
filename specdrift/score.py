@@ -71,10 +71,16 @@ def _found(case, report):
 
 
 def evaluate(case, reports):
-    """Whether one case is detected at its buggy commit and clear at its fix."""
-    detected = _found(case, reports.get(case['buggy']))
+    """Whether one case is detected at its buggy commit and clear at its fix.
+
+    A case missing a report for either commit is unevaluated, never caught.
+    """
     fixed = case.get('fixed')
-    cleared = None if fixed is None else not _found(case, reports.get(fixed))
+    if case['buggy'] not in reports or (fixed is not None and fixed not in reports):
+        detected = case['buggy'] in reports and _found(case, reports[case['buggy']])
+        return {'id': case['id'], 'detected': detected, 'cleared': None, 'caught': False, 'unevaluated': True}
+    detected = _found(case, reports[case['buggy']])
+    cleared = None if fixed is None else not _found(case, reports[fixed])
     return {'id': case['id'], 'detected': detected, 'cleared': cleared, 'caught': detected and cleared is not False}
 
 

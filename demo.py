@@ -100,6 +100,8 @@ def render_extra(readme_text, wide, holdout):
         f'| prompt wrapper | {wrapped} |',
         f'| hold-out cases | {holdout["cases"]} |',
         f'| hold-out caught | {holdout["caught"]} |',
+        f'| hold-out missed (bug exercised) | {holdout["missed"]} |',
+        f'| hold-out not exercised | {holdout["not_exercised"]} |',
     ]
     body = '\n'.join(lines)
     return readme_text[:start] + f'{WIDE_START}\n{body}\n{WIDE_END}' + readme_text[end + len(WIDE_END) :]

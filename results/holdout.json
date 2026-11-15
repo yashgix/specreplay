@@ -1,44 +1,35 @@
 {
  "cases": 3,
  "caught": 1,
- "recall": 0.33,
+ "missed": 2,
+ "not_exercised": 0,
  "scored": [
   {
    "id": "holdout-usage-plan",
-   "predicted": "caught",
+   "first_run_prediction": "caught",
    "result": "caught",
    "findings_before": 1,
    "findings_after": 0,
-   "gone_at_fix": [
-    [
-     "account_overview",
-     "default",
-     "GET /v1/agents,GET /v1/numbers,GET /v1/webhooks,GET /v1/usage",
-     "baseline",
-     "error_result",
-     "Cannot read properties of undefined (reading 'name')",
-     true
-    ]
-   ],
-   "rejected_at_buggy": []
+   "refused_at_buggy": null,
+   "refused_at_fixed": null
   },
   {
    "id": "holdout-media-only-send",
-   "predicted": "missed",
+   "first_run_prediction": "missed",
    "result": "missed",
    "findings_before": 0,
    "findings_after": 0,
-   "gone_at_fix": [],
-   "rejected_at_buggy": []
+   "refused_at_buggy": true,
+   "refused_at_fixed": false
   },
   {
    "id": "holdout-scoped-call-filters",
-   "predicted": "missed",
+   "first_run_prediction": "missed",
    "result": "missed",
-   "findings_before": 2,
-   "findings_after": 2,
-   "gone_at_fix": [],
-   "rejected_at_buggy": []
+   "findings_before": 0,
+   "findings_after": 0,
+   "refused_at_buggy": false,
+   "refused_at_fixed": true
   }
  ]
 }

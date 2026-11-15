@@ -101,9 +101,9 @@ The supplied ledger has 25 cases, 20 of them about contracts the spec documents.
 
 ## Wide mode and hold-out
 
-`python wide.py` (`make wide`) repeats the latest-commit scan with two additions. First, every argument a fixture leaves out is set to a sentinel value, and if it reaches a constrained request field it is probed like the fixture arguments, so a bound is checked wherever the tool can send it. One extra variant (`list_calls` scoped by number) comes from `study/tool-inputs-extra.json`. Second, in hosted mode it sends a one-character prompt to measure how much text the tool adds, then an accepted prompt of the longest spec-legal length plus one, and checks whether the wire value exceeds the documented maximum. The v1 scan and its metrics are unchanged.
+`python wide.py` (`make wide`) repeats the latest-commit scan with two additions. First, every argument a fixture leaves out is set to a sentinel value, and if it reaches a constrained request field it is probed like the fixture arguments, so a bound is checked wherever the tool can send it. One extra variant (`list_calls` scoped by number) comes from `study/tool-inputs-extra.json`. Second, in hosted mode it sends a one-character prompt to measure how much text the tool adds, then an accepted prompt of the longest spec-legal length plus one, and checks whether the wire value exceeds the documented maximum. The v1 scan and its metrics are unchanged. The measured threshold holds for plain ASCII prompts that need no trimming and are not already wrapped, and lengths are counted in characters as the spec does (zod counts UTF-16 units).
 
-The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the run. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. Three cases is too few for a rate: it shows which class the rules cover (a documented response shape, caught) and which they do not (a tool that refuses an input the API accepts, and filters dropped without any wrong request or response, both missed).
+The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the run. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. A case counts only when its bug is shown to be exercised: each case has a frozen fixture, a detection predicate that ignores wording, and a trigger check, and a case whose trigger is not seen is reported as not exercised. Three cases is too few for a rate. They show a documented response shape caught, and two other classes missed with their bugs exercised: a tool that refuses an input the API accepts, and filters dropped with no wrong request or response.
 
 <!-- specdrift:wide -->
 | name | value |
@@ -114,6 +114,8 @@ The hold-out is a small set of cases from the repository's own history that are 
 | prompt wrapper | systemPrompt:maxLength added=528 threshold=19472 |
 | hold-out cases | 3 |
 | hold-out caught | 1 |
+| hold-out missed (bug exercised) | 2 |
+| hold-out not exercised | 0 |
 <!-- /specdrift:wide -->
 
 ## Limits

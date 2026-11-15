@@ -201,6 +201,19 @@ function stringExample(format: unknown): string {
   }
 }
 
+function boundedString(text: string, node: Schema): string {
+  const min = typeof node.minLength === 'number' ? node.minLength : 0;
+  const max = typeof node.maxLength === 'number' ? node.maxLength : Infinity;
+  const padded = characters(text) < min ? text + 'x'.repeat(min - characters(text)) : text;
+  return characters(padded) > max ? [...padded].slice(0, max).join('') : padded;
+}
+
+function boundedNumber(node: Schema, integer: boolean): number {
+  const max = typeof node.maximum === 'number' ? node.maximum : Infinity;
+  const value = Math.min(typeof node.minimum === 'number' ? node.minimum : 1, max);
+  return integer ? Math.ceil(value) : value;
+}
+
 export function example(spec: Spec, schema: unknown, depth = 0): unknown {
   if (depth >= 12) return null;
   const node = effective(spec, schema);
@@ -215,12 +228,11 @@ export function example(spec: Spec, schema: unknown, depth = 0): unknown {
   const types = typesOf(node);
   if (types.includes('array')) {
     if (!has(node, 'items')) return [];
-    return [example(spec, node.items, depth + 1)];
+    const count = Math.max(1, typeof node.minItems === 'number' ? node.minItems : 1);
+    return Array.from({ length: count }, () => example(spec, node.items, depth + 1));
   }
-  if (types.includes('string')) return stringExample(node.format);
-  if (types.includes('integer') || types.includes('number')) {
-    return typeof node.minimum === 'number' ? node.minimum : 1;
-  }
+  if (types.includes('string')) return boundedString(stringExample(node.format), node);
+  if (types.includes('integer') || types.includes('number')) return boundedNumber(node, types.includes('integer'));
   if (types.includes('boolean')) return true;
   if (types.includes('null')) return null;
   return {};
@@ -341,55 +353,91 @@ function enumHas(values: unknown[], value: unknown): boolean {
   return values.some((item) => sameValue(item, value));
 }
 
+/** JSON Schema counts characters (code points), where JavaScript string length counts UTF-16 units. */
+export function characters(value: string): number {
+  let count = 0;
+  for (const _ of value) count += 1;
+  return count;
+}
+
+function propertyKeys(spec: Spec, node: Schema, depth: number): Set<string> {
+  const keys = new Set(isRecord(node.properties) ? Object.keys(node.properties) : []);
+  if (depth < 12 && Array.isArray(node.allOf)) {
+    for (const branch of node.allOf) for (const key of propertyKeys(spec, deref(spec, branch), depth + 1)) keys.add(key);
+  }
+  return keys;
+}
+
+function propertySchema(spec: Spec, node: Schema, key: string, depth: number): unknown {
+  if (isRecord(node.properties) && has(node.properties, key)) return node.properties[key];
+  if (depth < 12 && Array.isArray(node.allOf)) {
+    for (const branch of node.allOf) {
+      const found = propertySchema(spec, deref(spec, branch), key, depth + 1);
+      if (found !== undefined) return found;
+    }
+  }
+  return undefined;
+}
+
+function limitProblems(node: Schema, value: unknown, path: string): string[] {
+  const problems: string[] = [];
+  if (typeof value === 'string') {
+    const length = characters(value);
+    if (typeof node.maxLength === 'number' && length > node.maxLength) problems.push(`${path}:maxLength`);
+    if (typeof node.minLength === 'number' && length < node.minLength) problems.push(`${path}:minLength`);
+  }
+  if (typeof value === 'number') {
+    if (typeof node.maximum === 'number' && value > node.maximum) problems.push(`${path}:maximum`);
+    if (typeof node.minimum === 'number' && value < node.minimum) problems.push(`${path}:minimum`);
+  }
+  if (Array.isArray(value)) {
+    if (typeof node.maxItems === 'number' && value.length > node.maxItems) problems.push(`${path}:maxItems`);
+    if (typeof node.minItems === 'number' && value.length < node.minItems) problems.push(`${path}:minItems`);
+  }
+  return problems;
+}
+
+function memberProblems(spec: Spec, node: Schema, value: unknown, path: string, depth: number): string[] {
+  const problems: string[] = [];
+  if (Array.isArray(value) && has(node, 'items')) {
+    for (let i = 0; i < value.length; i += 1) problems.push(...validateAt(spec, node.items, value[i], `${path}[${i}]`, depth + 1));
+  }
+  const keys = propertyKeys(spec, node, 0);
+  if (!isRecord(value) || keys.size === 0) return problems;
+  const required = Array.isArray(node.required) ? node.required.filter((key): key is string => typeof key === 'string') : [];
+  for (const key of required) if (!has(value, key)) problems.push(`${path}.${key}:required`);
+  for (const key of Object.keys(value)) {
+    if (keys.has(key)) problems.push(...validateAt(spec, propertySchema(spec, node, key, 0), value[key], `${path}.${key}`, depth + 1));
+    else if (!node.additionalProperties) problems.push(`${path}.${key}:undocumented`);
+  }
+  return problems;
+}
+
+/** A value passes anyOf when one branch accepts it fully. Otherwise the first branch of the right type explains why not. */
+function anyOfProblems(spec: Spec, branches: unknown[], value: unknown, path: string, depth: number): string[] {
+  const fitting = branches.filter((branch) => typeFitsSchema(deref(spec, branch), value));
+  if (fitting.length === 0) return [`${path}:type`];
+  let first: string[] | null = null;
+  for (const branch of fitting) {
+    const problems = validateAt(spec, branch, value, path, depth + 1);
+    if (problems.length === 0) return [];
+    first ??= problems;
+  }
+  return first ?? [];
+}
+
 function validateAt(spec: Spec, schema: unknown, value: unknown, path: string, depth: number): string[] {
   if (depth >= 12) return [];
   const node = deref(spec, schema);
-  if (Array.isArray(node.anyOf)) {
-    const branch = node.anyOf.find((candidate) => typeFitsSchema(deref(spec, candidate), value));
-    if (branch === undefined) return [`${path}:type`];
-    const problems = validateAt(spec, branch, value, path, depth + 1);
-    if (value !== null && Array.isArray(node.enum) && !enumHas(node.enum, value)) problems.push(`${path}:enum`);
-    return problems;
-  }
-  const shape = effective(spec, schema);
-  const types = typesOf(shape);
-  if (types.length > 0 && !types.some((type) => fitsType(type, value))) return [`${path}:type`];
   const problems: string[] = [];
-  if (Array.isArray(shape.enum) && !enumHas(shape.enum, value)) problems.push(`${path}:enum`);
-  if (typeof value === 'string') {
-    if (typeof shape.maxLength === 'number' && value.length > shape.maxLength) problems.push(`${path}:maxLength`);
-    if (typeof shape.minLength === 'number' && value.length < shape.minLength) problems.push(`${path}:minLength`);
-  }
-  if (typeof value === 'number') {
-    if (typeof shape.maximum === 'number' && value > shape.maximum) problems.push(`${path}:maximum`);
-    if (typeof shape.minimum === 'number' && value < shape.minimum) problems.push(`${path}:minimum`);
-  }
-  if (Array.isArray(value)) {
-    if (typeof shape.maxItems === 'number' && value.length > shape.maxItems) problems.push(`${path}:maxItems`);
-    if (typeof shape.minItems === 'number' && value.length < shape.minItems) problems.push(`${path}:minItems`);
-    if (has(shape, 'items')) {
-      for (let i = 0; i < value.length; i += 1) {
-        problems.push(...validateAt(spec, shape.items, value[i], `${path}[${i}]`, depth + 1));
-      }
-    }
-  }
-  const properties = shape.properties;
-  if (isRecord(value) && isRecord(properties)) {
-    const required = Array.isArray(shape.required)
-      ? shape.required.filter((key): key is string => typeof key === 'string')
-      : [];
-    for (const key of required) {
-      if (!has(value, key)) problems.push(`${path}.${key}:required`);
-    }
-    for (const key of Object.keys(value)) {
-      if (has(properties, key)) {
-        problems.push(...validateAt(spec, properties[key], value[key], `${path}.${key}`, depth + 1));
-      } else if (!shape.additionalProperties) {
-        problems.push(`${path}.${key}:undocumented`);
-      }
-    }
-  }
-  return problems;
+  if (Array.isArray(node.anyOf)) problems.push(...anyOfProblems(spec, node.anyOf, value, path, depth));
+  if (problems.includes(`${path}:type`)) return problems;
+  if (Array.isArray(node.allOf)) for (const branch of node.allOf) problems.push(...validateAt(spec, branch, value, path, depth + 1));
+  const types = typesOf(node);
+  if (types.length > 0 && !types.some((type) => fitsType(type, value))) return [...problems, `${path}:type`];
+  const nullableUnion = Array.isArray(node.anyOf) && value === null;
+  if (Array.isArray(node.enum) && !nullableUnion && !enumHas(node.enum, value)) problems.push(`${path}:enum`);
+  return [...problems, ...limitProblems(node, value, path), ...memberProblems(spec, node, value, path, depth)];
 }
 
 export function validate(spec: Spec, schema: unknown, value: unknown): string[] {

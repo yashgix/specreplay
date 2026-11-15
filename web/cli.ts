@@ -17,7 +17,7 @@ import { loadCommit } from './harness.ts';
 import type { CallResult, Session } from './harness.ts';
 import type { Probe } from './probes.ts';
 import { measureWrap } from './wrapped.ts';
-import { carries, collectProbes, parameterLists, parameterSchema, requestBodySchema } from './probes.ts';
+import { carries, isRecord, collectProbes, parameterLists, parameterSchema, requestBodySchema } from './probes.ts';
 
 type Finding = {
   tool: string;
@@ -203,14 +203,13 @@ async function wideProbes(session: Session, spec: Spec, tool: string, fixture: F
 }
 
 async function wrapFindings(session: Session, spec: Spec, tool: string, fixture: Fixture): Promise<StepRun> {
-  const findings: Finding[] = [];
-  if (!('system_prompt' in (session.tools.find((item) => item.name === tool)?.shape ?? {}))) return { findings, runs: 0, requests: 0 };
-  const wrap = await measureWrap(session, spec, tool, fixture.args);
-  if (wrap !== null) {
-    const detail = `systemPrompt:maxLength added=${wrap.added} threshold=${wrap.threshold}`;
-    findings.push(finding(tool, fixture.variant, wrap.operation, 'wide:system_prompt=wrapped', 'wrapped_over_limit', detail, true));
-  }
-  return { findings, runs: 3, requests: 0 };
+  const none: StepRun = { findings: [], runs: 0, requests: 0 };
+  if (!('system_prompt' in (session.tools.find((item) => item.name === tool)?.shape ?? {}))) return none;
+  const { wrap, calls, requests } = await measureWrap(session, spec, tool, fixture.args);
+  if (wrap === null) return { ...none, runs: calls, requests };
+  const detail = `systemPrompt:maxLength added=${wrap.added} threshold=${wrap.threshold}`;
+  const found = finding(tool, fixture.variant, wrap.operation, 'wide:system_prompt=wrapped', 'wrapped_over_limit', detail, true);
+  return { findings: [found], runs: calls, requests };
 }
 
 async function scanVariant(session: Session, spec: Spec, tool: string, fixture: Fixture): Promise<VariantRun> {
@@ -279,6 +278,24 @@ function unique(findings: Finding[]): Finding[] {
   return kept;
 }
 
+const METHODS = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
+
+/** Operations whose generated success response breaks its own schema. A replay on them would blame the tool for the fake. */
+function invalidBaselines(spec: Spec): string[] {
+  const bad: string[] = [];
+  const paths = isRecord(spec.paths) ? spec.paths : {};
+  for (const [path, item] of Object.entries(paths)) {
+    for (const method of METHODS) {
+      const operation = isRecord(item) ? item[method] : undefined;
+      const success = operation === undefined ? null : successResponse(spec, operation);
+      if (success === null || success.schema === null || !isConstrained(spec, success.schema)) continue;
+      const problems = validate(spec, success.schema, example(spec, success.schema));
+      if (problems.length > 0) bad.push(`${method.toUpperCase()} ${path} ${problems.join(',')}`);
+    }
+  }
+  return bad;
+}
+
 async function main(): Promise<void> {
   const [sourceDir, specPath, inputsPath] = process.argv.slice(2);
   if (sourceDir === undefined || specPath === undefined || inputsPath === undefined) {
@@ -286,6 +303,8 @@ async function main(): Promise<void> {
   }
   const spec = readJson(specPath) as Spec;
   const inputs = readJson(inputsPath) as Inputs;
+  const bad = invalidBaselines(spec);
+  if (bad.length > 0) throw new Error(`generated baselines break their own schema: ${bad.join('; ')}`);
   const session = await loadCommit(sourceDir, spec);
 
   const findings: Finding[] = [];

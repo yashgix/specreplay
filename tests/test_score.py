@@ -132,9 +132,15 @@ class EvaluateTest(unittest.TestCase):
         result = score.evaluate(self._case(fixed=None), {'bug': [item]})
         self.assertEqual(result, {'id': 'c1', 'detected': True, 'cleared': None, 'caught': True})
 
-    def test_missing_reports_mean_not_detected(self):
+    def test_missing_reports_mean_unevaluated(self):
         result = score.evaluate(self._case(), {})
-        self.assertEqual(result, {'id': 'c1', 'detected': False, 'cleared': True, 'caught': False})
+        self.assertEqual(result, {'id': 'c1', 'detected': False, 'cleared': None, 'caught': False, 'unevaluated': True})
+
+    def test_a_missing_fix_report_is_not_a_clean_fix(self):
+        item = finding('alpha', 'baseline', 'crash', 'boom')
+        result = score.evaluate(self._case(), {'bug': [item]})
+        self.assertEqual((result['detected'], result['cleared'], result['caught']), (True, None, False))
+        self.assertTrue(result['unevaluated'])
 
 
 class SpecCountsTest(unittest.TestCase):

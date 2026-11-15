@@ -285,3 +285,36 @@ test('constraints extracts the effective limits', async () => {
   assert.deepEqual(constraints(SPEC, { anyOf: [{ type: 'string' }], enum: ['x'] }), { enum: ['x'] });
   assert.deepEqual(constraints(SPEC, { type: 'boolean' }), {});
 });
+
+test('validate accepts a value that fully satisfies any anyOf branch', async () => {
+  const { validate } = await openapi();
+  const schema = { anyOf: [{ type: 'string', enum: ['a'] }, { type: 'string', enum: ['b'] }] };
+  assert.deepEqual(validate(SPEC, schema, 'b'), []);
+  assert.deepEqual(validate(SPEC, schema, 'c'), ['$:enum']);
+});
+
+test('validate enforces every allOf branch', async () => {
+  const { validate } = await openapi();
+  const schema = { allOf: [{ type: 'integer' }, { maximum: 5 }] };
+  assert.deepEqual(validate(SPEC, schema, 6), ['$:maximum']);
+  assert.deepEqual(validate(SPEC, schema, 5), []);
+});
+
+test('string limits count characters, not UTF-16 units', async () => {
+  const { validate, characters } = await openapi();
+  assert.equal(characters('😀'.repeat(3)), 3);
+  assert.deepEqual(validate(SPEC, { type: 'string', maxLength: 3 }, '😀'.repeat(3)), []);
+  assert.deepEqual(validate(SPEC, { type: 'string', maxLength: 3 }, '😀'.repeat(4)), ['$:maxLength']);
+});
+
+test('generated examples satisfy the bounds they are generated from', async () => {
+  const { example, validate } = await openapi();
+  const schemas = [
+    { type: 'string', minLength: 5 },
+    { type: 'string', maxLength: 2 },
+    { type: 'integer', minimum: 3, maximum: 9 },
+    { type: 'integer', maximum: 0 },
+    { type: 'array', items: { type: 'string' }, minItems: 3 },
+  ];
+  for (const schema of schemas) assert.deepEqual(validate(SPEC, schema, example(SPEC, schema)), [], JSON.stringify(schema));
+});

@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 NODE = os.environ.get('ARCTURUS_NODE')
-TEST = ROOT / 'web' / 'openapi.test.cjs'
+TESTS = sorted((ROOT / 'web').glob('*.test.cjs'))
 TIMEOUT = 120
 
 
@@ -21,7 +21,7 @@ class OpenAPINodeTest(unittest.TestCase):
             '--experimental-transform-types',
             '--disable-warning=ExperimentalWarning',
             '--test',
-            str(TEST),
+            *map(str, TESTS),
         ]
         env = {**os.environ, 'PATH': '/usr/bin:/bin'}
         result = subprocess.run(
