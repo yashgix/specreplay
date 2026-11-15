@@ -35,7 +35,7 @@ The assignment also describes an existing hand-written list of endpoints and fie
 Python 3.14 standard library only; Node 22 and TypeScript 7.0.2 come from the environment's read-only `node_modules`. Nothing is installed, and the experiment, the demo and the tests open no socket.
 
 ```
-export ARCTURUS_NODE=/path/to/node
+export ARCTURUS_NODE=/path/to/node   # must be Node 22, for example /opt/homebrew/opt/node@22/bin/node
 
 python experiment.py --out results/metrics.json    # all 13 commits, about 15 s
 python demo.py                                     # latest commit, one line per documented finding
@@ -93,17 +93,34 @@ Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five 
 - One is a spec ambiguity: `update_conversation` prints `Metadata: undefined` if the response omits `metadata`. The spec allows the omission and documents no default. Whether the live API ever omits it is unknown.
 - One is already known: `create_agent` and `update_agent` accept any `language`. It is open upstream as issue #120 with fix PR #121. It is counted as known, not as a finding of this work.
 
-The remaining check of the `system_prompt` bound, in hosted mode where the tool adds text around the prompt, is not done.
+In hosted mode the tool also wraps `system_prompt` in identity text before sending it. Wide mode measures this (see below): the wrapped value can go out over the documented length even when the input is under it.
 
 ## Scoring on the bug history
 
 The supplied ledger has 25 cases, 20 of them about contracts the spec documents. A case is caught when a finding matching it exists at its buggy commit and none exists at its fix commit. Recall is 20/25 (0.80) overall and 19/20 (0.95) on documented contracts. This is in-sample: the rules were written knowing these cases, so it measures that the rules reproduce the history, not how they would do on unseen drift. `study/known-bugs.json` also lists the items that were considered and excluded, each with a reason.
 
+## Wide mode and hold-out
+
+`python wide.py` (`make wide`) repeats the latest-commit scan with two additions. First, every argument a fixture leaves out is set to a sentinel value, and if it reaches a constrained request field it is probed like the fixture arguments, so a bound is checked wherever the tool can send it. One extra variant (`list_calls` scoped by number) comes from `study/tool-inputs-extra.json`. Second, in hosted mode it sends a one-character prompt to measure how much text the tool adds, then an accepted prompt of the longest spec-legal length plus one, and checks whether the wire value exceeds the documented maximum. The v1 scan and its metrics are unchanged.
+
+The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the run. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. Three cases is too few for a rate: it shows which class the rules cover (a documented response shape, caught) and which they do not (a tool that refuses an input the API accepts, and filters dropped without any wrong request or response, both missed).
+
+<!-- specdrift:wide -->
+| name | value |
+| --- | --- |
+| arguments probed from the fixtures | 40 (57 probes) |
+| further arguments probed in wide mode | 2 (4 probes) |
+| findings added by wide mode (not counting the prompt check) | 3 |
+| prompt wrapper | systemPrompt:maxLength added=528 threshold=19472 |
+| hold-out cases | 3 |
+| hold-out caught | 1 |
+<!-- /specdrift:wide -->
+
 ## Limits
 
 - 36 of the 98 operations document an unconstrained success response; nothing can be judged there, and the study says so rather than guessing.
 - The handlers run against a stubbed `fetch` and an emulation of the SDK's three checks (argument parsing, output-schema validation of `structuredContent`, error-result handling), not the SDK itself.
-- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. There is no held-out set yet. The v0.10.0 list is a first look, not a measure of recall.
+- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. The hold-out above has 3 cases, enough to show which classes are covered but not to give a rate. The v0.10.0 list is a first look, not a measure of recall.
 - Omitted-field findings depend on whether the live API ever omits the field. An omission the spec allows is only a finding when the tool mishandles it.
 - One example per response shape and single-fault mutations: combinations of faults and unusual payloads are out of scope.
 - The spec is treated as correct. A spec error surfaces as a tool bug.
@@ -136,6 +153,8 @@ web/fakeapi.ts        the in-process API
 web/harness.ts        load a commit's tools, make one call
 web/cli.ts            scan one commit, print the report
 web/hooks.ts          module resolution for zod, the SDK stub, .js -> .ts
-study/                fixtures, the ledger, the hand triage
+study/                fixtures, the ledger, the hand triage, the hold-out cases
+wide.py               wide mode: every argument, prompt wrapper
+holdout.py            score the frozen rules on the hold-out cases
 tests/                Python unittest; the Node test lives under web/
 ```

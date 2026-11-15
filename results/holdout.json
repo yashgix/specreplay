@@ -1,0 +1,44 @@
+{
+ "cases": 3,
+ "caught": 1,
+ "recall": 0.33,
+ "scored": [
+  {
+   "id": "holdout-usage-plan",
+   "predicted": "caught",
+   "result": "caught",
+   "findings_before": 1,
+   "findings_after": 0,
+   "gone_at_fix": [
+    [
+     "account_overview",
+     "default",
+     "GET /v1/agents,GET /v1/numbers,GET /v1/webhooks,GET /v1/usage",
+     "baseline",
+     "error_result",
+     "Cannot read properties of undefined (reading 'name')",
+     true
+    ]
+   ],
+   "rejected_at_buggy": []
+  },
+  {
+   "id": "holdout-media-only-send",
+   "predicted": "missed",
+   "result": "missed",
+   "findings_before": 0,
+   "findings_after": 0,
+   "gone_at_fix": [],
+   "rejected_at_buggy": []
+  },
+  {
+   "id": "holdout-scoped-call-filters",
+   "predicted": "missed",
+   "result": "missed",
+   "findings_before": 2,
+   "findings_after": 2,
+   "gone_at_fix": [],
+   "rejected_at_buggy": []
+  }
+ ]
+}

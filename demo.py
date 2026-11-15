@@ -12,6 +12,10 @@ import specdrift.scan as scanner
 ROOT = Path(__file__).resolve().parent
 METRICS = ROOT / 'results' / 'metrics.json'
 TRIAGE = ROOT / 'study' / 'triage.json'
+WIDE = ROOT / 'results' / 'wide.json'
+HOLDOUT = ROOT / 'results' / 'holdout.json'
+WIDE_START = '<!-- specdrift:wide -->'
+WIDE_END = '<!-- /specdrift:wide -->'
 START = '<!-- specdrift:results -->'
 END = '<!-- /specdrift:results -->'
 ROWS = (
@@ -81,6 +85,26 @@ def render(readme_text, metrics, root_causes=()):
     return readme_text[:start] + f'{START}\n{body}\n{END}' + readme_text[end + len(END) :]
 
 
+def render_extra(readme_text, wide, holdout):
+    """Fill the wide-mode and hold-out block from results/wide.json and results/holdout.json."""
+    start = readme_text.index(WIDE_START)
+    end = readme_text.index(WIDE_END)
+    wrapped = wide['wrapped'][0]['detail'] if wide['wrapped'] else ''
+    added = len(wide['added_findings']) - len(wide['wrapped'])
+    lines = [
+        '| name | value |',
+        '| --- | --- |',
+        f'| arguments probed from the fixtures | {wide["v1_args"]} ({wide["v1_probes"]} probes) |',
+        f'| further arguments probed in wide mode | {wide["wide_args"]} ({wide["wide_probes"]} probes) |',
+        f'| findings added by wide mode (not counting the prompt check) | {added} |',
+        f'| prompt wrapper | {wrapped} |',
+        f'| hold-out cases | {holdout["cases"]} |',
+        f'| hold-out caught | {holdout["caught"]} |',
+    ]
+    body = '\n'.join(lines)
+    return readme_text[:start] + f'{WIDE_START}\n{body}\n{WIDE_END}' + readme_text[end + len(WIDE_END) :]
+
+
 def show(report):
     findings = report.get('findings', [])
     documented = [item for item in findings if item.get('documented')]
@@ -115,7 +139,10 @@ def main(argv=None):
         metrics = json.loads(METRICS.read_text(encoding='utf-8'))
         text = args.readme.read_text(encoding='utf-8')
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(render(text, metrics, root_causes()), encoding='utf-8')
+        text = render(text, metrics, root_causes())
+        if WIDE_START in text:
+            text = render_extra(text, json.loads(WIDE.read_text()), json.loads(HOLDOUT.read_text()))
+        args.out.write_text(text, encoding='utf-8')
         return 0
     try:
         report = latest_report()

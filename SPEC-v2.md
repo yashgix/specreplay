@@ -13,6 +13,12 @@
 
 None in the metrics. `results/metrics.json` keeps the v1 keys and values, because the acceptance tests pin them (including `latest_new_confirmed` 9). Only the rendered README block and the triage file's extra keys changed. The README table drops the `confirmed` and `false positives` rows.
 
+## Batch 2
+
+5. **Wide mode** (`wide.py`, `SPECDRIFT_WIDE=1`): arguments a fixture leaves out are set to a sentinel and probed if they reach a constrained field, and one extra fixture variant (`list_calls` by number) is added. It runs beside the v1 scan and writes `results/wide.json`. The v1 scan, `results/metrics.json` and `results/reports.json` are unchanged. The probe code moved from `web/cli.ts` to `web/probes.ts` with no change in behaviour (reports byte-identical).
+6. **Wrapped-prompt check** (`web/wrapped.ts`, wide mode only): measures what the tool adds to `system_prompt` in hosted mode by calling the real handler, and flags an accepted prompt that goes out over the documented maximum. Measured: 528 characters added, so the longest safe hosted prompt is 19472 characters.
+7. **Hold-out** (`study/holdout.json`, `holdout.py`, `results/holdout.json`): 3 cases from repository history outside the 25-case ledger, written down with predictions after the scanner was tagged `rules-frozen` and before it was run on them. Sources are fetched by `tools/holdout_sources.sh` into a scratch folder and are not stored in this repository. Old commits that lack `src/output-schemas.ts` get an empty schema table so the loader runs, which also means output-schema checks do not apply to them.
+
 ## Not in this batch
 
-Probing every branch of a tool (not only the fixture's arguments), a wrapped-prompt length check, a held-out set, and replacing `upstream/` with a fetch script before any publication (`upstream/` holds code and a spec without a licence, so it is analysis only and is never republished).
+Replacing `upstream/` with a fetch script before any publication (`upstream/` holds code and a spec without a licence, so it is analysis only and is never republished).
