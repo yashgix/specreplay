@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpecDrift</title>
+<meta name="description" content="A contract-drift scanner for AgentPhone's open-source MCP server, checked against its OpenAPI spec.">
+<style>
+:root{color-scheme:light dark;--bg:#fff;--band:#f3f6fb;--ink:#14202e;--muted:#566476;--line:#dce3ec;--accent:#1d4ed8;
+--warn:#b45309;--code:#eef2f8;--sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1621;--band:#152131;--ink:#e6edf6;--muted:#9fb0c5;--line:#263548;--accent:#7aa2ff;--warn:#f0a85a;--code:#1a2738}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--sans)}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+header{background:var(--band);padding:3rem 0 2rem}
+h1{font:600 2.4rem/1.1 var(--mono);margin:0 0 .75rem}h2{font-size:1.5rem;margin:0 0 .8rem}
+section{padding:2.2rem 0;border-top:1px solid var(--line)}p,ul{margin:.6rem 0}ul{padding-left:1.2rem}
+a{color:var(--accent)}code{font:.88em var(--mono);background:var(--code);padding:.08em .35em;border-radius:4px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:8px;overflow-x:auto;font:.85rem/1.5 var(--mono)}pre code{background:none;padding:0}
+.lede{font-size:1.2rem;color:var(--muted)}.muted{color:var(--muted)}.small{font-size:.85rem}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:1rem 0}
+.tile{border:1px solid var(--line);border-radius:10px;padding:.8rem}.tile b{display:block;font:600 1.6rem var(--mono)}
+.tile span{font-size:.85rem;color:var(--muted)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:1rem 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+td code{white-space:nowrap}th{background:var(--band);color:var(--muted);font-weight:500}tr:last-child td{border-bottom:0}td.r,th.r{text-align:right}
+svg{display:block;width:100%;height:auto}svg text{fill:var(--ink);font:12px var(--mono)}svg .m{fill:var(--muted)}
+svg .box{fill:var(--band);stroke:var(--line)}svg .bar{fill:var(--accent)}svg .ln{stroke:var(--muted);fill:none}
+@media(max-width:620px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:1.9rem}}
+</style></head><body>
+<header><div class="wrap"><h1>SpecDrift</h1>
+<p class="lede">Replays the real tool handlers of <code>agentphone-mcp</code> against a fake API built from its OpenAPI spec, to find places where the tools and the documented API disagree.</p>
+<p><a href="https://github.com/yashgix/specdrift">GitHub</a></p></div></header>
+<main class="wrap">
+<section><h2>The problem</h2>
+<p>The project's history shows a run of contract-drift bugs between its MCP tools and the documented API: an empty 204 body failing output validation, documented <code>null</code> values rejected, a crash on a documented list shape, bounds dropped and later restored. The project's own check compares endpoint and field names. SpecDrift asks a different question: from the published spec alone, how many of those bugs would an automatic behavioural check have caught, and what does it flag today?</p></section>
+<section><h2>Approach</h2><svg viewBox="0 0 760 250" role="img" aria-label="Data flow">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" class="m"/></marker></defs>
+<g class="ln" marker-end="url(#a)"><path d="M150,45 H210" marker-end="url(#a)"/><path d="M150,125 H210" marker-end="url(#a)"/>
+<path d="M150,205 H210" marker-end="url(#a)"/><path d="M400,125 H450" marker-end="url(#a)"/><path d="M590,125 H620" marker-end="url(#a)"/></g>
+<g><rect class="box" x="10" y="20" width="140" height="50" rx="8"/><text x="80" y="42" text-anchor="middle">13 pinned commits</text><text class="m" x="80" y="58" text-anchor="middle">tools, api, schemas</text>
+<rect class="box" x="10" y="100" width="140" height="50" rx="8"/><text x="80" y="122" text-anchor="middle">OpenAPI spec</text><text class="m" x="80" y="138" text-anchor="middle">the only oracle</text>
+<rect class="box" x="10" y="180" width="140" height="50" rx="8"/><text x="80" y="202" text-anchor="middle">fixtures</text><text class="m" x="80" y="218" text-anchor="middle">one call per tool</text>
+<rect class="box" x="210" y="60" width="190" height="130" rx="8"/><text x="305" y="84" text-anchor="middle">real handlers</text><text class="m" x="305" y="104" text-anchor="middle">fetch replaced by a fake</text>
+<text class="m" x="305" y="122" text-anchor="middle">API built from the spec</text><text class="m" x="305" y="146" text-anchor="middle">one change at a time</text><text class="m" x="305" y="164" text-anchor="middle">null, omit, enum, 204</text>
+<rect class="box" x="450" y="85" width="140" height="80" rx="8"/><text x="520" y="115" text-anchor="middle">findings</text><text class="m" x="520" y="135" text-anchor="middle">crash, error result,</text><text class="m" x="520" y="150" text-anchor="middle">schema, request, bound</text>
+<rect class="box" x="620" y="85" width="130" height="80" rx="8"/><text x="685" y="115" text-anchor="middle">score</text><text class="m" x="685" y="135" text-anchor="middle">25-case ledger</text><text class="m" x="685" y="150" text-anchor="middle">hold-out</text></g></svg>
+<p>Each pinned commit's real <code>tools.ts</code>, <code>api.ts</code> and <code>output-schemas.ts</code> run with the zod version they pin. <code>fetch</code> is replaced by an in-process API that answers from the spec. Each tool is called once with a valid fixture, then again with one thing changed in the response: a nullable field set to <code>null</code>, an optional field left out, another enum value, an empty array, a 204. Requests are checked against the spec, and each argument that reaches a constrained request field is probed with a value just past the documented limit. Nothing touches the network or the live API.</p></section>
+<section><h2>Results</h2><div class="tiles"><div class="tile"><b>20/25</b><span>ledger cases caught (in-sample)</span></div><div class="tile"><b>19/20</b><span>caught where the spec documents it</span></div><div class="tile"><b>1/3</b><span>hold-out cases caught</span></div><div class="tile"><b>6,879</b><span>tool calls replayed</span></div></div>
+<p>The ledger has 25 cases, 20 of them about contracts the spec documents. The rules were written knowing these cases, so the 20/25 figure shows the rules reproduce the history. It is not a rate for unseen drift.</p>
+<h3>Documented findings per commit, oldest first</h3><svg viewBox="0 0 760 332" role="img" aria-label="Documented findings per commit"><text x="0" y="24">d3d3209</text><rect class="bar" x="70" y="12" width="640.0" height="16" rx="3"/><text x="716.0" y="24">59</text><text x="0" y="48">caece3a</text><rect class="bar" x="70" y="36" width="640.0" height="16" rx="3"/><text x="716.0" y="48">59</text><text x="0" y="72">6dc7e97</text><rect class="bar" x="70" y="60" width="640.0" height="16" rx="3"/><text x="716.0" y="72">59</text><text x="0" y="96">397ae03</text><rect class="bar" x="70" y="84" width="640.0" height="16" rx="3"/><text x="716.0" y="96">59</text><text x="0" y="120">5841776</text><rect class="bar" x="70" y="108" width="574.9" height="16" rx="3"/><text x="650.9" y="120">53</text><text x="0" y="144">50639a3</text><rect class="bar" x="70" y="132" width="542.4" height="16" rx="3"/><text x="618.4" y="144">50</text><text x="0" y="168">d11dfd4</text><rect class="bar" x="70" y="156" width="531.5" height="16" rx="3"/><text x="607.5" y="168">49</text><text x="0" y="192">92f68fb</text><rect class="bar" x="70" y="180" width="531.5" height="16" rx="3"/><text x="607.5" y="192">49</text><text x="0" y="216">56c36b3</text><rect class="bar" x="70" y="204" width="520.7" height="16" rx="3"/><text x="596.7" y="216">48</text><text x="0" y="240">af4501f</text><rect class="bar" x="70" y="228" width="520.7" height="16" rx="3"/><text x="596.7" y="240">48</text><text x="0" y="264">183bafd</text><rect class="bar" x="70" y="252" width="151.9" height="16" rx="3"/><text x="227.9" y="264">14</text><text x="0" y="288">1921eba</text><rect class="bar" x="70" y="276" width="119.3" height="16" rx="3"/><text x="195.3" y="288">11</text><text x="0" y="312">46c8fe8</text><rect class="bar" x="70" y="300" width="130.2" height="16" rx="3"/><text x="206.2" y="312">12</text></svg>
+<h3>What it flags at v0.10.0</h3>
+<p>12 documented findings come down to 5 root causes, one of which is already known. None is shown to break a user. The server also validates, so a missing client-side bound means a late 422. Nothing was run against the live API.</p>
+<div class="table-wrap"><table><thead><tr><th class="">Root cause</th><th class="">Kind</th><th class="">Code sites</th></tr></thead><tbody><tr><td class="">offset has no documented maximum (10000) on five list tools</td><td class="">missing bound</td><td class=""><code>list_numbers src/tools.ts:561</code><br><code>list_calls src/tools.ts:1237</code><br><code>list_agents src/tools.ts:1601</code><br><code>list_conversations src/tools.ts:2064</code><br><code>list_contacts src/tools.ts:2220</code></td></tr><tr><td class="">hours has no documented maximum (168) on list_webhook_deliveries</td><td class="">missing bound</td><td class=""><code>list_webhook_deliveries src/tools.ts:2563</code></td></tr><tr><td class="">system_prompt has no documented maxLength (20000) on create and update</td><td class="">missing bound</td><td class=""><code>create_agent src/tools.ts:1643</code><br><code>update_agent src/tools.ts:1778</code></td></tr><tr><td class="">update_conversation prints Metadata: undefined if the response omits metadata</td><td class="">spec ambiguity</td><td class=""><code>update_conversation src/tools.ts:2200</code></td></tr><tr><td class="">language accepts any string</td><td class="">known open</td><td class=""><code>create_agent src/tools.ts:1710</code><br><code>update_agent src/tools.ts:1845</code></td></tr></tbody></table></div>
+<p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p>
+<h3>Hold-out</h3>
+<p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
+<div class="table-wrap"><table><thead><tr><th class="">Case</th><th class="">Predicted</th><th class="">Result</th></tr></thead><tbody><tr><td class="">holdout-usage-plan</td><td class="">caught</td><td class="">caught</td></tr><tr><td class="">holdout-media-only-send</td><td class="">missed</td><td class="">missed</td></tr><tr><td class="">holdout-scoped-call-filters</td><td class="">missed</td><td class="">missed</td></tr></tbody></table></div>
+<h3>Prompt wrapper</h3>
+<p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: <code>systemPrompt:maxLength added=528 threshold=19472</code>. A plain ASCII prompt over that threshold would go out over the documented 20000. This is measured offline. Live behaviour is unverified.</p></section>
+<section><h2>What v2 changed</h2><ul>
+<li>Findings are reported as root causes, not as counts of "new bugs" or "confirmed".</li>
+<li>Recall is labelled in-sample, and a small frozen hold-out was added.</li>
+<li>Wide mode probes arguments the fixtures leave out and measures the prompt wrapper.</li>
+<li>Review fixes after the freeze did not move the 25-case results.</li></ul>
+<p class="small muted">Full list: <a href="https://github.com/yashgix/specdrift/blob/main/docs/V2-CHANGES.md">docs/V2-CHANGES.md</a>.</p></section>
+<section><h2>Limits</h2><ul>
+<li>36 of 98 operations document an unconstrained response, so nothing can be judged there.</li>
+<li>The handlers run against a stubbed <code>fetch</code> and an emulation of the SDK's three checks, not the SDK.</li>
+<li>Single-fault mutations only. Combined faults are out of scope.</li>
+<li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
+<li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul></section>
+<section><h2>Reproduce</h2>
+<pre><code>git clone https://github.com/yashgix/specdrift &amp;&amp; cd specdrift
+export ARCTURUS_NODE=/path/to/node22
+python tools/fetch_data.py --accept-spec-drift
+make test experiment</code></pre>
+<p class="small muted">The page is generated from <code>results/</code> and <code>study/</code> by <code>python tools/build_page.py</code>. Built with Arcturus (Claude Code builders, Codex review). Reviewed and verified by hand.</p></section>
+</main></body></html>

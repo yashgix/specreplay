@@ -1,9 +1,10 @@
-"""Re-fetch the pinned upstream data into a folder and compare it with upstream/MANIFEST.json.
+"""Rebuild upstream/ from the public sources and check every file against upstream/MANIFEST.json.
 
-    python tools/fetch_data.py OUT_DIR            # fetch into OUT_DIR/upstream, then compare
-    python tools/fetch_data.py OUT_DIR --write    # also write OUT_DIR/upstream/MANIFEST.json
+    python tools/fetch_data.py                       # fetch, verify, then install into upstream/
+    python tools/fetch_data.py --accept-spec-drift   # tolerate a changed live openapi.json
+    python tools/fetch_data.py --write               # fetch and rewrite the manifest (maintainers only)
 
-Needs network and git. Never run by tests or the experiment.
+upstream/ is not committed: only its manifest is. Needs network and git. Never run by tests or the experiment.
 """
 
 import argparse
@@ -116,31 +117,45 @@ def manifest(root):
     return {'files': {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
 
 
+def changed_files(pinned, fresh):
+    return sorted(k for k in pinned.keys() | fresh.keys() if pinned.get(k) != fresh.get(k))
+
+
+def install(built, target):
+    for path in built.rglob('*'):
+        if path.is_file():
+            dest = target / path.relative_to(built)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, dest)
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('out', type=Path)
+    parser.add_argument('--accept-spec-drift', action='store_true')
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
-    out = args.out / 'upstream'
-    if out.exists():
-        raise SystemExit(f'{out} exists')
-    (out / 'agentphone-mcp').mkdir(parents=True)
-    rows = export_commits(out)
-    (out / 'commits.json').write_text(json.dumps(rows, indent=1) + '\n')
-    for version in sorted({r['zod'] for r in rows}):
-        export_zod(out, version)
-    (out / 'openapi.json').write_bytes(fetch(SPEC_URL))
-    fresh = manifest(out)
-    pinned_path = Path(__file__).resolve().parents[1] / 'upstream' / 'MANIFEST.json'
-    if args.write:
-        (out / 'MANIFEST.json').write_text(json.dumps(fresh, indent=1, sort_keys=True) + '\n')
-        return
-    pinned = json.loads(pinned_path.read_text())['files']
-    changed = sorted(k for k in pinned.keys() | fresh['files'].keys() if pinned.get(k) != fresh['files'].get(k))
-    print(f'{len(fresh["files"])} files fetched; {len(changed)} differ from the pinned manifest')
-    for name in changed:
-        print('  differs:', name)
-    sys.exit(1 if changed else 0)
+    target = Path(__file__).resolve().parents[1] / 'upstream'
+    with tempfile.TemporaryDirectory() as tmp:
+        built = Path(tmp) / 'upstream'
+        (built / 'agentphone-mcp').mkdir(parents=True)
+        rows = export_commits(built)
+        (built / 'commits.json').write_text(json.dumps(rows, indent=1) + '\n')
+        for version in sorted({r['zod'] for r in rows}):
+            export_zod(built, version)
+        (built / 'openapi.json').write_bytes(fetch(SPEC_URL))
+        fresh = manifest(built)['files']
+        if args.write:
+            (target / 'MANIFEST.json').write_text(json.dumps({'files': fresh}, indent=1, sort_keys=True) + '\n')
+        else:
+            pinned = json.loads((target / 'MANIFEST.json').read_text())['files']
+            changed = changed_files(pinned, fresh)
+            print(f'{len(fresh)} files fetched, {len(changed)} differ from the pinned manifest')
+            for name in changed:
+                print('  differs:', name)
+            allowed = {'openapi.json'} if args.accept_spec_drift else set()
+            if set(changed) - allowed:
+                sys.exit(1)
+        install(built, target)
 
 
 if __name__ == '__main__':

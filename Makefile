@@ -13,7 +13,7 @@ typecheck:
 
 test:
 	$(PYTHON) -m unittest discover -s tests
-	$(PYTHON) -m unittest discover -s tests/acceptance
+	$(PYTHON) tools/run_acceptance.py
 
 experiment:
 	$(PYTHON) experiment.py --out results/metrics.json

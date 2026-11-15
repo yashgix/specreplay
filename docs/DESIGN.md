@@ -2,7 +2,7 @@
 
 ## The premise under test
 
-The assignment's premise is that a contract check can be derived from the published spec alone, run against the supplied handlers, and find the bugs described by the supplied ledger. This build verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
+The premise is that a contract check can be derived from the published spec alone, run against the project's real handlers, and find the bugs in a ledger of reported contract drift. This build verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
 
 ## Pipeline
 
@@ -26,7 +26,7 @@ One scan covers one commit: the commit is a folder, its `src/` is loaded, and ev
 - `mutations` enumerates single faults in a fixed order, with ids that name where the fault is (`omit:$.metadata`, `null:$.items[0].phone_number`). Combining faults would multiply calls and lose attribution: which of the two changes caused the crash?
 - `omit` is only emitted for a key that is neither required nor documented with a `default`. A documented default means the server always fills it in, so removing it tests nothing.
 - `apply` works on a deep copy and replaces the whole body for the root path. `null` becomes `null` and `empty_array` becomes `[]`; only `alt` and `enum` carry a replacement value.
-- `validate` picks the first `anyOf` branch whose type fits and then checks `enum`, `maxLength`, `minLength`, `maximum`, `minimum`, `maxItems`, `minItems`, array items and required keys, flagging an unknown object key as `undocumented` unless `additionalProperties` allows it. Unknown-key detection is the mirror image of the kind of drift the supplied ledger cites in #107: a tool sending what the spec does not declare.
+- `validate` picks the first `anyOf` branch whose type fits and then checks `enum`, `maxLength`, `minLength`, `maximum`, `minimum`, `maxItems`, `minItems`, array items and required keys, flagging an unknown object key as `undocumented` unless `additionalProperties` allows it. Unknown-key detection is the mirror image of the kind of drift the ledger cites in #107: a tool sending what the spec does not declare.
 - Every recursion stops below depth 12, so a pathological schema costs nothing.
 
 ## The fake API (`web/fakeapi.ts`)
@@ -61,10 +61,10 @@ A scan of one commit costs roughly 34 variants times a few dozen calls; the whol
 ## Scoring (`specdrift/score.py`)
 
 - `matches` requires the same tool, a case variant that is null or equal (a case that names no variant applies to every variant, which is how the issue texts read), a mutation matching one of the case's `fnmatchcase` globs, an outcome in the case's set, and a `detail` that is null or a glob. Globs keep 25 cases readable: one case often covers several tools, and details are path fragments such as `offset:maximum`.
-- `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the supplied ledger marks it open.
+- `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the ledger marks it open.
 - `spec_counts` counts the three response states over the five HTTP methods.
 - `triage_counts` matches the hand-checked rows on the exact six-tuple, so a label can never land on a different finding.
-- `metrics` derives all 46 numbers from the reports, the ledger, the spec and the triage, and returns them with sorted keys. Recall is rounded to six places. `latest_new_*` counts only documented findings that match no case at all, which is why the two `language` findings at v0.10.0 are reported as known (the #120 ledger case, marked open in the supplied ledger) rather than new.
+- `metrics` derives all 46 numbers from the reports, the ledger, the spec and the triage, and returns them with sorted keys. Recall is rounded to six places. `latest_new_*` counts only documented findings that match no case at all, which is why the two `language` findings at v0.10.0 are reported as known (the #120 ledger case, marked open in the ledger) rather than new.
 
 ## The experiment and the demo
 
@@ -97,5 +97,5 @@ No clock, no randomness, no network, no environment-dependent ordering: schema p
 - **Recording live traffic**: needs credentials and a network, and it records the server's behaviour including the bug, so it cannot serve as the contract.
 - **Running the MCP SDK**: not in the environment; the three checks that decide a call's outcome are a handful of lines, and emulating them is stated as emulation rather than hidden.
 - **Fuzzing the spec**: too many findings that no one can judge, and the triage would dominate the work.
-- **Diffing spec versions**: a different question, and the supplied bug ledger is about tools against one spec, not the spec against itself.
+- **Diffing spec versions**: a different question, and the bug ledger is about tools against one spec, not the spec against itself.
 - **Multi-fault mutations**: a combinatorial blow-up with poor attribution for a single-fault bug class.

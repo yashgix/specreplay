@@ -15,4 +15,6 @@ jobs:
           node-version: '22'
       - run: pip install ruff
       - run: npm install --no-save typescript@7.0.2
+      - run: python tools/fetch_data.py --accept-spec-drift
       - run: make lint typecheck test experiment PYTHON=python
+      - run: git diff --exit-code results
