@@ -1,0 +1,627 @@
+{
+ "added_findings": [
+  {
+   "detail": "systemPrompt:maxLength added=528 threshold=19472",
+   "documented": true,
+   "mutation": "wide:system_prompt=wrapped",
+   "operation": "POST /v1/agents",
+   "outcome": "wrapped_over_limit",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "detail": "offset:maximum",
+   "documented": true,
+   "mutation": "wide:offset=maximum",
+   "operation": "GET /v1/calls",
+   "outcome": "input_not_enforced",
+   "tool": "list_calls",
+   "variant": "default"
+  },
+  {
+   "detail": "Cannot read properties of undefined (reading 'length')",
+   "documented": false,
+   "mutation": "baseline",
+   "operation": "GET /v1/numbers/{number_id}/calls",
+   "outcome": "error_result",
+   "tool": "list_calls",
+   "variant": "number"
+  },
+  {
+   "detail": "offset:maximum",
+   "documented": true,
+   "mutation": "wide:offset=maximum",
+   "operation": "GET /v1/numbers/{number_id}/calls",
+   "outcome": "input_not_enforced",
+   "tool": "list_calls",
+   "variant": "number"
+  },
+  {
+   "detail": "systemPrompt:maxLength added=528 threshold=19472",
+   "documented": true,
+   "mutation": "wide:system_prompt=wrapped",
+   "operation": "PATCH /v1/agents/{agent_id}",
+   "outcome": "wrapped_over_limit",
+   "tool": "update_agent",
+   "variant": "default"
+  }
+ ],
+ "commit": "46c8fe8",
+ "probes": [
+  {
+   "arg": "voice_mode",
+   "enforced": true,
+   "field": "voiceMode",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "model_tier",
+   "enforced": true,
+   "field": "modelTier",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "system_prompt",
+   "enforced": false,
+   "field": "systemPrompt",
+   "keyword": "maxLength",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "stt_mode",
+   "enforced": true,
+   "field": "sttMode",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "ambient_sound",
+   "enforced": true,
+   "field": "ambientSound",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "max_silence_ms",
+   "enforced": true,
+   "field": "maxSilenceMs",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "max_silence_ms",
+   "enforced": true,
+   "field": "maxSilenceMs",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "voice_speed",
+   "enforced": true,
+   "field": "voiceSpeed",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "voice_speed",
+   "enforced": true,
+   "field": "voiceSpeed",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "interruption_sensitivity",
+   "enforced": true,
+   "field": "interruptionSensitivity",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "interruption_sensitivity",
+   "enforced": true,
+   "field": "interruptionSensitivity",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "language",
+   "enforced": false,
+   "field": "language",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "message_limit",
+   "enforced": true,
+   "field": "message_limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "get_conversation",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "get_conversation_messages",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "get_conversation_messages",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "get_messages",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "get_messages",
+   "variant": "default"
+  },
+  {
+   "arg": "days",
+   "enforced": true,
+   "field": "days",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "get_usage",
+   "variant": "daily"
+  },
+  {
+   "arg": "days",
+   "enforced": true,
+   "field": "days",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "get_usage",
+   "variant": "daily"
+  },
+  {
+   "arg": "months",
+   "enforced": true,
+   "field": "months",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "get_usage",
+   "variant": "monthly"
+  },
+  {
+   "arg": "months",
+   "enforced": true,
+   "field": "months",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "get_usage",
+   "variant": "monthly"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_agents",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_agents",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_agents",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_calls",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "wide",
+   "tool": "list_calls",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "wide",
+   "tool": "list_calls",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_calls",
+   "variant": "agent"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_calls",
+   "variant": "agent"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_calls",
+   "variant": "agent"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_calls",
+   "variant": "number"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "wide",
+   "tool": "list_calls",
+   "variant": "number"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "wide",
+   "tool": "list_calls",
+   "variant": "number"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_contacts",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_contacts",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_contacts",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "agent"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "agent"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_conversations",
+   "variant": "agent"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_numbers",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": false,
+   "field": "offset",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_numbers",
+   "variant": "default"
+  },
+  {
+   "arg": "offset",
+   "enforced": true,
+   "field": "offset",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_numbers",
+   "variant": "default"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_webhook_deliveries",
+   "variant": "project"
+  },
+  {
+   "arg": "hours",
+   "enforced": false,
+   "field": "hours",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_webhook_deliveries",
+   "variant": "project"
+  },
+  {
+   "arg": "hours",
+   "enforced": true,
+   "field": "hours",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "list_webhook_deliveries",
+   "variant": "project"
+  },
+  {
+   "arg": "limit",
+   "enforced": true,
+   "field": "limit",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "list_webhook_deliveries",
+   "variant": "agent"
+  },
+  {
+   "arg": "model_tier",
+   "enforced": true,
+   "field": "modelTier",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "make_call",
+   "variant": "default"
+  },
+  {
+   "arg": "url",
+   "enforced": true,
+   "field": "url",
+   "keyword": "maxLength",
+   "mode": "input",
+   "tool": "set_webhook",
+   "variant": "project"
+  },
+  {
+   "arg": "url",
+   "enforced": true,
+   "field": "url",
+   "keyword": "maxLength",
+   "mode": "input",
+   "tool": "set_webhook",
+   "variant": "agent"
+  },
+  {
+   "arg": "system_prompt",
+   "enforced": false,
+   "field": "systemPrompt",
+   "keyword": "maxLength",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "ambient_sound",
+   "enforced": true,
+   "field": "ambientSound",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "max_silence_ms",
+   "enforced": true,
+   "field": "maxSilenceMs",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "max_silence_ms",
+   "enforced": true,
+   "field": "maxSilenceMs",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "voice_speed",
+   "enforced": true,
+   "field": "voiceSpeed",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "voice_speed",
+   "enforced": true,
+   "field": "voiceSpeed",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "interruption_sensitivity",
+   "enforced": true,
+   "field": "interruptionSensitivity",
+   "keyword": "maximum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "interruption_sensitivity",
+   "enforced": true,
+   "field": "interruptionSensitivity",
+   "keyword": "minimum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  },
+  {
+   "arg": "language",
+   "enforced": false,
+   "field": "language",
+   "keyword": "enum",
+   "mode": "input",
+   "tool": "update_agent",
+   "variant": "default"
+  }
+ ],
+ "v1_args": 40,
+ "v1_not_enforced": 11,
+ "v1_probes": 57,
+ "wide_args": 2,
+ "wide_not_enforced": 2,
+ "wide_probes": 4,
+ "wrapped": [
+  {
+   "detail": "systemPrompt:maxLength added=528 threshold=19472",
+   "documented": true,
+   "mutation": "wide:system_prompt=wrapped",
+   "operation": "POST /v1/agents",
+   "outcome": "wrapped_over_limit",
+   "tool": "create_agent",
+   "variant": "default"
+  },
+  {
+   "detail": "systemPrompt:maxLength added=528 threshold=19472",
+   "documented": true,
+   "mutation": "wide:system_prompt=wrapped",
+   "operation": "PATCH /v1/agents/{agent_id}",
+   "outcome": "wrapped_over_limit",
+   "tool": "update_agent",
+   "variant": "default"
+  }
+ ]
+}

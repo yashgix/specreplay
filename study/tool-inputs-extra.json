@@ -1,0 +1,6 @@
+{
+ "about": "Extra variants for wide mode only: tool branches the v1 fixtures do not reach.",
+ "tools": {
+  "list_calls": [{"variant": "number", "args": {"number_id": "num_1", "limit": 20}}]
+ }
+}

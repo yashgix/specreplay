@@ -2,9 +2,7 @@
 import { readFileSync } from 'node:fs';
 import {
   apply,
-  constraints,
   deref,
-  effective,
   example,
   isConstrained,
   isDocumented,
@@ -12,11 +10,14 @@ import {
   successResponse,
   validate,
 } from './openapi.ts';
-import type { Constraints, Spec } from './openapi.ts';
+import type { Spec } from './openapi.ts';
 import { findOperation } from './fakeapi.ts';
 import type { RequestRecord } from './fakeapi.ts';
 import { loadCommit } from './harness.ts';
 import type { CallResult, Session } from './harness.ts';
+import type { Probe } from './probes.ts';
+import { measureWrap } from './wrapped.ts';
+import { carries, collectProbes, parameterLists, parameterSchema, requestBodySchema } from './probes.ts';
 
 type Finding = {
   tool: string;
@@ -28,18 +29,15 @@ type Finding = {
   documented: boolean;
 };
 
+const SENTINELS = [7, 'probe-value'];
+const WIDE = process.env.SPECDRIFT_WIDE === '1';
+const probeLog: Record<string, string | boolean>[] = [];
+
 type Rejected = { tool: string; variant: string; detail: string };
 type Fixture = { variant: string; args: Record<string, unknown> };
 type Inputs = { tools: Record<string, Fixture[]> };
-type Probe = { arg: string; keyword: string; operation: string; field: string; value: string | number };
 type StepRun = { findings: Finding[]; runs: number; requests: number };
 type VariantRun = { findings: Finding[]; rejected: Rejected | null; runs: number; requests: number };
-
-const KEYWORDS = ['enum', 'maximum', 'minimum', 'maxLength'] as const;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 function finding(
   tool: string,
@@ -62,40 +60,6 @@ function basename(path: string): string {
   return clean.slice(clean.lastIndexOf('/') + 1);
 }
 
-function pathItem(spec: Spec, operation: string): Record<string, unknown> | null {
-  const space = operation.indexOf(' ');
-  if (space < 0) return null;
-  const paths = isRecord(spec.paths) ? spec.paths : {};
-  const item = paths[operation.slice(space + 1)];
-  return isRecord(item) ? item : null;
-}
-
-function parameterLists(spec: Spec, operation: string): unknown[] {
-  const op = findOperation(spec, operation);
-  const item = pathItem(spec, operation);
-  const lists: unknown[] = [];
-  if (op !== null && Array.isArray(op.parameters)) lists.push(op.parameters);
-  if (item !== null && Array.isArray(item.parameters)) lists.push(item.parameters);
-  return lists;
-}
-
-function parameter(spec: Spec, operation: string, location: string, name: string): Record<string, unknown> | null {
-  for (const list of parameterLists(spec, operation)) {
-    if (!Array.isArray(list)) continue;
-    for (const entry of list) {
-      const node = deref(spec, entry);
-      if (node.in === location && node.name === name) return node;
-    }
-  }
-  return null;
-}
-
-function parameterSchema(spec: Spec, operation: string, location: string, name: string): Record<string, unknown> | null {
-  const node = parameter(spec, operation, location, name);
-  if (node === null || node.schema === undefined) return null;
-  return deref(spec, node.schema);
-}
-
 function queryNames(spec: Spec, operation: string): Set<string> {
   const names = new Set<string>();
   for (const list of parameterLists(spec, operation)) {
@@ -106,17 +70,6 @@ function queryNames(spec: Spec, operation: string): Set<string> {
     }
   }
   return names;
-}
-
-function requestBodySchema(spec: Spec, operation: string): Record<string, unknown> | null {
-  const op = findOperation(spec, operation);
-  if (op === null) return null;
-  const body = deref(spec, op.requestBody);
-  const content = body.content;
-  if (!isRecord(content)) return null;
-  const media = content['application/json'];
-  if (!isRecord(media) || media.schema === undefined) return null;
-  return deref(spec, media.schema);
 }
 
 function operationDocumented(spec: Spec, operation: string): boolean {
@@ -196,92 +149,68 @@ async function responseMutations(
   return { findings, runs, requests };
 }
 
-function violating(keyword: string, limit: unknown, argValue: string | number): string | number | undefined {
-  if (keyword === 'enum') return typeof argValue === 'string' && Array.isArray(limit) ? 'zz-invalid' : undefined;
-  if (keyword === 'maximum') return typeof argValue === 'number' && typeof limit === 'number' ? limit + 1 : undefined;
-  if (keyword === 'minimum') return typeof argValue === 'number' && typeof limit === 'number' ? limit - 1 : undefined;
-  if (keyword === 'maxLength') return typeof argValue === 'string' && typeof limit === 'number' ? 'a'.repeat(limit + 1) : undefined;
-  return undefined;
-}
-
-function collectProbes(spec: Spec, args: Record<string, unknown>, baseline: CallResult): Probe[] {
-  const probes: Probe[] = [];
-  const seen = new Set<string>();
-  const add = (field: string, fieldValue: string, operation: string, limits: Constraints): void => {
-    for (const keyword of KEYWORDS) {
-      const limit: unknown = limits[keyword];
-      for (const [argName, argValue] of Object.entries(args)) {
-        if (typeof argValue !== 'string' && typeof argValue !== 'number') continue;
-        if (String(argValue) !== fieldValue) continue;
-        const value = violating(keyword, limit, argValue);
-        if (value === undefined) continue;
-        const key = `${argName}\u0000${keyword}\u0000${operation}\u0000${field}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        probes.push({ arg: argName, keyword, operation, field, value });
-      }
-    }
-  };
-  for (const request of baseline.requests) {
-    if (request.operation === null) continue;
-    const operation = request.operation;
-    for (const [name, value] of request.query) {
-      const schema = parameterSchema(spec, operation, 'query', name);
-      if (schema === null) continue;
-      add(name, value, operation, constraints(spec, schema));
-    }
-    const body = requestBodySchema(spec, operation);
-    if (body === null || !isRecord(request.body)) continue;
-    const shape = effective(spec, body);
-    const properties = isRecord(shape.properties) ? shape.properties : {};
-    for (const [key, schema] of Object.entries(properties)) {
-      if (!(key in request.body)) continue;
-      add(key, String(request.body[key]), operation, constraints(spec, schema));
-    }
-  }
-  return probes;
-}
-
-function carries(request: RequestRecord, field: string, value: string | number): boolean {
-  for (const [name, entry] of request.query) {
-    if (name === field && entry === String(value)) return true;
-  }
-  return isRecord(request.body) && request.body[field] === value;
-}
-
-async function inputProbes(
+async function probeAll(
   session: Session,
-  spec: Spec,
   tool: string,
   fixture: Fixture,
-  baseline: CallResult,
+  base: Record<string, unknown>,
+  probes: Probe[],
+  prefix: string,
 ): Promise<StepRun> {
   const findings: Finding[] = [];
   let runs = 0;
   let requests = 0;
-  for (const probe of collectProbes(spec, fixture.args, baseline)) {
-    const args = { ...fixture.args, [probe.arg]: probe.value };
-    const result = await session.call(tool, args);
+  for (const probe of probes) {
+    const result = await session.call(tool, { ...base, [probe.arg]: probe.value });
     runs += 1;
     requests += result.requests.length;
-    if (result.rejected !== null) continue;
-    const reached = result.requests.some(
-      (request) => request.operation === probe.operation && carries(request, probe.field, probe.value),
-    );
+    const reached =
+      result.rejected === null &&
+      result.requests.some((request) => request.operation === probe.operation && carries(request, probe.field, probe.value));
+    probeLog.push({ tool, variant: fixture.variant, arg: probe.arg, keyword: probe.keyword, field: probe.field, mode: prefix, enforced: !reached });
     if (!reached) continue;
+    const mutation = `${prefix}:${probe.arg}=${probe.keyword}`;
     findings.push(
-      finding(
-        tool,
-        fixture.variant,
-        probe.operation,
-        `input:${probe.arg}=${probe.keyword}`,
-        'input_not_enforced',
-        `${probe.field}:${probe.keyword}`,
-        true,
-      ),
+      finding(tool, fixture.variant, probe.operation, mutation, 'input_not_enforced', `${probe.field}:${probe.keyword}`, true),
     );
   }
   return { findings, runs, requests };
+}
+
+function inputProbes(session: Session, spec: Spec, tool: string, fixture: Fixture, baseline: CallResult): Promise<StepRun> {
+  const probes = collectProbes(spec, fixture.args, baseline);
+  return probeAll(session, tool, fixture, fixture.args, probes, 'input');
+}
+
+/** Wide mode: every argument the fixture leaves out is set to a sentinel, and probed if it reaches a constrained field. */
+async function wideProbes(session: Session, spec: Spec, tool: string, fixture: Fixture): Promise<StepRun> {
+  const shape = session.tools.find((item) => item.name === tool)?.shape ?? {};
+  const total: StepRun = { findings: [], runs: 0, requests: 0 };
+  for (const name of Object.keys(shape).filter((key) => !(key in fixture.args))) {
+    for (const sentinel of SENTINELS) {
+      const base = { ...fixture.args, [name]: sentinel };
+      const result = await session.call(tool, base);
+      total.runs += 1;
+      if (result.rejected !== null) continue;
+      const probed = await probeAll(session, tool, fixture, base, collectProbes(spec, { [name]: sentinel }, result), 'wide');
+      total.findings.push(...probed.findings);
+      total.runs += probed.runs;
+      total.requests += probed.requests + result.requests.length;
+      break;
+    }
+  }
+  return total;
+}
+
+async function wrapFindings(session: Session, spec: Spec, tool: string, fixture: Fixture): Promise<StepRun> {
+  const findings: Finding[] = [];
+  if (!('system_prompt' in (session.tools.find((item) => item.name === tool)?.shape ?? {}))) return { findings, runs: 0, requests: 0 };
+  const wrap = await measureWrap(session, spec, tool, fixture.args);
+  if (wrap !== null) {
+    const detail = `systemPrompt:maxLength added=${wrap.added} threshold=${wrap.threshold}`;
+    findings.push(finding(tool, fixture.variant, wrap.operation, 'wide:system_prompt=wrapped', 'wrapped_over_limit', detail, true));
+  }
+  return { findings, runs: 3, requests: 0 };
 }
 
 async function scanVariant(session: Session, spec: Spec, tool: string, fixture: Fixture): Promise<VariantRun> {
@@ -311,6 +240,14 @@ async function scanVariant(session: Session, spec: Spec, tool: string, fixture: 
   runs += probed.runs;
   requests += probed.requests;
   findings.push(...probed.findings);
+
+  if (WIDE) {
+    for (const step of [await wideProbes(session, spec, tool, fixture), await wrapFindings(session, spec, tool, fixture)]) {
+      runs += step.runs;
+      requests += step.requests;
+      findings.push(...step.findings);
+    }
+  }
 
   return { findings, rejected: null, runs, requests };
 }
@@ -380,6 +317,7 @@ async function main(): Promise<void> {
     runs,
     requests,
     findings: unique(findings),
+    ...(WIDE ? { probes: probeLog } : {}),
   };
   process.stdout.write(`${JSON.stringify(report)}\n`);
 }

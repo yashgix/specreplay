@@ -2,7 +2,7 @@ PYTHON ?= python
 export ARCTURUS_NODE ?= $(shell command -v node)
 export ARCTURUS_NODE_MODULES ?= $(CURDIR)/node_modules
 
-.PHONY: lint typecheck test experiment readme
+.PHONY: lint typecheck test experiment wide readme
 
 lint:
 	ruff check .
@@ -17,6 +17,9 @@ test:
 
 experiment:
 	$(PYTHON) experiment.py --out results/metrics.json
+
+wide:
+	$(PYTHON) wide.py --out results/wide.json
 
 readme:
 	$(PYTHON) demo.py --readme README.md --out README.md
