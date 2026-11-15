@@ -6,20 +6,20 @@ The question it answers: **from the published spec alone, how many of the projec
 
 ## Why
 
-The project's public history is a run of contract drift between its MCP tools and the documented API (verified on GitHub, 14 Nov 2026):
+The assignment supplies a ledger of reported contract drift between the project's MCP tools and the documented API. This build does not independently verify the external history or issue statuses; the table below follows the ledger's cited sources.
 
-| | bug |
+| | reported contract drift |
 | --- | --- |
-| [#93](https://github.com/AgentPhone-AI/agentphone-mcp/pull/93) | a 204 with an empty body failed the tool's output validation |
-| [#99](https://github.com/AgentPhone-AI/agentphone-mcp/pull/99) | documented `null` values rejected by six tools |
-| [#101](https://github.com/AgentPhone-AI/agentphone-mcp/pull/101) | a crash on the documented webhook-delivery list shape |
-| [#103](https://github.com/AgentPhone-AI/agentphone-mcp/pull/103) | a query parameter the backend ignores |
-| [#105](https://github.com/AgentPhone-AI/agentphone-mcp/pull/105) | `from_` read as `from` |
-| [#107](https://github.com/AgentPhone-AI/agentphone-mcp/pull/107) | input bounds dropped, then "restored from the public OpenAPI" |
-| [#109](https://github.com/AgentPhone-AI/agentphone-mcp/pull/109) | wait parameters that no endpoint accepts |
-| [#120](https://github.com/AgentPhone-AI/agentphone-mcp/issues/120) | open: `language` accepts any string |
+| [#93](https://github.com/AgentPhone-AI/agentphone-mcp/pull/93) | a reported 204 with an empty body failing the tool's output validation |
+| [#99](https://github.com/AgentPhone-AI/agentphone-mcp/pull/99) | reported documented `null` values rejected by six tools |
+| [#101](https://github.com/AgentPhone-AI/agentphone-mcp/pull/101) | a reported crash on the documented webhook-delivery list shape |
+| [#103](https://github.com/AgentPhone-AI/agentphone-mcp/pull/103) | a reported query parameter that the supplied ledger says has no effect |
+| [#105](https://github.com/AgentPhone-AI/agentphone-mcp/pull/105) | a reported `from_` read as `from` |
+| [#107](https://github.com/AgentPhone-AI/agentphone-mcp/pull/107) | reported input bounds dropped, then "restored from the public OpenAPI" |
+| [#109](https://github.com/AgentPhone-AI/agentphone-mcp/pull/109) | reported wait parameters that no endpoint accepts |
+| [#120](https://github.com/AgentPhone-AI/agentphone-mcp/issues/120) | reported open: `language` accepts any string |
 
-The check in the repository so far is a hand-written list of endpoints and field names tested for *presence* against the live spec, outside the unit tests (`scripts/check-openapi-contract.mjs`, #115). SpecDrift checks behaviour instead and takes every expectation from the spec: no hand-written endpoint list, no network, no live API.
+The assignment also describes an existing hand-written list of endpoints and field names checked for *presence* against the live spec, outside the unit tests (`scripts/check-openapi-contract.mjs`, #115); this build does not verify that description. SpecDrift checks behaviour instead and takes every expectation from the spec: no hand-written endpoint list, no network, no live API.
 
 ## What a scan does
 
@@ -79,7 +79,7 @@ A finding is documented when the operation it is about has a success response a 
 
 ## What it finds at v0.10.0
 
-Twelve documented findings were hand-checked at `46c8fe8` (`study/triage.json`). Ten are new, meaning they match no ledger case: 9 confirmed, 1 unconfirmed, 0 false positives. The other two, `create_agent` and `update_agent` accepting any `language`, match the open issue #120 case in the ledger, so they are reported as known rather than new.
+Twelve documented findings were hand-checked by this build at `46c8fe8` (`study/triage.json`). Ten are new, meaning they match no ledger case: 9 confirmed, 1 unconfirmed, 0 false positives. The other two, `create_agent` and `update_agent` accepting any `language`, match the #120 case marked open in the supplied ledger, so they are reported as known rather than new.
 
 Confirmed and new:
 
@@ -93,7 +93,7 @@ Every label comes from reading the pinned `src/tools.ts` against the spec, and e
 
 ## Scoring on the bug history
 
-The ledger has 25 cases, 20 of them about contracts the spec documents. A case is caught when a finding matching it exists at its buggy commit and none exists at its fix commit. Recall is 20/25 (0.80) overall and 19/20 (0.95) on documented contracts. `study/known-bugs.json` also lists the items that were considered and excluded, each with a reason.
+The supplied ledger has 25 cases, 20 of them about contracts the spec documents. A case is caught when a finding matching it exists at its buggy commit and none exists at its fix commit. Recall is 20/25 (0.80) overall and 19/20 (0.95) on documented contracts. `study/known-bugs.json` also lists the items that were considered and excluded, each with a reason.
 
 ## Limits
 
