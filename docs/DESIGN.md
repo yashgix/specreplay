@@ -1,8 +1,8 @@
 # Design
 
-## The premise under test
+## The claim under test
 
-The assignment's premise is that a contract check can be derived from the published spec alone, run against the supplied handlers, and find the bugs described by the supplied ledger. This build verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
+A contract check can be derived from the published spec alone, run against the project's own handlers, and it finds the project's own bugs. Everything here exists to make that claim cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
 
 ## Pipeline
 
@@ -25,8 +25,8 @@ One scan covers one commit: the commit is a folder, its `src/` is loaded, and ev
 - `example` is built from the schema, never sampled: `enum[0]`, `const`, the `format` table, `minimum` for numbers, one array item. Nothing random means two runs produce the same bytes.
 - `mutations` enumerates single faults in a fixed order, with ids that name where the fault is (`omit:$.metadata`, `null:$.items[0].phone_number`). Combining faults would multiply calls and lose attribution: which of the two changes caused the crash?
 - `omit` is only emitted for a key that is neither required nor documented with a `default`. A documented default means the server always fills it in, so removing it tests nothing.
-- `apply` works on a deep copy and replaces the whole body for the root path. `null` becomes `null` and `empty_array` becomes `[]`; only `alt` and `enum` carry a replacement value.
-- `validate` picks the first `anyOf` branch whose type fits and then checks `enum`, `maxLength`, `minLength`, `maximum`, `minimum`, `maxItems`, `minItems`, array items and required keys, flagging an unknown object key as `undocumented` unless `additionalProperties` allows it. Unknown-key detection is the mirror image of the kind of drift the supplied ledger cites in #107: a tool sending what the spec does not declare.
+- `apply` works on a deep copy and replaces the whole body for the root path.
+- `validate` picks the first `anyOf` branch whose type fits and then checks `enum`, `maxLength`, `minLength`, `maximum`, `minimum`, `maxItems`, `minItems`, array items and required keys, flagging an unknown object key as `undocumented` unless `additionalProperties` allows it. Unknown-key detection is the mirror image of the drift in #107: a tool sending what the spec does not declare.
 - Every recursion stops below depth 12, so a pathological schema costs nothing.
 
 ## The fake API (`web/fakeapi.ts`)
@@ -50,7 +50,7 @@ The classification order is deliberate: a refusal (an error result with no reque
 ## One scan (`web/cli.ts`)
 
 1. **Baseline.** One call with the fixture. A rejection is recorded in `rejected` and the variant stops. Each outcome becomes a finding with mutation `baseline` and the distinct operations the call touched.
-2. **Request checks.** Every request is matched to an operation; an unmatched one is `undocumented_operation`. A query name outside the operation's parameters is `undocumented_param`; a body problem from `validate` is `undocumented_field` or `request_invalid`. These are the checks that need no mutation at all, and they catch the direction the supplied issue history shows: the tool sending something the contract does not allow.
+2. **Request checks.** Every request is matched to an operation; an unmatched one is `undocumented_operation`. A query name outside the operation's parameters is `undocumented_param`; a body problem from `validate` is `undocumented_field` or `request_invalid`. These are the checks that need no mutation at all, and they catch the direction the issue history shows: the tool sending something the contract does not allow.
 3. **Response mutations.** For each distinct baseline operation with a constrained success schema, one call per mutation. An outcome identical (outcome and detail) to a baseline outcome is dropped. Without that skip, a tool that already prints `undefined` or already crashes files the same finding once per mutation, drowning the one change that mattered; it also keeps the new-finding count honest when a tool is broken independently of its responses.
 4. **Input probes.** For each constrained field of each baseline request, and each fixture argument whose string form equals the field's value, one violating value chosen by the argument's type (`zz-invalid` for an enum and a string, max + 1, min - 1, or `"a"` repeated max + 1 times). The call only proves drift when the value reaches the wire at that operation: a tool that rejects the argument, or accepts it and drops it, has enforced the bound, and counting that as a finding would invert the meaning of the probe.
 
@@ -61,10 +61,10 @@ A scan of one commit costs roughly 34 variants times a few dozen calls; the whol
 ## Scoring (`specdrift/score.py`)
 
 - `matches` requires the same tool, a case variant that is null or equal (a case that names no variant applies to every variant, which is how the issue texts read), a mutation matching one of the case's `fnmatchcase` globs, an outcome in the case's set, and a `detail` that is null or a glob. Globs keep 25 cases readable: one case often covers several tools, and details are path fragments such as `offset:maximum`.
-- `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the supplied ledger marks it open.
+- `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the bug is still present at v0.10.0.
 - `spec_counts` counts the three response states over the five HTTP methods.
 - `triage_counts` matches the hand-checked rows on the exact six-tuple, so a label can never land on a different finding.
-- `metrics` derives all 46 numbers from the reports, the ledger, the spec and the triage, and returns them with sorted keys. Recall is rounded to six places. `latest_new_*` counts only documented findings that match no case at all, which is why the two `language` findings at v0.10.0 are reported as known (the #120 ledger case, marked open in the supplied ledger) rather than new.
+- `metrics` derives all 46 numbers from the reports, the ledger, the spec and the triage, and returns them with sorted keys. Recall is rounded to six places. `latest_new_*` counts only documented findings that match no case at all, which is why the two `language` findings at v0.10.0 are reported as known (open issue #120) rather than new.
 
 ## The experiment and the demo
 
@@ -78,7 +78,7 @@ At `46c8fe8`, each documented finding was read against the pinned `src/tools.ts`
 - **unconfirmed**: the mismatch is real only if the live API behaves in a way the spec allows but does not require (the `Metadata: undefined` text when `metadata` is absent);
 - **false positive**: the two are not actually in conflict.
 
-Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the #120 ledger case and are therefore known, not new, leaving 9 confirmed and 1 unconfirmed new findings.
+Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the open #120 ledger case and are therefore known, not new, leaving 9 confirmed and 1 unconfirmed new findings.
 
 ## Determinism
 
@@ -97,5 +97,5 @@ No clock, no randomness, no network, no environment-dependent ordering: schema p
 - **Recording live traffic**: needs credentials and a network, and it records the server's behaviour including the bug, so it cannot serve as the contract.
 - **Running the MCP SDK**: not in the environment; the three checks that decide a call's outcome are a handful of lines, and emulating them is stated as emulation rather than hidden.
 - **Fuzzing the spec**: too many findings that no one can judge, and the triage would dominate the work.
-- **Diffing spec versions**: a different question, and the supplied bug ledger is about tools against one spec, not the spec against itself.
+- **Diffing spec versions**: a different question, and the bug history is about tools against one spec, not the spec against itself.
 - **Multi-fault mutations**: a combinatorial blow-up with poor attribution for a single-fault bug class.
