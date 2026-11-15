@@ -36,7 +36,11 @@ def scan_dir(source, zod_entry, spec=SPEC, inputs=INPUTS):
         str(Path(spec)),
         str(Path(inputs)),
     ]
-    env = {**os.environ, "SPECDRIFT_ZOD": str(Path(zod_entry))}
+    env = {
+        **os.environ,
+        "SPECDRIFT_ZOD": str(Path(zod_entry)),
+        "PATH": "/usr/bin:/bin",
+    }
     try:
         result = subprocess.run(
             command, cwd=ROOT, env=env, capture_output=True, text=True, timeout=TIMEOUT

@@ -61,15 +61,22 @@ def matches(case, finding):
     return fnmatch.fnmatchcase(str(finding.get("detail", "")), detail)
 
 
-def _found(case, findings):
-    return any(matches(case, finding) for finding in findings)
+def _findings(report):
+    if isinstance(report, dict):
+        findings = report.get("findings")
+        return findings if isinstance(findings, list) else []
+    return report if isinstance(report, list) else []
+
+
+def _found(case, report):
+    return any(matches(case, finding) for finding in _findings(report))
 
 
 def evaluate(case, reports):
     """Whether one case is detected at its buggy commit and clear at its fix."""
-    detected = _found(case, reports.get(case["buggy"], []))
+    detected = _found(case, reports.get(case["buggy"]))
     fixed = case.get("fixed")
-    cleared = None if fixed is None else not _found(case, reports.get(fixed, []))
+    cleared = None if fixed is None else not _found(case, reports.get(fixed))
     return {"id": case["id"], "detected": detected, "cleared": cleared, "caught": detected and cleared is not False}
 
 

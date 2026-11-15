@@ -302,19 +302,25 @@ function childAt(parent: unknown, part: PathPart): unknown {
   return undefined;
 }
 
+function replacement(mutation: Mutation): unknown {
+  if (mutation.kind === 'null') return null;
+  if (mutation.kind === 'empty_array') return [];
+  return clone(mutation.value);
+}
+
 export function apply(exampleValue: unknown, mutation: Mutation): unknown {
   const copy = clone(exampleValue);
   const parts = parsePath(mutation.path);
-  if (parts.length === 0) return mutation.kind === 'omit' ? copy : clone(mutation.value);
+  if (parts.length === 0) return mutation.kind === 'omit' ? copy : replacement(mutation);
   let parent: unknown = copy;
   for (let i = 0; i < parts.length - 1; i += 1) parent = childAt(parent, parts[i]);
   const last = parts[parts.length - 1];
   if (Array.isArray(parent) && typeof last === 'number') {
     if (mutation.kind === 'omit') parent.splice(last, 1);
-    else parent[last] = clone(mutation.value);
+    else parent[last] = replacement(mutation);
   } else if (isRecord(parent) && typeof last === 'string') {
     if (mutation.kind === 'omit') delete parent[last];
-    else parent[last] = clone(mutation.value);
+    else parent[last] = replacement(mutation);
   }
   return copy;
 }
