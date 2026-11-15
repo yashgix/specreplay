@@ -1,0 +1,113 @@
+{
+ "about": "One valid call per tool variant, the same for every pinned commit. Written for SpecDrift, not upstream data. Unknown keys are stripped by the tools' input schemas.",
+ "tools": {
+  "account_overview": [
+   {"variant": "default", "args": {}}
+  ],
+  "list_numbers": [
+   {"variant": "default", "args": {"limit": 20, "offset": 5}}
+  ],
+  "buy_number": [
+   {"variant": "default", "args": {"country": "US", "area_code": "415", "confirm": true}}
+  ],
+  "send_message": [
+   {"variant": "default", "args": {"number_id": "num_1", "to_number": "+15555550101", "body": "Hello there", "confirm": true}}
+  ],
+  "check_capabilities": [
+   {"variant": "default", "args": {"phone_number": "+15555550101"}}
+  ],
+  "check_readiness": [
+   {"variant": "default", "args": {"number_id": "num_1", "channel": "sms", "to_number": "+15555550101"}}
+  ],
+  "get_messages": [
+   {"variant": "default", "args": {"number_id": "num_1", "limit": 50}}
+  ],
+  "list_calls": [
+   {"variant": "default", "args": {"limit": 20}},
+   {"variant": "agent", "args": {"agent_id": "agt_1", "limit": 20, "offset": 5}}
+  ],
+  "get_call": [
+   {"variant": "default", "args": {"call_id": "call_1"}}
+  ],
+  "end_call": [
+   {"variant": "default", "args": {"call_id": "call_1", "confirm": true}}
+  ],
+  "make_call": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "to_number": "+15555550101", "confirm": true, "model_tier": "balanced"}}
+  ],
+  "make_conversation_call": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "to_number": "+15555550101", "topic": "Confirm the appointment", "confirm": true}}
+  ],
+  "list_agents": [
+   {"variant": "default", "args": {"limit": 20, "offset": 5}}
+  ],
+  "create_agent": [
+   {"variant": "default", "args": {"name": "Front desk", "voice_mode": "webhook", "model_tier": "balanced", "stt_mode": "fast", "ambient_sound": "office", "system_prompt": "Be brief.", "max_silence_ms": 30000, "voice_speed": 1.25, "interruption_sensitivity": 0.5, "language": "en-US"}}
+  ],
+  "update_agent": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "name": "Front desk 2", "system_prompt": "Be kind.", "max_silence_ms": 20000, "voice_speed": 1.1, "interruption_sensitivity": 0.4, "ambient_sound": "none", "language": "en-GB"}}
+  ],
+  "delete_agent": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "confirm": true}}
+  ],
+  "get_agent": [
+   {"variant": "default", "args": {"agent_id": "agt_1"}}
+  ],
+  "attach_number": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "number_id": "num_1"}}
+  ],
+  "detach_number": [
+   {"variant": "default", "args": {"agent_id": "agt_1", "number_id": "num_1", "confirm": true}}
+  ],
+  "list_voices": [
+   {"variant": "default", "args": {}}
+  ],
+  "list_conversations": [
+   {"variant": "default", "args": {"limit": 20, "offset": 5}},
+   {"variant": "agent", "args": {"agent_id": "agt_1", "limit": 20, "offset": 5}}
+  ],
+  "get_conversation": [
+   {"variant": "default", "args": {"conversation_id": "conv_1", "message_limit": 40}}
+  ],
+  "get_conversation_messages": [
+   {"variant": "default", "args": {"conversation_id": "conv_1", "limit": 50}}
+  ],
+  "update_conversation": [
+   {"variant": "default", "args": {"conversation_id": "conv_1", "metadata": {"topic": "billing"}}}
+  ],
+  "list_contacts": [
+   {"variant": "default", "args": {"limit": 50, "offset": 5}}
+  ],
+  "manage_contact": [
+   {"variant": "create", "args": {"action": "create", "phone_number": "+15555550102", "name": "Ada Lovelace", "confirm": true}},
+   {"variant": "update", "args": {"action": "update", "contact_id": "ct_1", "name": "Ada L", "confirm": true}},
+   {"variant": "delete", "args": {"action": "delete", "contact_id": "ct_1", "confirm": true}}
+  ],
+  "get_usage": [
+   {"variant": "summary", "args": {"breakdown": "summary"}},
+   {"variant": "daily", "args": {"breakdown": "daily", "days": 30}},
+   {"variant": "monthly", "args": {"breakdown": "monthly", "months": 12}}
+  ],
+  "get_webhook": [
+   {"variant": "project", "args": {}},
+   {"variant": "agent", "args": {"agent_id": "agt_1"}}
+  ],
+  "set_webhook": [
+   {"variant": "project", "args": {"url": "https://hooks.example.com/agentphone"}},
+   {"variant": "agent", "args": {"url": "https://hooks.example.com/agentphone", "agent_id": "agt_1"}}
+  ],
+  "delete_webhook": [
+   {"variant": "project", "args": {"confirm": true}},
+   {"variant": "agent", "args": {"agent_id": "agt_1", "confirm": true}}
+  ],
+  "test_webhook": [
+   {"variant": "project", "args": {}},
+   {"variant": "agent", "args": {"agent_id": "agt_1"}}
+  ],
+  "list_webhook_deliveries": [
+   {"variant": "project", "args": {"limit": 20, "hours": 24}},
+   {"variant": "agent", "args": {"agent_id": "agt_1", "limit": 20}},
+   {"variant": "agent_hours", "args": {"agent_id": "agt_1", "hours": 24}}
+  ]
+ }
+}
