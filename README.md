@@ -1,8 +1,10 @@
-# SpecDrift
+# SpecReplay
 
-Write-up: https://yashgix.github.io/specdrift/
+Write-up: https://yashgix.github.io/specreplay/
 
-SpecDrift replays the real tool handlers of `agentphone-mcp` (MIT, TypeScript) at 13 pinned commits against an in-process fake of the AgentPhone API whose responses are built from the published OpenAPI document. It changes one thing at a time (a nullable field set to `null`, an optional field left out, another enum value, an empty array, a 204 with no body) and records every crash, error result, output-schema failure and `undefined` in the text. It also checks each request a tool sends against the spec, and probes each tool argument that reaches a constrained request field with a value just outside the documented limit.
+Renamed from `specdrift` on 16 Nov 2026. Frozen specs and git tags keep the old name.
+
+SpecReplay replays the real tool handlers of `agentphone-mcp` (MIT, TypeScript) at 13 pinned commits against an in-process fake of the AgentPhone API whose responses are built from the published OpenAPI document. It changes one thing at a time (a nullable field set to `null`, an optional field left out, another enum value, an empty array, a 204 with no body) and records every crash, error result, output-schema failure and `undefined` in the text. It also checks each request a tool sends against the spec, and probes each tool argument that reaches a constrained request field with a value just outside the documented limit.
 
 The question it answers: **from the published spec alone, how many of the project's reported contract-drift bugs would an automatic check have caught, and what does it flag today?**
 
@@ -21,7 +23,7 @@ The ledger used here lists reported contract drift between the project's MCP too
 | [#109](https://github.com/AgentPhone-AI/agentphone-mcp/pull/109) | reported wait parameters that no endpoint accepts |
 | [#120](https://github.com/AgentPhone-AI/agentphone-mcp/issues/120) | reported open: `language` accepts any string |
 
-The ledger also describes an existing hand-written list of endpoints and field names checked for *presence* against the live spec, outside the unit tests (`scripts/check-openapi-contract.mjs`, #115); this work does not verify that description. SpecDrift checks behaviour instead and takes every expectation from the spec: no hand-written endpoint list, no network, no live API.
+The ledger also describes an existing hand-written list of endpoints and field names checked for *presence* against the live spec, outside the unit tests (`scripts/check-openapi-contract.mjs`, #115); this work does not verify that description. SpecReplay checks behaviour instead and takes every expectation from the spec: no hand-written endpoint list, no network, no live API.
 
 ## What a scan does
 
@@ -47,18 +49,18 @@ python -m unittest discover -s tests               # Node-backed tests skip with
 make lint typecheck test experiment                # the same steps as CI
 ```
 
-`experiment.py` also writes `results/reports.json` (one report per commit) next to the metrics file, and two runs are byte-identical. The scanner itself is `web/cli.ts`, launched by `specdrift/scan.py` as
+`experiment.py` also writes `results/reports.json` (one report per commit) next to the metrics file, and two runs are byte-identical. The scanner itself is `web/cli.ts`, launched by `specreplay/scan.py` as
 
 ```
 $ARCTURUS_NODE --experimental-transform-types --disable-warning=ExperimentalWarning \
   --import <file URL of web/hooks.ts> web/cli.ts SOURCE_DIR SPEC_JSON INPUTS_JSON
 ```
 
-with `SPECDRIFT_ZOD` pointing at that commit's zod entry. `specdrift/scan.py` is the only code that spawns Node.
+with `SPECREPLAY_ZOD` pointing at that commit's zod entry. `specreplay/scan.py` is the only code that spawns Node.
 
 ## Results
 
-<!-- specdrift:results -->
+<!-- specreplay:results -->
 | name | value |
 | --- | --- |
 | commits | 13 |
@@ -80,7 +82,7 @@ Recall: 20/25 (0.80) overall; 19/20 (0.95) on documented contracts. In-sample: t
 | system_prompt has no documented maxLength (20000) on create and update | missing bound | 2 | create_agent src/tools.ts:1643; update_agent src/tools.ts:1778 |
 | update_conversation prints Metadata: undefined if the response omits metadata | spec ambiguity | 1 | update_conversation src/tools.ts:2200 |
 | language accepts any string | known, open upstream | 2 | create_agent src/tools.ts:1710; update_agent src/tools.ts:1845 |
-<!-- /specdrift:results -->
+<!-- /specreplay:results -->
 
 The block is written by `python demo.py --readme README.md --out README.md` from `results/metrics.json`; that command emits the full table, including `runs` (every tool call the experiment made), plus the recall line. Run it after `experiment.py` so the numbers match the metrics file that ships with the results.
 
@@ -108,7 +110,7 @@ The ledger has 25 cases, 20 of them about contracts the spec documents. A case i
 
 The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the run. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. A case counts only when its bug is shown to be exercised: each case has a frozen fixture, a detection predicate that ignores wording, and a trigger check, and a case whose trigger is not seen is reported as not exercised. Three cases is too few for a rate. They show a documented response shape caught, and two other classes missed with their bugs exercised: a tool that refuses an input the API accepts, and filters dropped with no wrong request or response.
 
-<!-- specdrift:wide -->
+<!-- specreplay:wide -->
 | name | value |
 | --- | --- |
 | arguments probed from the fixtures | 40 (57 probes) |
@@ -119,7 +121,7 @@ The hold-out is a small set of cases from the repository's own history that are 
 | hold-out caught | 1 |
 | hold-out missed (bug exercised) | 2 |
 | hold-out not exercised | 0 |
-<!-- /specdrift:wide -->
+<!-- /specreplay:wide -->
 
 ## Limits
 
@@ -136,7 +138,7 @@ Our code is MIT (`LICENSE`). Nothing from the projects studied is committed. `up
 
 - `upstream/agentphone-mcp/`: `src/` of 13 commits of `github.com/AgentPhone-AI/agentphone-mcp`. MIT, Copyright (c) 2025 AgentPhone (its `LICENSE` at the pinned commits). It is fetched rather than copied, and its `LICENSE` comes with the fetch.
 - `upstream/zod/4.4.3/` and `upstream/zod/4.6.7/`: ESM files of the zod package from the npm registry, MIT (zod's own copyright notice is in the `LICENSE` fetched alongside), checked against the registry's integrity hash.
-- `upstream/openapi.json`: `https://api.agentphone.ai/openapi.json`. It carries no license, so it is never republished. It is a live document: the copy used for the committed results (14 Nov 2026) is not retrievable, and by 15 Nov one endpoint description (`/v1/contacts/capabilities`) had changed. The fetch script reports the hash mismatch and stops unless given `--accept-spec-drift`. `tests/acceptance` is kept byte for byte as written and pins the original spec hash, so `tools/run_acceptance.py` (used by `make test` and CI) skips exactly two of its checks when the fetched spec differs from the manifest, `test_spec_is_the_pinned_one` and `test_every_pinned_file_matches_the_manifest`, and prints why. The fetch script has already verified every other file's hash. The experiment rerun on the changed spec still reproduces `results/` byte for byte.
+- `upstream/openapi.json`: `https://api.agentphone.ai/openapi.json`. It carries no license, so it is never republished. It is a live document: the copy used for the committed results (14 Nov 2026) is not retrievable, and by 15 Nov one endpoint description (`/v1/contacts/capabilities`) had changed. The fetch script reports the hash mismatch and stops unless given `--accept-spec-drift`. `tests/acceptance` is kept as written (apart from the project rename) and pins the original spec hash, so `tools/run_acceptance.py` (used by `make test` and CI) skips exactly two of its checks when the fetched spec differs from the manifest, `test_spec_is_the_pinned_one` and `test_every_pinned_file_matches_the_manifest`, and prints why. The fetch script has already verified every other file's hash. The experiment rerun on the changed spec still reproduces `results/` byte for byte.
 - `study/*.json`: written for this project. The ledger quotes the public issues, PRs and commits it cites.
 
 The hold-out sources are not stored either: `sh tools/holdout_sources.sh DIR` clones the public repository, then `python holdout.py DIR` scores them.
@@ -145,8 +147,8 @@ The hold-out sources are not stored either: `sh tools/holdout_sources.sh DIR` cl
 
 ```
 tools/                fetch_data.py rebuilds upstream/, holdout_sources.sh the hold-out sources
-specdrift/scan.py     run the TypeScript scanner on one pinned commit
-specdrift/score.py    ledger matching, spec counts, triage, metrics
+specreplay/scan.py    run the TypeScript scanner on one pinned commit
+specreplay/score.py   ledger matching, spec counts, triage, metrics
 experiment.py         all 13 commits -> results/reports.json and metrics
 demo.py               latest findings; regenerate the results block
 web/openapi.ts        reading the spec: examples, mutations, validation

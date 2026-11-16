@@ -30,7 +30,7 @@ type Finding = {
 };
 
 const SENTINELS = [7, 'probe-value'];
-const WIDE = process.env.SPECDRIFT_WIDE === '1';
+const WIDE = process.env.SPECREPLAY_WIDE === '1';
 const probeLog: Record<string, string | boolean>[] = [];
 
 type Rejected = { tool: string; variant: string; detail: string };

@@ -1,4 +1,4 @@
-"""SpecDrift on the pinned agentphone-mcp history and the pinned AgentPhone OpenAPI spec."""
+"""SpecReplay on the pinned agentphone-mcp history and the pinned AgentPhone OpenAPI spec."""
 
 import hashlib
 import json
@@ -10,11 +10,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import specdrift
-from specdrift import score
-from specdrift.scan import commits, scan
+import specreplay
+from specreplay import score
+from specreplay.scan import commits, scan
 
-ROOT = Path(specdrift.__file__).resolve().parents[1]
+ROOT = Path(specreplay.__file__).resolve().parents[1]
 UPSTREAM = ROOT / "upstream"
 ORDER = ["d3d3209", "caece3a", "6dc7e97", "397ae03", "5841776", "50639a3", "d11dfd4", "92f68fb", "56c36b3", "af4501f",
          "183bafd", "1921eba", "46c8fe8"]
@@ -218,10 +218,10 @@ class Experiment(unittest.TestCase):
     def test_readme_block(self):
         import demo
 
-        text = demo.render("# T\n\nbefore\n<!-- specdrift:results -->\nold\n<!-- /specdrift:results -->\nafter\n",
+        text = demo.render("# T\n\nbefore\n<!-- specreplay:results -->\nold\n<!-- /specreplay:results -->\nafter\n",
                            self.metrics)
-        self.assertTrue(text.startswith("# T\n\nbefore\n<!-- specdrift:results -->"))
-        self.assertTrue(text.endswith("<!-- /specdrift:results -->\nafter\n"))
+        self.assertTrue(text.startswith("# T\n\nbefore\n<!-- specreplay:results -->"))
+        self.assertTrue(text.endswith("<!-- /specreplay:results -->\nafter\n"))
         self.assertNotIn("old", text)
         self.assertIn("| 20 |", text)
         with self.assertRaises(ValueError):

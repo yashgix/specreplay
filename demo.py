@@ -1,4 +1,4 @@
-"""Show the latest SpecDrift findings and regenerate the README results block."""
+"""Show the latest SpecReplay findings and regenerate the README results block."""
 
 from __future__ import annotations
 
@@ -7,17 +7,17 @@ import json
 from collections import Counter
 from pathlib import Path
 
-import specdrift.scan as scanner
+import specreplay.scan as scanner
 
 ROOT = Path(__file__).resolve().parent
 METRICS = ROOT / 'results' / 'metrics.json'
 TRIAGE = ROOT / 'study' / 'triage.json'
 WIDE = ROOT / 'results' / 'wide.json'
 HOLDOUT = ROOT / 'results' / 'holdout.json'
-WIDE_START = '<!-- specdrift:wide -->'
-WIDE_END = '<!-- /specdrift:wide -->'
-START = '<!-- specdrift:results -->'
-END = '<!-- /specdrift:results -->'
+WIDE_START = '<!-- specreplay:wide -->'
+WIDE_END = '<!-- /specreplay:wide -->'
+START = '<!-- specreplay:results -->'
+END = '<!-- /specreplay:results -->'
 ROWS = (
     ('commits', 'commits'),
     ('runs', 'runs_total'),
@@ -67,11 +67,11 @@ def _causes_table(root_causes):
 
 def render(readme_text, metrics, root_causes=()):
     if readme_text.count(START) != 1 or readme_text.count(END) != 1:
-        raise ValueError('README needs exactly one SpecDrift results block')
+        raise ValueError('README needs exactly one SpecReplay results block')
     start = readme_text.index(START)
     end = readme_text.index(END)
     if end < start:
-        raise ValueError('SpecDrift results markers are out of order')
+        raise ValueError('SpecReplay results markers are out of order')
     lines = ['| name | value |', '| --- | --- |']
     for label, key in ROWS:
         lines.append(f'| {label} | {_plain(metrics, key)} |')

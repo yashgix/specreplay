@@ -1,4 +1,4 @@
-"""SpecDrift on a small synthetic upstream and spec: every outcome kind, the mutation order, the request checks."""
+"""SpecReplay on a small synthetic upstream and spec: every outcome kind, the mutation order, the request checks."""
 
 import json
 import os
@@ -7,11 +7,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import specdrift
-from specdrift import score
-from specdrift.scan import scan_dir
+import specreplay
+from specreplay import score
+from specreplay.scan import scan_dir
 
-ROOT = Path(specdrift.__file__).resolve().parents[1]
+ROOT = Path(specreplay.__file__).resolve().parents[1]
 ZOD = ROOT / "upstream" / "zod" / "4.6.7" / "index.js"
 FLAGS = ["--experimental-transform-types", "--disable-warning=ExperimentalWarning"]
 

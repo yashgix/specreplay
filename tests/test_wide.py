@@ -6,7 +6,7 @@ import os
 import unittest
 
 import wide
-from specdrift import scan as scanner
+from specreplay import scan as scanner
 
 NODE = os.environ.get('ARCTURUS_NODE')
 

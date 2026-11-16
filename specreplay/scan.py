@@ -38,7 +38,7 @@ def scan_dir(source, zod_entry, spec=SPEC, inputs=INPUTS):
     ]
     env = {
         **os.environ,
-        'SPECDRIFT_ZOD': str(Path(zod_entry)),
+        'SPECREPLAY_ZOD': str(Path(zod_entry)),
         'PATH': '/usr/bin:/bin',
     }
     try:

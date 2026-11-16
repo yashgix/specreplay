@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from specdrift import scan as scanner
+from specreplay import scan as scanner
 
 ROOT = Path(__file__).resolve().parent
 HOLDOUT = ROOT / 'study' / 'holdout.json'

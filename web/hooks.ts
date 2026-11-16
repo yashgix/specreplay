@@ -1,5 +1,5 @@
 /**
- * Module-resolution hooks for the scanner: `zod` from SPECDRIFT_ZOD, the
+ * Module-resolution hooks for the scanner: `zod` from SPECREPLAY_ZOD, the
  * @wakeshift/sdk stub, and a `.ts` parent's `./x.js` import of its `./x.ts` file.
  */
 import { existsSync } from 'node:fs';
@@ -27,7 +27,7 @@ function toUrl(pathOrUrl: string): string {
 
 const resolve: Resolve = (specifier, context, nextResolve) => {
   if (specifier === 'zod') {
-    const entry = process.env.SPECDRIFT_ZOD;
+    const entry = process.env.SPECREPLAY_ZOD;
     if (entry !== undefined && entry !== '') return { url: toUrl(entry), shortCircuit: true };
   }
   if (specifier === '@wakeshift/sdk') return { url: STUB, shortCircuit: true };

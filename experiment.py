@@ -6,8 +6,8 @@ import argparse
 import json
 from pathlib import Path
 
-import specdrift.scan as scanner
-from specdrift import score
+import specreplay.scan as scanner
+from specreplay import score
 
 ROOT = Path(__file__).resolve().parent
 TRIAGE = ROOT / 'study' / 'triage.json'

@@ -8,7 +8,7 @@ import os
 import tempfile
 from pathlib import Path
 
-from specdrift import scan as scanner
+from specreplay import scan as scanner
 
 ROOT = Path(__file__).resolve().parent
 EXTRA = ROOT / 'study' / 'tool-inputs-extra.json'
@@ -26,11 +26,11 @@ def merged_inputs(directory):
 
 def run_wide(commit):
     with tempfile.TemporaryDirectory() as directory:
-        os.environ['SPECDRIFT_WIDE'] = '1'
+        os.environ['SPECREPLAY_WIDE'] = '1'
         try:
             return scanner.scan(commit, inputs=merged_inputs(directory))
         finally:
-            del os.environ['SPECDRIFT_WIDE']
+            del os.environ['SPECREPLAY_WIDE']
 
 
 def _probes(report, mode):

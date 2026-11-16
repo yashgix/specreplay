@@ -9,7 +9,7 @@ The premise is that a contract check can be derived from the published spec alon
 ```
 upstream/agentphone-mcp/<commit>/src --+
 upstream/openapi.json                --+--> web/cli.ts --> report --+
-study/tool-inputs.json               --+                          +--> specdrift/score.py --> metrics
+study/tool-inputs.json               --+                          +--> specreplay/score.py --> metrics
 study/known-bugs.json                ------------------------------+
 study/triage.json                    ------------------------------+
 ```
@@ -58,7 +58,7 @@ Findings are deduplicated on `(tool, variant, operation, mutation, outcome, deta
 
 A scan of one commit costs roughly 34 variants times a few dozen calls; the whole 13-commit run takes about 15 s, well inside the 300 s timeout the Python side enforces.
 
-## Scoring (`specdrift/score.py`)
+## Scoring (`specreplay/score.py`)
 
 - `matches` requires the same tool, a case variant that is null or equal (a case that names no variant applies to every variant, which is how the issue texts read), a mutation matching one of the case's `fnmatchcase` globs, an outcome in the case's set, and a `detail` that is null or a glob. Globs keep 25 cases readable: one case often covers several tools, and details are path fragments such as `offset:maximum`.
 - `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the ledger marks it open.

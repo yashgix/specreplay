@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from specdrift import score
+from specreplay import score
 
 
 def finding(

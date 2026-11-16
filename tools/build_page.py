@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = 'https://github.com/yashgix/specdrift'
+REPO = 'https://github.com/yashgix/specreplay'
 
 STYLE = """
 :root{color-scheme:light dark;--bg:#fff;--band:#f3f6fb;--ink:#14202e;--muted:#566476;--line:#dce3ec;--accent:#1d4ed8;
@@ -104,15 +104,15 @@ def page():
     wrapper = next(f for f in wide['added_findings'] if f['outcome'] == 'wrapped_over_limit')['detail']
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SpecDrift</title>
+<title>SpecReplay</title>
 <meta name="description" content="A contract-drift scanner for AgentPhone's open-source MCP server, checked against its OpenAPI spec.">
 <style>{STYLE}</style></head><body>
-<header><div class="wrap"><h1>SpecDrift</h1>
+<header><div class="wrap"><h1>SpecReplay</h1>
 <p class="lede">Replays the real tool handlers of <code>agentphone-mcp</code> against a fake API built from its OpenAPI spec, to find places where the tools and the documented API disagree.</p>
 <p><a href="{REPO}">GitHub</a></p></div></header>
 <main class="wrap">
 <section><h2>The problem</h2>
-<p>The project's history shows a run of contract-drift bugs between its MCP tools and the documented API: an empty 204 body failing output validation, documented <code>null</code> values rejected, a crash on a documented list shape, bounds dropped and later restored. The project's own check compares endpoint and field names. SpecDrift asks a different question: from the published spec alone, how many of those bugs would an automatic behavioural check have caught, and what does it flag today?</p></section>
+<p>The project's history shows a run of contract-drift bugs between its MCP tools and the documented API: an empty 204 body failing output validation, documented <code>null</code> values rejected, a crash on a documented list shape, bounds dropped and later restored. The project's own check compares endpoint and field names. SpecReplay asks a different question: from the published spec alone, how many of those bugs would an automatic behavioural check have caught, and what does it flag today?</p></section>
 <section><h2>Approach</h2>{DIAGRAM}
 <p>Each pinned commit's real <code>tools.ts</code>, <code>api.ts</code> and <code>output-schemas.ts</code> run with the zod version they pin. <code>fetch</code> is replaced by an in-process API that answers from the spec. Each tool is called once with a valid fixture, then again with one thing changed in the response: a nullable field set to <code>null</code>, an optional field left out, another enum value, an empty array, a 204. Requests are checked against the spec, and each argument that reaches a constrained request field is probed with a value just past the documented limit. Nothing touches the network or the live API.</p></section>
 <section><h2>Results</h2><div class="tiles">{tiles}</div>
@@ -140,7 +140,7 @@ def page():
 <li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
 <li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul></section>
 <section><h2>Reproduce</h2>
-<pre><code>git clone {REPO} &amp;&amp; cd specdrift
+<pre><code>git clone {REPO} &amp;&amp; cd specreplay
 export ARCTURUS_NODE=/path/to/node22
 python tools/fetch_data.py --accept-spec-drift
 make test experiment</code></pre>
