@@ -2,7 +2,7 @@
 
 Write-up: https://yashgix.github.io/specreplay/
 
-Renamed from `specdrift` on 16 Nov 2026. Frozen specs and git tags keep the old name.
+Renamed from `specdrift` on 16 Nov 2026. Frozen files and git tags keep the old name.
 
 SpecReplay replays the real tool handlers of `agentphone-mcp` (MIT, TypeScript) at 13 pinned commits against an in-process fake of the AgentPhone API whose responses are built from the published OpenAPI document. It changes one thing at a time (a nullable field set to `null`, an optional field left out, another enum value, an empty array, a 204 with no body) and records every crash, error result, output-schema failure and `undefined` in the text. It also checks each request a tool sends against the spec, and probes each tool argument that reaches a constrained request field with a value just outside the documented limit.
 
