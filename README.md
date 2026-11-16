@@ -90,7 +90,7 @@ A finding is documented when the operation it is about has a success response a 
 
 ## What it flags at v0.10.0
 
-Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five root causes. The table above lists each with its code sites. None is shown to break a user: the AgentPhone server also validates, so a missing client-side bound means a late 422, and nothing here was run against the live API.
+Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five root causes. The table above lists each with its code sites. None is shown to break a user. The maintainers report in #88 that the API answers 422 to out-of-range values, so a missing client-side bound likely means a late 422. Nothing here was run against the live API.
 
 - Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on five list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the remainder of the bounds restored in #107. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
 - One is a spec ambiguity: `update_conversation` prints `Metadata: undefined` if the response omits `metadata`. The spec allows the omission and documents no default. Whether the live API ever omits it is unknown.

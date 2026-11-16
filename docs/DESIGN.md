@@ -78,7 +78,7 @@ At `46c8fe8`, each documented finding was read against the pinned `src/tools.ts`
 - **unconfirmed**: the mismatch is real only if the live API behaves in a way the spec allows but does not require (the `Metadata: undefined` text when `metadata` is absent);
 - **false positive**: the two are not actually in conflict.
 
-Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the #120 ledger case and are therefore known, not new, leaving 10 findings that are not in the ledger. They sit in 4 root causes (see `study/triage.json`). A label says the code and spec visibly differ, not that a user is hurt: the server validates too, so a missing limit costs a late 422.
+Each row carries its evidence in words, and none was labelled from scanner output alone. Of the twelve rows, eleven are confirmed and one unconfirmed; two confirmed rows (the `language` pair) match the #120 ledger case and are therefore known, not new, leaving 10 findings that are not in the ledger. They sit in 4 root causes (see `study/triage.json`). A label says the code and spec visibly differ, not that a user is hurt: the maintainers report in #88 that the API answers 422 to out-of-range values, so a missing limit likely costs a late 422. Nothing was run against the live API.
 
 ## Determinism
 

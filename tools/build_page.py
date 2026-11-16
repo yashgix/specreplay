@@ -119,7 +119,7 @@ def page():
 <p>The ledger has {m['known_cases']} cases, {m['known_cases_documented']} of them about contracts the spec documents. The rules were written knowing these cases, so the {m['known_caught']}/{m['known_cases']} figure shows the rules reproduce the history. It is not a rate for unseen drift.</p>
 <h3>Documented findings per commit, oldest first</h3>{chart(commits, m['documented_findings_per_commit'])}
 <h3>What it flags at v0.10.0</h3>
-<p>{m['latest_findings_documented']} documented findings come down to {len(causes)} root causes, one of which is already known. None is shown to break a user. The server also validates, so a missing client-side bound means a late 422. Nothing was run against the live API.</p>
+<p>{m['latest_findings_documented']} documented findings come down to {len(causes)} root causes, one of which is already known. None is shown to break a user. The maintainers report in #88 that the API answers 422 to out-of-range values, so a missing client-side bound likely means a late 422. Nothing was run against the live API.</p>
 {table(['Root cause', 'Kind', 'Code sites'], cause_rows)}
 <p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p>
 <h3>Hold-out</h3>
