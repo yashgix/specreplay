@@ -2,8 +2,6 @@
 
 Write-up: https://yashgix.github.io/specreplay/
 
-Renamed from `specdrift` on 16 Nov 2026. Frozen files and git tags keep the old name.
-
 SpecReplay replays the real tool handlers of `agentphone-mcp` (MIT, TypeScript) at 13 pinned commits against an in-process fake of the AgentPhone API whose responses are built from the published OpenAPI document. It changes one thing at a time (a nullable field set to `null`, an optional field left out, another enum value, an empty array, a 204 with no body) and records every crash, error result, output-schema failure and `undefined` in the text. It also checks each request a tool sends against the spec, and probes each tool argument that reaches a constrained request field with a value just outside the documented limit.
 
 The question it answers: **from the published spec alone, how many of the project's reported contract-drift bugs would an automatic check have caught, and what does it flag today?**
@@ -39,20 +37,20 @@ The ledger also describes an existing hand-written list of endpoints and field n
 Python 3.14 standard library only (plus `ruff` for linting), Node 22, and TypeScript 7.0.2 (`npm install --no-save typescript@7.0.2`). The experiment, the demo and the tests open no socket. Only the fetch step below uses the network.
 
 ```
-export ARCTURUS_NODE=/path/to/node   # must be Node 22, for example /opt/homebrew/opt/node@22/bin/node
+export SPECREPLAY_NODE=/path/to/node   # must be Node 22, for example /opt/homebrew/opt/node@22/bin/node
 python tools/fetch_data.py --accept-spec-drift     # rebuild upstream/ first, see "Data and licenses"
 
 python experiment.py --out results/metrics.json    # all 13 commits, about 15 s
 python demo.py                                     # latest commit, one line per documented finding
 python demo.py --readme README.md --out README.md  # regenerate the block below
-python -m unittest discover -s tests               # Node-backed tests skip without ARCTURUS_NODE
+python -m unittest discover -s tests               # Node-backed tests skip without SPECREPLAY_NODE
 make lint typecheck test experiment                # the same steps as CI
 ```
 
 `experiment.py` also writes `results/reports.json` (one report per commit) next to the metrics file, and two runs are byte-identical. The scanner itself is `web/cli.ts`, launched by `specreplay/scan.py` as
 
 ```
-$ARCTURUS_NODE --experimental-transform-types --disable-warning=ExperimentalWarning \
+$SPECREPLAY_NODE --experimental-transform-types --disable-warning=ExperimentalWarning \
   --import <file URL of web/hooks.ts> web/cli.ts SOURCE_DIR SPEC_JSON INPUTS_JSON
 ```
 
@@ -138,7 +136,7 @@ Our code is MIT (`LICENSE`). Nothing from the projects studied is committed. `up
 
 - `upstream/agentphone-mcp/`: `src/` of 13 commits of `github.com/AgentPhone-AI/agentphone-mcp`. MIT, Copyright (c) 2025 AgentPhone (its `LICENSE` at the pinned commits). It is fetched rather than copied, and its `LICENSE` comes with the fetch.
 - `upstream/zod/4.4.3/` and `upstream/zod/4.6.7/`: ESM files of the zod package from the npm registry, MIT (zod's own copyright notice is in the `LICENSE` fetched alongside), checked against the registry's integrity hash.
-- `upstream/openapi.json`: `https://api.agentphone.ai/openapi.json`. It carries no license, so it is never republished. It is a live document: the copy used for the committed results (14 Nov 2026) is not retrievable, and by 15 Nov one endpoint description (`/v1/contacts/capabilities`) had changed. The fetch script reports the hash mismatch and stops unless given `--accept-spec-drift`. `tests/acceptance` is kept as written (apart from the project rename) and pins the original spec hash, so `tools/run_acceptance.py` (used by `make test` and CI) skips exactly two of its checks when the fetched spec differs from the manifest, `test_spec_is_the_pinned_one` and `test_every_pinned_file_matches_the_manifest`, and prints why. The fetch script has already verified every other file's hash. The experiment rerun on the changed spec still reproduces `results/` byte for byte.
+- `upstream/openapi.json`: `https://api.agentphone.ai/openapi.json`. It carries no license, so it is never republished. It is a live document: the copy used for the committed results (14 Nov 2026) is not retrievable, and by 15 Nov one endpoint description (`/v1/contacts/capabilities`) had changed. The fetch script reports the hash mismatch and stops unless given `--accept-spec-drift`. `tests/acceptance` pins the original spec hash, so `tools/run_acceptance.py` (used by `make test` and CI) skips exactly two of its checks when the fetched spec differs from the manifest, `test_spec_is_the_pinned_one` and `test_every_pinned_file_matches_the_manifest`, and prints why. The fetch script has already verified every other file's hash. The experiment rerun on the changed spec still reproduces `results/` byte for byte.
 - `study/*.json`: written for this project. The ledger quotes the public issues, PRs and commits it cites.
 
 The hold-out sources are not stored either: `sh tools/holdout_sources.sh DIR` clones the public repository, then `python holdout.py DIR` scores them.
@@ -162,5 +160,3 @@ holdout.py            score the frozen rules on the hold-out cases
 tests/                Python unittest; tests/acceptance pins the headline numbers and is run by tools/run_acceptance.py; Node tests live under web/
 docs/                 DESIGN.md (how it works), V2-CHANGES.md (what changed after v1)
 ```
-
-Built with Arcturus (Claude Code builders, Codex review). Reviewed and verified by hand.

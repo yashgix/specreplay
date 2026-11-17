@@ -2,7 +2,7 @@
 
 ## The premise under test
 
-The premise is that a contract check can be derived from the published spec alone, run against the project's real handlers, and find the bugs in a ledger of reported contract drift. This build verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
+The premise is that a contract check can be derived from the published spec alone, run against the project's real handlers, and find the bugs in a ledger of reported contract drift. This work verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
 
 ## Pipeline
 
@@ -68,7 +68,7 @@ A scan of one commit costs roughly 34 variants times a few dozen calls; the whol
 
 ## The experiment and the demo
 
-`experiment.py` scans the commits in `commits.json` order and writes `reports.json` and the metrics with `indent=1`, `sort_keys=True` and a trailing newline. There are no timestamps and no randomness, so the runner's two runs can be diffed byte for byte. `demo.py` either prints the latest documented findings or replaces the guarded README block: `render` refuses a README in which either marker is missing or repeated, so the generated block cannot silently overwrite the wrong section.
+`experiment.py` scans the commits in `commits.json` order and writes `reports.json` and the metrics with `indent=1`, `sort_keys=True` and a trailing newline. There are no timestamps and no randomness, so two runs can be diffed byte for byte. `demo.py` either prints the latest documented findings or replaces the guarded README block: `render` refuses a README in which either marker is missing or repeated, so the generated block cannot silently overwrite the wrong section.
 
 ## Triage method
 

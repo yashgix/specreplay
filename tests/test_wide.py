@@ -8,10 +8,10 @@ import unittest
 import wide
 from specreplay import scan as scanner
 
-NODE = os.environ.get('ARCTURUS_NODE')
+NODE = os.environ.get('SPECREPLAY_NODE')
 
 
-@unittest.skipUnless(NODE, 'ARCTURUS_NODE is not set')
+@unittest.skipUnless(NODE, 'SPECREPLAY_NODE is not set')
 class WideTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

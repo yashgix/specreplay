@@ -114,8 +114,8 @@ class Data(unittest.TestCase):
         self.assertEqual(len(triage), 12)
 
     def test_typescript_type_checks(self):
-        tsc = Path(os.environ["ARCTURUS_NODE_MODULES"]) / "typescript" / "bin" / "tsc"
-        done = subprocess.run([os.environ["ARCTURUS_NODE"], str(tsc), "-p", str(ROOT / "web" / "tsconfig.json")],
+        tsc = Path(os.environ["SPECREPLAY_NODE_MODULES"]) / "typescript" / "bin" / "tsc"
+        done = subprocess.run([os.environ["SPECREPLAY_NODE"], str(tsc), "-p", str(ROOT / "web" / "tsconfig.json")],
                               capture_output=True, text=True, timeout=120, check=False)
         self.assertEqual(done.returncode, 0, done.stdout[-2000:])
 

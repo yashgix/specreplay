@@ -203,7 +203,7 @@ def node_eval(code):
     """Run an ES module snippet with web/openapi.ts imported as oa; returns its JSON output."""
     url = (ROOT / "web" / "openapi.ts").as_uri()
     source = f"import * as oa from {json.dumps(url)};\nconst spec = {json.dumps(SPEC)};\n{code}"
-    done = subprocess.run([os.environ["ARCTURUS_NODE"], *FLAGS, "--input-type=module", "-e", source],
+    done = subprocess.run([os.environ["SPECREPLAY_NODE"], *FLAGS, "--input-type=module", "-e", source],
                           capture_output=True, text=True, timeout=60, check=True)
     return json.loads(done.stdout)
 

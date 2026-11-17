@@ -22,9 +22,9 @@ def commits(upstream=UPSTREAM):
 
 def scan_dir(source, zod_entry, spec=SPEC, inputs=INPUTS):
     """Run the scanner on one source folder and return its parsed report."""
-    node = os.environ.get('ARCTURUS_NODE')
+    node = os.environ.get('SPECREPLAY_NODE')
     if not node:
-        raise RuntimeError('ARCTURUS_NODE is not set')
+        raise RuntimeError('SPECREPLAY_NODE is not set')
     command = [
         node,
         '--experimental-transform-types',

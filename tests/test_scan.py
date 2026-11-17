@@ -11,7 +11,7 @@ from unittest import mock
 
 from specreplay import scan as scanner
 
-NODE = os.environ.get('ARCTURUS_NODE')
+NODE = os.environ.get('SPECREPLAY_NODE')
 
 SYNTHETIC_TOOLS = """
 export function registerTools(server, api) {
@@ -56,13 +56,13 @@ class CommitsTest(unittest.TestCase):
 
 
 class ScanDirTest(unittest.TestCase):
-    def test_requires_arcturus_node(self):
-        with mock.patch.dict(os.environ, {'ARCTURUS_NODE': ''}), self.assertRaises(RuntimeError) as caught:
+    def test_requires_specreplay_node(self):
+        with mock.patch.dict(os.environ, {'SPECREPLAY_NODE': ''}), self.assertRaises(RuntimeError) as caught:
             scanner.scan_dir(
                 scanner.UPSTREAM / 'agentphone-mcp' / '46c8fe8',
                 scanner.UPSTREAM / 'zod' / '4.6.7' / 'index.js',
             )
-        self.assertEqual(str(caught.exception), 'ARCTURUS_NODE is not set')
+        self.assertEqual(str(caught.exception), 'SPECREPLAY_NODE is not set')
 
 
 class ScanTest(unittest.TestCase):
@@ -72,7 +72,7 @@ class ScanTest(unittest.TestCase):
         self.assertIn('unknown commit', str(caught.exception))
 
 
-@unittest.skipUnless(NODE, 'ARCTURUS_NODE is not set')
+@unittest.skipUnless(NODE, 'SPECREPLAY_NODE is not set')
 class LatestCommitScanTest(unittest.TestCase):
     def test_report_shape(self):
         report = scanner.scan('46c8fe8')
@@ -103,7 +103,7 @@ class LatestCommitScanTest(unittest.TestCase):
         self.assertEqual(len(keys), len(set(keys)))
 
 
-@unittest.skipUnless(NODE, 'ARCTURUS_NODE is not set')
+@unittest.skipUnless(NODE, 'SPECREPLAY_NODE is not set')
 class SyntheticScanTest(unittest.TestCase):
     def test_text_defects_and_sorted_output_paths(self):
         with tempfile.TemporaryDirectory() as tmp:

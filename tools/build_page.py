@@ -28,7 +28,16 @@ td code{white-space:nowrap}th{background:var(--band);color:var(--muted);font-wei
 .flow{display:flex;align-items:stretch;gap:.4rem;margin:1rem 0}.step{flex:1;min-width:0;border:1px solid var(--line);background:var(--band);border-radius:10px;padding:.6rem .7rem;font-size:.85rem}.step b{display:block;font-family:var(--mono);margin-bottom:.2rem}.step span{color:var(--muted)}.arr{align-self:center;color:var(--muted)}.arr::before{content:"\\2192"}
 svg{display:block;width:100%;height:auto}svg text{fill:var(--ink);font:12px var(--mono)}svg .m{fill:var(--muted)}
 svg .box{fill:var(--band);stroke:var(--line)}svg .bar{fill:var(--accent)}svg .ln{stroke:var(--muted);fill:none}
-@media(max-width:620px){.flow{flex-direction:column}.arr::before{content:"\\2193"}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:1.9rem}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+main{scroll-margin-top:4rem}.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:1rem;padding-top:.55rem;padding-bottom:.55rem}.brand{font:600 1rem var(--mono)}
+.tabs{display:flex;gap:.25rem;margin-left:auto}.tabs button{font:inherit;font-size:.85rem;font-weight:500;border:0;background:transparent;color:var(--muted);padding:.4rem .8rem;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--code);color:var(--accent)}
+.gh{font-size:.85rem;font-weight:600;text-decoration:none;white-space:nowrap;border:1px solid var(--accent);border-radius:999px;padding:.3rem .8rem}
+.btn{font:inherit;font-weight:500;padding:.55rem 1rem;border-radius:999px;border:1px solid var(--accent);color:var(--accent);background:var(--bg);cursor:pointer}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem}
+@media(max-width:620px){.flow{flex-direction:column}.arr::before{content:"\\2193"}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:1.9rem}
+.brand{display:none}.tabs button{padding:.4rem .55rem}.gh{padding:.3rem .6rem}}
 """
 
 FLOW = [
@@ -107,25 +116,48 @@ def page():
 <title>SpecReplay</title>
 <meta name="description" content="A contract-drift scanner for AgentPhone's open-source MCP server, checked against its OpenAPI spec.">
 <style>{STYLE}</style></head><body>
+<div class="bar"><div class="wrap bar-in">
+<span class="brand">SpecReplay</span>
+<div class="tabs" role="tablist" aria-label="View">
+<button role="tab" id="tab-overview" aria-controls="overview" aria-selected="true" data-view="overview">Overview</button>
+<button role="tab" id="tab-details" aria-controls="details" aria-selected="false" data-view="details">Technical details</button>
+</div>
+<a class="gh" href="{REPO}" target="_blank" rel="noopener">GitHub ↗</a>
+</div></div>
+<main id="overview" role="tabpanel" aria-labelledby="tab-overview">
 <header><div class="wrap"><h1>SpecReplay</h1>
-<p class="lede">Replays the real tool handlers of <code>agentphone-mcp</code> against a fake API built from its OpenAPI spec, to find places where the tools and the documented API disagree.</p>
-<p><a href="{REPO}">GitHub</a></p></div></header>
-<main class="wrap">
+<p class="lede">Replays the real tool handlers of <code>agentphone-mcp</code> against a fake API built from its OpenAPI spec, to find places where the tools and the documented API disagree.</p></div></header>
+<div class="wrap">
 <section><h2>The problem</h2>
 <p>The project's history shows a run of contract-drift bugs between its MCP tools and the documented API: an empty 204 body failing output validation, documented <code>null</code> values rejected, a crash on a documented list shape, bounds dropped and later restored. The project's own check compares endpoint and field names. SpecReplay asks a different question: from the published spec alone, how many of those bugs would an automatic behavioural check have caught, and what does it flag today?</p></section>
-<section><h2>Approach</h2>{DIAGRAM}
-<p>Each pinned commit's real <code>tools.ts</code>, <code>api.ts</code> and <code>output-schemas.ts</code> run with the zod version they pin. <code>fetch</code> is replaced by an in-process API that answers from the spec. Each tool is called once with a valid fixture, then again with one thing changed in the response: a nullable field set to <code>null</code>, an optional field left out, another enum value, an empty array, a 204. Requests are checked against the spec, and each argument that reaches a constrained request field is probed with a value just past the documented limit. Nothing touches the network or the live API.</p></section>
 <section><h2>Results</h2><div class="tiles">{tiles}</div>
 <p>The ledger has {m['known_cases']} cases, {m['known_cases_documented']} of them about contracts the spec documents. The rules were written knowing these cases, so the {m['known_caught']}/{m['known_cases']} figure shows the rules reproduce the history. It is not a rate for unseen drift.</p>
 <h3>Documented findings per commit, oldest first</h3>{chart(commits, m['documented_findings_per_commit'])}
 <h3>What it flags at v0.10.0</h3>
-<p>{m['latest_findings_documented']} documented findings come down to {len(causes)} root causes, one of which is already known. None is shown to break a user. The maintainers report in #88 that the API answers 422 to out-of-range values, so a missing client-side bound likely means a late 422. Nothing was run against the live API.</p>
+<p>{m['latest_findings_documented']} documented findings come down to {len(causes)} root causes, one of which is already known. None is shown to break a user. The maintainers report in #88 that the API answers 422 to out-of-range values, so a missing client-side bound likely means a late 422. Nothing was run against the live API. The root causes and their code sites are listed under Technical details.</p></section>
+<section><h2>How it works</h2>{DIAGRAM}
+<p>Each pinned commit's real <code>tools.ts</code>, <code>api.ts</code> and <code>output-schemas.ts</code> run with the zod version they pin. <code>fetch</code> is replaced by an in-process API that answers from the spec. Each tool is called once with a valid fixture, then again with one thing changed in the response: a nullable field set to <code>null</code>, an optional field left out, another enum value, an empty array, a 204. Requests are checked against the spec, and each argument that reaches a constrained request field is probed with a value just past the documented limit. Nothing touches the network or the live API.</p></section>
+<section><h2>Limits</h2><ul>
+<li>{m['spec_operations_unconstrained']} of {m['spec_operations']} operations document an unconstrained response, so nothing can be judged there.</li>
+<li>The handlers run against a stubbed <code>fetch</code> and an emulation of the SDK's three checks, not the SDK.</li>
+<li>Single-fault mutations only. Combined faults are out of scope.</li>
+<li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
+<li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul>
+<p><button class="btn" type="button" data-view="details">Technical details →</button></p></section>
+</div></main>
+<main id="details" role="tabpanel" aria-labelledby="tab-details" hidden>
+<header><div class="wrap"><h1>Technical details</h1></div></header>
+<div class="wrap">
+<section><h2>Method</h2>
+<p>A finding is documented when the operation it is about has a success response a tool can be judged against: no content, or a JSON schema with at least one key that is not an annotation. Findings on unconstrained operations stay in the reports but are left out of the findings count and the documented recall. A ledger case is caught when a matching finding exists at its buggy commit and none exists at its fix commit.</p>
+<p class="small muted">Design notes: <a href="{REPO}/blob/main/docs/DESIGN.md">docs/DESIGN.md</a>.</p></section>
+<section><h2>Root causes at v0.10.0</h2>
 {table(['Root cause', 'Kind', 'Code sites'], cause_rows)}
-<p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p>
-<h3>Hold-out</h3>
+<p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p></section>
+<section><h2>Hold-out</h2>
 <p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
-{table(['Case', 'Predicted', 'Result'], hold_rows)}
-<h3>Prompt wrapper</h3>
+{table(['Case', 'Predicted', 'Result'], hold_rows)}</section>
+<section><h2>Prompt wrapper</h2>
 <p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: <code>{esc(wrapper)}</code>. A plain ASCII prompt over that threshold would go out over the documented 20000. This is measured offline. Live behaviour is unverified.</p></section>
 <section><h2>What v2 changed</h2><ul>
 <li>Findings are reported as root causes, not as counts of "new bugs" or "confirmed".</li>
@@ -133,19 +165,36 @@ def page():
 <li>Wide mode probes arguments the fixtures leave out and measures the prompt wrapper.</li>
 <li>Review fixes after the freeze did not move the 25-case results.</li></ul>
 <p class="small muted">Full list: <a href="{REPO}/blob/main/docs/V2-CHANGES.md">docs/V2-CHANGES.md</a>.</p></section>
-<section><h2>Limits</h2><ul>
-<li>{m['spec_operations_unconstrained']} of {m['spec_operations']} operations document an unconstrained response, so nothing can be judged there.</li>
-<li>The handlers run against a stubbed <code>fetch</code> and an emulation of the SDK's three checks, not the SDK.</li>
-<li>Single-fault mutations only. Combined faults are out of scope.</li>
-<li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
-<li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul></section>
+<section><h2>Data and licenses</h2>
+<p>The code is MIT. Nothing from the projects studied is committed. <code>tools/fetch_data.py</code> rebuilds <code>upstream/</code> and checks every file against the sha256 values in <code>upstream/MANIFEST.json</code>. The <code>agentphone-mcp</code> sources and the zod package are MIT and are fetched with their own licenses. The OpenAPI document carries no license, so it is never republished.</p></section>
 <section><h2>Reproduce</h2>
 <pre><code>git clone {REPO} &amp;&amp; cd specreplay
-export ARCTURUS_NODE=/path/to/node22
+npm install --no-save typescript@7.0.2
+export SPECREPLAY_NODE=/path/to/node22
 python tools/fetch_data.py --accept-spec-drift
 make test experiment</code></pre>
-<p class="small muted">The page is generated from <code>results/</code> and <code>study/</code> by <code>python tools/build_page.py</code>. Built with Arcturus (Claude Code builders, Codex review). Reviewed and verified by hand.</p></section>
-</main></body></html>
+<p class="small muted">Two runs of the experiment produce byte-identical results.</p>
+<p><button class="btn" type="button" data-view="overview">← Overview</button></p></section>
+</div></main>
+<footer><div class="wrap small muted">specreplay · Yash Gupta · <a href="{REPO}">github.com/yashgix/specreplay</a></div></footer>
+<script>
+const views = ["overview", "details"];
+function show(v) {{
+  if (!views.includes(v)) v = "overview";
+  for (const x of views) {{
+    document.getElementById(x).hidden = x !== v;
+    document.getElementById("tab-" + x).setAttribute("aria-selected", String(x === v));
+  }}
+}}
+document.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => {{
+  history.replaceState(null, "", "#" + b.dataset.view);
+  show(b.dataset.view);
+  window.scrollTo(0, 0);
+}}));
+addEventListener("hashchange", () => show(location.hash.slice(1)));
+show(location.hash.slice(1));
+</script>
+</body></html>
 """
 
 

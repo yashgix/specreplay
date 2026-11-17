@@ -8,12 +8,12 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-NODE = os.environ.get('ARCTURUS_NODE')
+NODE = os.environ.get('SPECREPLAY_NODE')
 TESTS = sorted((ROOT / 'web').glob('*.test.cjs'))
 TIMEOUT = 120
 
 
-@unittest.skipUnless(NODE, 'ARCTURUS_NODE is not set')
+@unittest.skipUnless(NODE, 'SPECREPLAY_NODE is not set')
 class OpenAPINodeTest(unittest.TestCase):
     def test_node_suite_passes(self):
         command = [

@@ -1,6 +1,6 @@
 PYTHON ?= python
-export ARCTURUS_NODE ?= $(shell command -v node)
-export ARCTURUS_NODE_MODULES ?= $(CURDIR)/node_modules
+export SPECREPLAY_NODE ?= $(shell command -v node)
+export SPECREPLAY_NODE_MODULES ?= $(CURDIR)/node_modules
 
 .PHONY: lint typecheck test experiment wide readme
 
@@ -9,7 +9,7 @@ lint:
 	ruff format --check .
 
 typecheck:
-	$(ARCTURUS_NODE) $(ARCTURUS_NODE_MODULES)/typescript/bin/tsc -p web/tsconfig.json
+	$(SPECREPLAY_NODE) $(SPECREPLAY_NODE_MODULES)/typescript/bin/tsc -p web/tsconfig.json
 
 test:
 	$(PYTHON) -m unittest discover -s tests

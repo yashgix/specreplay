@@ -6,8 +6,8 @@ The first version is tagged `v1-pipeline-final`. This file lists what changed af
 
 1. **Findings are reported as root causes.** v1 counted 10 "new" findings and labelled 9 "confirmed" and 0 "false positives". Those 10 rows are 4 root causes at 9 code sites, and "confirmed" only meant the code and spec visibly differ. `study/triage.json` now carries a `root_causes` list (kind, code sites, note) and a `root_cause` key on each row. The README results block renders a root-cause table from it.
 2. **Wording.** No "new bugs", "9 confirmed" or "0 false positives". Missing client-side bounds are described as plausible risks: the server also validates and answers 422. `update_conversation` printing `Metadata: undefined` is a spec ambiguity. The `language` finding is already open upstream (#120, fix PR #121) and is shown as known.
-3. **Recall is stated as in-sample.** The rules were written knowing the 25 ledger cases. The README says so in the results block and in the limits. A held-out check is planned for a later batch.
-4. **Housekeeping.** `pyproject.toml` (ruff), `Makefile` (`make lint`, `make typecheck`, `make test`, `make experiment`, `make readme`) and `.github/workflows/ci.yml`. The v1 acceptance tests are copied unchanged to `tests/acceptance/` and run by `make test`.
+3. **Recall is stated as in-sample.** The rules were written knowing the 25 ledger cases. The README says so in the results block and in the limits. A small held-out check was added later (see below).
+4. **Housekeeping.** `pyproject.toml` (ruff), `Makefile` (`make lint`, `make typecheck`, `make test`, `make experiment`, `make readme`) and `.github/workflows/ci.yml`. The v1 acceptance tests are copied to `tests/acceptance/`, with their assertions unchanged, and run by `make test`.
 
 ## What v1 behaviour changes
 
@@ -21,7 +21,7 @@ None in the metrics. `results/metrics.json` keeps the v1 keys and values, becaus
 
 ## Corrections after review (code changed after `rules-frozen`)
 
-An independent review of the wide mode and hold-out work found defects. These are bug fixes, not tuning: none of them was chosen by looking at which hold-out case they would help, and the 25-case results do not move (`results/metrics.json` and `results/reports.json` are byte-identical before and after). The rule code that changed after the freeze:
+A review of the wide mode and hold-out code found defects. These are bug fixes, not tuning: none of them was chosen by looking at which hold-out case they would help, and the 25-case results do not move (`results/metrics.json` and `results/reports.json` are byte-identical before and after). The rule code that changed after the freeze:
 
 - `web/openapi.ts`, `validate`: `anyOf` accepts any fully valid branch, `allOf` enforces every branch (the first-branch shortcut remains only in `effective`, which example and mutation generation use). String `minLength` and `maxLength` count characters (code points), as JSON Schema does. Zod counts UTF-16 units, so a client-side `.max()` on an emoji prompt counts differently from the spec. The wrapper finding below uses the spec side. Tests in `web/openapi.test.cjs` that encoded the shortcut were replaced.
 - `web/openapi.ts`, `example`: generated values satisfy `minLength`, `maxLength`, `minimum`, `maximum` and `minItems`. `web/cli.ts` now validates every generated success example against its own schema before any replay and stops if one fails. None of the shipped baselines failed.
