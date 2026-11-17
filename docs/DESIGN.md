@@ -2,7 +2,7 @@
 
 ## The premise under test
 
-The premise is that a contract check can be derived from the published spec alone, run against the project's real handlers, and find the bugs in a ledger of reported contract drift. This work verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written by hand before the run.
+The premise is that a contract check can be derived from the published spec alone, run against the project's real handlers, and find the bugs in a ledger of reported contract drift. This work verifies the mechanism and the local artifacts, not the external history. Everything here exists to make that premise cheap to check and cheap to attack: pinned inputs, one fake API, single-fault changes, a fixed report shape, and a score computed from a ledger written before the run.
 
 ## Pipeline
 
@@ -56,14 +56,14 @@ The classification order is deliberate: a refusal (an error result with no reque
 
 Findings are deduplicated on `(tool, variant, operation, mutation, outcome, detail)` and sorted by the same tuple with plain code-unit comparison. Two probes can reach the same field through different arguments, and stable order is what makes reports diffable and metrics byte-identical. The report's `commit` is the source folder's name, because the folder is what was actually scanned.
 
-A scan of one commit costs roughly 34 variants times a few dozen calls; the whole 13-commit run takes about 15 s, well inside the 300 s timeout the Python side enforces.
+A scan of one commit costs 44 variants times a few dozen calls; the whole 13-commit run takes about 15 s, well inside the 300 s timeout the Python side enforces.
 
 ## Scoring (`specreplay/score.py`)
 
 - `matches` requires the same tool, a case variant that is null or equal (a case that names no variant applies to every variant, which is how the issue texts read), a mutation matching one of the case's `fnmatchcase` globs, an outcome in the case's set, and a `detail` that is null or a glob. Globs keep 25 cases readable: one case often covers several tools, and details are path fragments such as `offset:maximum`.
 - `evaluate` reports `detected` at the buggy commit, `cleared` at the fix commit, and `caught = detected and cleared is not False`. Requiring cleared is what makes the score mean something: a rule that fires identically before and after the fix is measuring something else, and a case with no fix (`fixed: null`) is judged on detection alone because the ledger marks it open.
 - `spec_counts` counts the three response states over the five HTTP methods.
-- `triage_counts` matches the hand-checked rows on the exact six-tuple, so a label can never land on a different finding.
+- `triage_counts` matches the triaged rows on the exact six-tuple, so a label can never land on a different finding.
 - `metrics` derives all 46 numbers from the reports, the ledger, the spec and the triage, and returns them with sorted keys. Recall is rounded to six places. `latest_new_*` counts only documented findings that match no case at all, which is why the two `language` findings at v0.10.0 are reported as known (the #120 ledger case, marked open in the ledger) rather than new.
 
 ## The experiment and the demo
@@ -72,7 +72,7 @@ A scan of one commit costs roughly 34 variants times a few dozen calls; the whol
 
 ## Triage method
 
-At `46c8fe8`, each documented finding was read against the pinned `src/tools.ts` and the spec by hand and labelled:
+At `46c8fe8`, each documented finding was triaged against the pinned `src/tools.ts` and the spec and labelled:
 
 - **confirmed**: the source shows the mismatch and the spec states the opposite (for example an input declared `z.number().int().min(0)` where the spec documents `maximum` 10000);
 - **unconfirmed**: the mismatch is real only if the live API behaves in a way the spec allows but does not require (the `Metadata: undefined` text when `metadata` is absent);

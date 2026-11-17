@@ -2,6 +2,7 @@
 
 import html
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -111,6 +112,7 @@ def page():
     ]
     hold_rows = [[esc(s['id']), esc(s['first_run_prediction']), esc(s['result'])] for s in hold['scored']]
     wrapper = next(f for f in wide['added_findings'] if f['outcome'] == 'wrapped_over_limit')['detail']
+    added, threshold = (int(n) for n in re.findall(r'(?:added|threshold)=(\d+)', wrapper))
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SpecReplay</title>
@@ -142,6 +144,7 @@ def page():
 <li>The handlers run against a stubbed <code>fetch</code> and an emulation of the SDK's three checks, not the SDK.</li>
 <li>Single-fault mutations only. Combined faults are out of scope.</li>
 <li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
+<li>The hold-out is not fully blind: rule code was fixed after the freeze, and the case predicates and fixtures were written after the first run.</li>
 <li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul>
 <p><button class="btn" type="button" data-view="details">Technical details →</button></p></section>
 </div></main>
@@ -155,15 +158,15 @@ def page():
 {table(['Root cause', 'Kind', 'Code sites'], cause_rows)}
 <p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p></section>
 <section><h2>Hold-out</h2>
-<p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
+<p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. Two things came after the freeze: rule code was fixed after a review (the 25-case results did not move), and each case's detection predicate and fixture were written after the first run, from the pull request text. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
 {table(['Case', 'Predicted', 'Result'], hold_rows)}</section>
 <section><h2>Prompt wrapper</h2>
-<p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: <code>{esc(wrapper)}</code>. A plain ASCII prompt over that threshold would go out over the documented 20000. This is measured offline. Live behaviour is unverified.</p></section>
-<section><h2>What v2 changed</h2><ul>
+<p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: it adds {added:,} characters, so a plain ASCII prompt over {threshold:,} characters goes past the documented {added + threshold:,}. This is measured offline. Live behaviour is unverified.</p></section>
+<section><h2>Changes since v1</h2><ul>
 <li>Findings are reported as root causes, not as counts of "new bugs" or "confirmed".</li>
 <li>Recall is labelled in-sample, and a small frozen hold-out was added.</li>
 <li>Wide mode probes arguments the fixtures leave out and measures the prompt wrapper.</li>
-<li>Review fixes after the freeze did not move the 25-case results.</li></ul>
+<li>Fixes after the freeze did not move the 25-case results.</li></ul>
 <p class="small muted">Full list: <a href="{REPO}/blob/main/docs/V2-CHANGES.md">docs/V2-CHANGES.md</a>.</p></section>
 <section><h2>Data and licenses</h2>
 <p>The code is MIT. Nothing from the projects studied is committed. <code>tools/fetch_data.py</code> rebuilds <code>upstream/</code> and checks every file against the sha256 values in <code>upstream/MANIFEST.json</code>. The <code>agentphone-mcp</code> sources and the zod package are MIT and are fetched with their own licenses. The OpenAPI document carries no license, so it is never republished.</p></section>

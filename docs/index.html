@@ -60,6 +60,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0 3rem}
 <li>The handlers run against a stubbed <code>fetch</code> and an emulation of the SDK's three checks, not the SDK.</li>
 <li>Single-fault mutations only. Combined faults are out of scope.</li>
 <li>The spec is treated as correct. A spec error shows up as a tool bug.</li>
+<li>The hold-out is not fully blind: rule code was fixed after the freeze, and the case predicates and fixtures were written after the first run.</li>
 <li>The spec is a live document. The copy used for the committed results is not retrievable, and a later fetch differs in one description. The experiment still reproduces the results byte for byte.</li></ul>
 <p><button class="btn" type="button" data-view="details">Technical details →</button></p></section>
 </div></main>
@@ -73,15 +74,15 @@ footer{border-top:1px solid var(--line);padding:2rem 0 3rem}
 <div class="table-wrap"><table><thead><tr><th class="">Root cause</th><th class="">Kind</th><th class="">Code sites</th></tr></thead><tbody><tr><td class="">offset has no documented maximum (10000) on five list tools</td><td class="">missing bound</td><td class=""><code>list_numbers src/tools.ts:561</code><br><code>list_calls src/tools.ts:1237</code><br><code>list_agents src/tools.ts:1601</code><br><code>list_conversations src/tools.ts:2064</code><br><code>list_contacts src/tools.ts:2220</code></td></tr><tr><td class="">hours has no documented maximum (168) on list_webhook_deliveries</td><td class="">missing bound</td><td class=""><code>list_webhook_deliveries src/tools.ts:2563</code></td></tr><tr><td class="">system_prompt has no documented maxLength (20000) on create and update</td><td class="">missing bound</td><td class=""><code>create_agent src/tools.ts:1643</code><br><code>update_agent src/tools.ts:1778</code></td></tr><tr><td class="">update_conversation prints Metadata: undefined if the response omits metadata</td><td class="">spec ambiguity</td><td class=""><code>update_conversation src/tools.ts:2200</code></td></tr><tr><td class="">language accepts any string</td><td class="">known open</td><td class=""><code>create_agent src/tools.ts:1710</code><br><code>update_agent src/tools.ts:1845</code></td></tr></tbody></table></div>
 <p>The language case is open upstream as issue #120 with fix PR #121 and is not counted as a finding of this work.</p></section>
 <section><h2>Hold-out</h2>
-<p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
+<p>Three cases outside the ledger, with the rules frozen first (git tag <code>rules-frozen</code>) and predictions written before the first run. Two things came after the freeze: rule code was fixed after a review (the 25-case results did not move), and each case's detection predicate and fixture were written after the first run, from the pull request text. One caught, two missed with their bugs shown to be exercised. Three cases is too few for a rate. It shows which classes are covered.</p>
 <div class="table-wrap"><table><thead><tr><th class="">Case</th><th class="">Predicted</th><th class="">Result</th></tr></thead><tbody><tr><td class="">holdout-usage-plan</td><td class="">caught</td><td class="">caught</td></tr><tr><td class="">holdout-media-only-send</td><td class="">missed</td><td class="">missed</td></tr><tr><td class="">holdout-scoped-call-filters</td><td class="">missed</td><td class="">missed</td></tr></tbody></table></div></section>
 <section><h2>Prompt wrapper</h2>
-<p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: <code>systemPrompt:maxLength added=528 threshold=19472</code>. A plain ASCII prompt over that threshold would go out over the documented 20000. This is measured offline. Live behaviour is unverified.</p></section>
-<section><h2>What v2 changed</h2><ul>
+<p>In hosted mode the tool wraps <code>system_prompt</code> in identity text. Wide mode measured this on the real handler: it adds 528 characters, so a plain ASCII prompt over 19,472 characters goes past the documented 20,000. This is measured offline. Live behaviour is unverified.</p></section>
+<section><h2>Changes since v1</h2><ul>
 <li>Findings are reported as root causes, not as counts of "new bugs" or "confirmed".</li>
 <li>Recall is labelled in-sample, and a small frozen hold-out was added.</li>
 <li>Wide mode probes arguments the fixtures leave out and measures the prompt wrapper.</li>
-<li>Review fixes after the freeze did not move the 25-case results.</li></ul>
+<li>Fixes after the freeze did not move the 25-case results.</li></ul>
 <p class="small muted">Full list: <a href="https://github.com/yashgix/specreplay/blob/main/docs/V2-CHANGES.md">docs/V2-CHANGES.md</a>.</p></section>
 <section><h2>Data and licenses</h2>
 <p>The code is MIT. Nothing from the projects studied is committed. <code>tools/fetch_data.py</code> rebuilds <code>upstream/</code> and checks every file against the sha256 values in <code>upstream/MANIFEST.json</code>. The <code>agentphone-mcp</code> sources and the zod package are MIT and are fetched with their own licenses. The OpenAPI document carries no license, so it is never republished.</p></section>

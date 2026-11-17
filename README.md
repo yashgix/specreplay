@@ -92,7 +92,7 @@ A finding is documented when the operation it is about has a success response a 
 
 Twelve documented findings at `46c8fe8` (`study/triage.json`) come down to five root causes. The table above lists each with its code sites. None is shown to break a user. The maintainers report in #88 that the API answers 422 to out-of-range values, so a missing client-side bound likely means a late 422. Nothing here was run against the live API.
 
-- Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on five list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the remainder of the bounds restored in #107. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
+- Three causes are missing client-side bounds that the spec documents: `offset` (maximum 10000) on five list tools, `hours` (maximum 168) on `list_webhook_deliveries`, and `system_prompt` (maximum length 20000) on `create_agent` and `update_agent`. They are the bounds #107 did not restore. The maintainers dropped these bounds on purpose in #88 and restored most in #107, so they may judge these not worth a change.
 - One is a spec ambiguity: `update_conversation` prints `Metadata: undefined` if the response omits `metadata`. The spec allows the omission and documents no default. Whether the live API ever omits it is unknown.
 - One is already known: `create_agent` and `update_agent` accept any `language`. It is open upstream as issue #120 with fix PR #121. It is counted as known, not as a finding of this work.
 
@@ -106,7 +106,7 @@ The ledger has 25 cases, 20 of them about contracts the spec documents. A case i
 
 `python wide.py` (`make wide`) repeats the latest-commit scan with two additions. First, every argument a fixture leaves out is set to a sentinel value, and if it reaches a constrained request field it is probed like the fixture arguments, so a bound is checked wherever the tool can send it. One extra variant (`list_calls` scoped by number) comes from `study/tool-inputs-extra.json`. Second, in hosted mode it sends a one-character prompt to measure how much text the tool adds, then an accepted prompt of the longest spec-legal length plus one, and checks whether the wire value exceeds the documented maximum. The v1 scan and its metrics are unchanged. The measured threshold holds for plain ASCII prompts that need no trimming and are not already wrapped, and lengths are counted in characters as the spec does (zod counts UTF-16 units).
 
-The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the run. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. A case counts only when its bug is shown to be exercised: each case has a frozen fixture, a detection predicate that ignores wording, and a trigger check, and a case whose trigger is not seen is reported as not exercised. Three cases is too few for a rate. They show a documented response shape caught, and two other classes missed with their bugs exercised: a tool that refuses an input the API accepts, and filters dropped with no wrong request or response.
+The hold-out is a small set of cases from the repository's own history that are not in the 25-case ledger (`study/holdout.json`). The scanner rules were tagged `rules-frozen` first and the expected result of each case was written down before the first run. Two things came after the freeze: rule code was fixed after a review (listed in `docs/V2-CHANGES.md`, the 25-case results did not move), and each case's detection predicate and fixture were written after the first run, from the pull request text. `python holdout.py DIR` scores them on sources fetched by `tools/holdout_sources.sh`. A case counts only when its bug is shown to be exercised: each case has a frozen fixture, a detection predicate that ignores wording, and a trigger check, and a case whose trigger is not seen is reported as not exercised. Three cases is too few for a rate. They show a documented response shape caught, and two other classes missed with their bugs exercised: a tool that refuses an input the API accepts, and filters dropped with no wrong request or response.
 
 <!-- specreplay:wide -->
 | name | value |
@@ -125,7 +125,7 @@ The hold-out is a small set of cases from the repository's own history that are 
 
 - 36 of the 98 operations document an unconstrained success response; nothing can be judged there, and the study says so rather than guessing.
 - The handlers run against a stubbed `fetch` and an emulation of the SDK's three checks (argument parsing, output-schema validation of `structuredContent`, error-result handling), not the SDK itself.
-- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. The hold-out above has 3 cases, enough to show which classes are covered but not to give a rate. The v0.10.0 list is a first look, not a measure of recall.
+- The checking rules were designed with knowledge of this bug class, so the recall figure is in-sample. The hold-out above has 3 cases, enough to show which classes are covered but not to give a rate, and it is not fully blind: rule code was fixed after the freeze, and the case predicates and fixtures were written after the first run. The v0.10.0 list is a first look, not a measure of recall.
 - Omitted-field findings depend on whether the live API ever omits the field. An omission the spec allows is only a finding when the tool mishandles it.
 - One example per response shape and single-fault mutations: combinations of faults and unusual payloads are out of scope.
 - The spec is treated as correct. A spec error surfaces as a tool bug.
@@ -154,7 +154,7 @@ web/fakeapi.ts        the in-process API
 web/harness.ts        load a commit's tools, make one call
 web/cli.ts            scan one commit, print the report
 web/hooks.ts          module resolution for zod, the SDK stub, .js -> .ts
-study/                fixtures, the ledger, the hand triage, the hold-out cases
+study/                fixtures, the ledger, the triage, the hold-out cases
 wide.py               wide mode: every argument, prompt wrapper
 holdout.py            score the frozen rules on the hold-out cases
 tests/                Python unittest; tests/acceptance pins the headline numbers and is run by tools/run_acceptance.py; Node tests live under web/

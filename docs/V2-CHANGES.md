@@ -1,25 +1,23 @@
-# SpecReplay, v2 changes
+# Changes since v1
 
-The first version is tagged `v1-pipeline-final`. This file lists what changed after it, why, and what v1 behaviour it touches.
+The first version is git tag `v1-pipeline-final`. This file lists what changed after it, why, and what v1 behaviour it touches.
 
-## Changes
+## Reporting
 
-1. **Findings are reported as root causes.** v1 counted 10 "new" findings and labelled 9 "confirmed" and 0 "false positives". Those 10 rows are 4 root causes at 9 code sites, and "confirmed" only meant the code and spec visibly differ. `study/triage.json` now carries a `root_causes` list (kind, code sites, note) and a `root_cause` key on each row. The README results block renders a root-cause table from it.
-2. **Wording.** No "new bugs", "9 confirmed" or "0 false positives". Missing client-side bounds are described as plausible risks: the server also validates and answers 422. `update_conversation` printing `Metadata: undefined` is a spec ambiguity. The `language` finding is already open upstream (#120, fix PR #121) and is shown as known.
-3. **Recall is stated as in-sample.** The rules were written knowing the 25 ledger cases. The README says so in the results block and in the limits. A small held-out check was added later (see below).
-4. **Housekeeping.** `pyproject.toml` (ruff), `Makefile` (`make lint`, `make typecheck`, `make test`, `make experiment`, `make readme`) and `.github/workflows/ci.yml`. The v1 acceptance tests are copied to `tests/acceptance/`, with their assertions unchanged, and run by `make test`.
+1. **Findings are reported as root causes.** v1 counted 10 "new" findings and labelled 9 "confirmed" and 0 "false positives". Those 10 rows are 4 root causes at 9 code sites, and "confirmed" only meant the code and spec visibly differ. `study/triage.json` now carries a `root_causes` list (kind, code sites, note) and a `root_cause` key on each row. The README results block renders a root-cause table from it. Missing client-side bounds are described as plausible risks, since the server also validates and answers 422. `update_conversation` printing `Metadata: undefined` is a spec ambiguity. The `language` finding is already open upstream (#120, fix PR #121) and is shown as known.
+2. **Recall is stated as in-sample.** The rules were written knowing the 25 ledger cases. The README says so in the results block and in the limits. A small held-out check was added later (see below).
 
 ## What v1 behaviour changes
 
-None in the metrics. `results/metrics.json` keeps the v1 keys and values, because the acceptance tests pin them (including `latest_new_confirmed` 9). Only the rendered README block and the triage file's extra keys changed. The README table drops the `confirmed` and `false positives` rows.
+None in the metrics. `results/metrics.json` keeps the v1 keys and values, because the v1 acceptance tests pin them (including `latest_new_confirmed` 9). Those tests are kept in `tests/acceptance/` with their assertions unchanged and run by `make test`. Only the rendered README block and the triage file's extra keys changed. The README table drops the `confirmed` and `false positives` rows.
 
 ## Wide mode and hold-out
 
-5. **Wide mode** (`wide.py`, `SPECREPLAY_WIDE=1`): arguments a fixture leaves out are set to a sentinel and probed if they reach a constrained field, and one extra fixture variant (`list_calls` by number) is added. It runs beside the v1 scan and writes `results/wide.json`. The v1 scan, `results/metrics.json` and `results/reports.json` are unchanged by wide mode itself. The probe code moved from `web/cli.ts` to `web/probes.ts` with no change in behaviour (reports byte-identical).
-6. **Wrapped-prompt check** (`web/wrapped.ts`, wide mode only): measures what the tool adds to `system_prompt` in hosted mode by calling the real handler, and flags an accepted prompt that goes out over the documented maximum. Measured: 528 characters added, so the longest safe hosted prompt is 19472 characters.
-7. **Hold-out** (`study/holdout.json`, `holdout.py`, `results/holdout.json`): 3 cases from repository history outside the 25-case ledger. Sources, the case list and first-run predictions were written after the tag `rules-frozen` and before the first run. Sources are fetched by `tools/holdout_sources.sh` into a scratch folder and are not stored here. Old commits that lack `src/output-schemas.ts` get an empty schema table so the loader runs, so output-schema checks do not apply to them.
+3. **Wide mode** (`wide.py`, `SPECREPLAY_WIDE=1`): arguments a fixture leaves out are set to a sentinel and probed if they reach a constrained field, and one extra fixture variant (`list_calls` by number) is added. It runs beside the v1 scan and writes `results/wide.json`. The v1 scan, `results/metrics.json` and `results/reports.json` are unchanged by wide mode itself. The probe code moved from `web/cli.ts` to `web/probes.ts` with no change in behaviour (reports byte-identical).
+4. **Wrapped-prompt check** (`web/wrapped.ts`, wide mode only): measures what the tool adds to `system_prompt` in hosted mode by calling the real handler, and flags an accepted prompt that goes out over the documented maximum. Measured: 528 characters added, so the longest safe hosted prompt is 19472 characters.
+5. **Hold-out** (`study/holdout.json`, `holdout.py`, `results/holdout.json`): 3 cases from repository history outside the 25-case ledger. Sources, the case list and first-run predictions were written after the tag `rules-frozen` and before the first run. Sources are fetched by `tools/holdout_sources.sh` into a scratch folder and are not stored here. Old commits that lack `src/output-schemas.ts` get an empty schema table so the loader runs, so output-schema checks do not apply to them.
 
-## Corrections after review (code changed after `rules-frozen`)
+## Fixes after the freeze (code changed after `rules-frozen`)
 
 A review of the wide mode and hold-out code found defects. These are bug fixes, not tuning: none of them was chosen by looking at which hold-out case they would help, and the 25-case results do not move (`results/metrics.json` and `results/reports.json` are byte-identical before and after). The rule code that changed after the freeze:
 
